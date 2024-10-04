@@ -137,22 +137,22 @@
           </template>
           <el-menu-item-group>
             <router-link v-if="P13001" to="/money/fund" tag="li">
-              <el-menu-item index="fund">基金列表</el-menu-item>
+              <el-menu-item index="P13001">基金列表</el-menu-item>
             </router-link>
             <router-link v-if="P13002" to="/money/positions" tag="li">
-              <el-menu-item index="positions">持仓列表</el-menu-item>
+              <el-menu-item index="P13002">持仓列表</el-menu-item>
             </router-link>
             <router-link v-if="P13003" to="/money/ransoms" tag="li">
-              <el-menu-item index="ransoms">赎回列表</el-menu-item>
+              <el-menu-item index="P13003">赎回列表</el-menu-item>
             </router-link>
             <router-link v-if="P13004" to="/money/financial" tag="li">
-              <el-menu-item index="financial">资金明细</el-menu-item>
+              <el-menu-item index="P13004">资金明细</el-menu-item>
             </router-link>
             <router-link v-if="P13005" to="/money/performance" tag="li">
-              <el-menu-item index="performance">代理业绩统计</el-menu-item>
+              <el-menu-item index="P13005">代理业绩统计</el-menu-item>
             </router-link>
             <router-link v-if="P13006" to="/money/earnings" tag="li">
-              <el-menu-item index="earnings">代理收益设置</el-menu-item>
+              <el-menu-item index="P13006">代理收益设置</el-menu-item>
             </router-link>
           </el-menu-item-group>
         </el-submenu>

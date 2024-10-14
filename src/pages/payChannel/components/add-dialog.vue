@@ -132,37 +132,37 @@
 
           <el-row>
             <el-upload
-              :with-credentials="true"
-              class="upload-demo"
-              :action="admin + '/admin/upload.do'"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :on-success="handleSuccess"
-              :before-remove="beforeRemove"
+              name="upload_file"
+              :with-credentials='true'
+              action="#"
               multiple
               :limit="1"
-              name="upload_file"
-              :on-exceed="handleExceed"
               :file-list="fileList"
-            >
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-exceed="handleExceed"
+              :on-remove="handleRemove"
+              :on-change="handleChange"
+              :before-remove="beforeRemove"
+              class="upload-demo">
               <el-button size="small" type="primary">上传收款二维码</el-button>
             </el-upload>
           </el-row>
           <el-row style="margin-top: 24px;">
             <el-upload
-              :with-credentials="true"
-              class="upload-demo"
-              :action="admin + '/admin/upload.do'"
-              :on-preview="handlePreview"
-              :on-remove="handleRemoveIcon"
-              :on-success="handleSuccessIcon"
-              :before-remove="beforeRemove"
+              name="upload_file"
+              :with-credentials='true'
+              action="#"
               multiple
               :limit="1"
-              name="upload_file"
-              :on-exceed="handleExceed"
-              :file-list="iconFileList"
-            >
+              :file-list="fileList"
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-exceed="handleExceedIcon"
+              :on-remove="handleRemoveIcon"
+              :on-change="handleChangeIcon"
+              :before-remove="beforeRemove"
+              class="upload-demo">
               <el-button size="small" type="primary">上传icon图标</el-button>
             </el-upload>
           </el-row>
@@ -177,116 +177,161 @@
 </template>
 
 <script>
-import * as api from "@/axios/api";
-import * as APIUrl from "@/axios/api.url";
+import * as api from '@/axios/api'
+import * as APIUrl from '@/axios/api.url'
+import axios from 'axios'
 
 export default {
   components: {},
   props: {
     getDate: {
       type: Function,
-      default: function () {},
+      default: function () {
+      }
     },
     info: {
-      type: Number,
-    },
+      type: Number
+    }
   },
-  data() {
+  data () {
     return {
       dialogVisible: false,
       form: {
-        cType: "0",
-        code: "",
-        formUrl: "",
-        channelType: "",
-        channelName: "",
-        channelDesc: "",
-        channelAccount: "",
-        channelMinLimit: "",
-        channelMaxLimit: "",
-        isShow: "0",
-        isLock: "0",
-        countryId: "",
+        cType: '0',
+        code: '',
+        formUrl: '',
+        channelType: '',
+        channelName: '',
+        channelDesc: '',
+        channelAccount: '',
+        channelMinLimit: '',
+        channelMaxLimit: '',
+        isShow: '0',
+        isLock: '0',
+        countryId: ''
       },
       fileList: [],
       iconFileList: [],
       rule: {
-        countryId: [{ required: true, message: "请选择货币", trigger: "blur" }],
+        countryId: [{required: true, message: '请选择货币', trigger: 'blur'}],
         channelType: [
-          { required: true, message: "请输入渠道名称", trigger: "blur" },
+          {required: true, message: '请输入渠道名称', trigger: 'blur'}
         ],
         channelName: [
-          { required: true, message: "请输入收款名称", trigger: "blur" },
+          {required: true, message: '请输入收款名称', trigger: 'blur'}
         ],
         channelDesc: [
-          { required: true, message: "请输入收款银行", trigger: "blur" },
+          {required: true, message: '请输入收款银行', trigger: 'blur'}
         ],
         channelAccount: [
-          { required: true, message: "请输入收款账户", trigger: "blur" },
+          {required: true, message: '请输入收款账户', trigger: 'blur'}
         ],
         channelMinLimit: [
-          { required: true, message: "请输入最小充值金额", trigger: "blur" },
+          {required: true, message: '请输入最小充值金额', trigger: 'blur'}
         ],
         channelMaxLimit: [
-          { required: true, message: "请输入最大充值金额", trigger: "blur" },
+          {required: true, message: '请输入最大充值金额', trigger: 'blur'}
         ],
         cType: [
-          { required: true, message: "请选择通道类型", trigger: "change" },
+          {required: true, message: '请选择通道类型', trigger: 'change'}
         ],
         isShow: [
-          { required: true, message: "请选择显示状态", trigger: "change" },
+          {required: true, message: '请选择显示状态', trigger: 'change'}
         ],
         isLock: [
-          { required: true, message: "请选择可用状态", trigger: "change" },
-        ],
+          {required: true, message: '请选择可用状态', trigger: 'change'}
+        ]
       },
-      admin: "",
-      imgurl: "", // 图片地址
-      iconurl: "",
-    };
-  },
-  watch: {},
-  computed: {},
-  created() {},
-  mounted() {
-    this.admin = process.env.API_HOST;
-    if (this.admin === undefined) {
-      this.admin = "";
+      url: '',
+      imgUrl: '', // 图片地址
+      iconUrl: ''
     }
   },
+  mounted () {
+    // this.admin = process.env.API_HOST
+    // if (this.admin === undefined) {
+    //   this.admin = ''
+    // }
+    this.url = APIUrl.baseURL
+  },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
+    handleRemove (file, fileList) {
+      this.imgUrl = ''
+      this.fileList = fileList
+    },
+    handleExceed (files, fileList) {
+      // this.$message.warning(
+      //   `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+      //     files.length + fileList.length
+      //   } 个文件`
+      // )
+      this.$message.warning('每次最多上传一个文件')
       this.fileList = []
-      this.imgurl = ''
     },
-    handleRemoveIcon(file, fileList) {
-      console.log(file, fileList);
-      this.iconFileList = []
+    handleChange (file, fileList) {
+      this.fileList = fileList
+      const isLt10M = (file.size / 1024 / 1024 < 10)
+      if (!isLt10M) {
+        this.$message.warning('上传图片大小不能超过 10MB!')
+        this.fileList.pop()
+      } else {
+        const param = new FormData()
+        param.append('upload_file', this.fileList[0].raw)
+        const url = this.url + '/admin/upload.do'
+        axios(url, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'token': localStorage.getItem('admin-token')
+          },
+          method: 'POST',
+          data: param
+        }).then(res => {
+          this.imgUrl = res.data.data.url
+        })
+      }
+      return isLt10M
+    },
+    beforeRemove (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleRemoveIcon (file, fileList) {
       this.iconUrl = ''
+      this.iconFileList = []
     },
-    handlePreview(file) {
-      console.log(file);
+    handleExceedIcon (files, fileList) {
+      this.$message.warning('每次最多上传一个文件')
+      this.iconFileList = []
     },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      );
+    handleChangeIcon (file, fileList) {
+      this.iconFileList = fileList
+      const isLt10M = (file.size / 1024 / 1024 < 10)
+      if (!isLt10M) {
+        this.$message.warning('上传图片大小不能超过 10MB!')
+        this.iconFileList.pop()
+      } else {
+        const param = new FormData()
+        param.append('upload_file', this.iconFileList[0].raw)
+        const url = this.url + '/admin/upload.do'
+        axios(url, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'token': localStorage.getItem('admin-token')
+          },
+          method: 'POST',
+          data: param
+        }).then(res => {
+          this.iconUrl = res.data.data.url
+        })
+      }
+      return isLt10M
     },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
+    handleSuccess (response, file, fileList) {
+      this.imgUrl = response.data.url
     },
-    handleSuccess(response, file, fileList) {
-      console.log(response, "response");
-      this.imgurl = response.data.url;
+    handleSuccessIcon (response, file, fileList) {
+      this.iconUrl = response.data.url
     },
-    handleSuccessIcon(response, file, fileList) {
-      console.log(response.data, "response");
-      this.iconurl = response.data.url;
-    },
-    submit(formName) {
+    submit (formName) {
       // 提交
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
@@ -299,41 +344,41 @@ export default {
             channelMaxLimit: this.form.channelMaxLimit,
             isShow: this.form.isShow,
             isLock: this.form.isLock,
-            channelImg: this.imgurl,
+            channelImg: this.imgUrl,
             cType: this.form.cType,
             code: this.form.code,
             formUrl: this.form.formUrl,
             countryId: this.form.countryId,
-            iconUrl: this.iconurl,
-          };
-          let data = await api.addPayChannel(opts);
+            iconUrl: this.iconUrl
+          }
+          let data = await api.addPayChannel(opts)
           if (data.status === 0) {
-            this.$message.success(data.msg);
-            this.getDate();
-            this.clearForm();
-            this.dialogVisible = false;
+            this.$message.success(data.msg)
+            this.getDate()
+            this.clearForm()
+            this.dialogVisible = false
           } else {
-            this.$message.error(data.msg);
+            this.$message.error(data.msg)
           }
         } else {
-          return false;
+          return false
         }
-      });
+      })
     },
-    clearForm() {
+    clearForm () {
       this.form = {
-        channelType: "",
-        channelName: "",
-        channelDesc: "",
-        channelAccount: "",
-        channelMinLimit: "",
-        channelMaxLimit: "",
-        isShow: "",
-        isLock: "",
-      };
-    },
-  },
-};
+        channelType: '',
+        channelName: '',
+        channelDesc: '',
+        channelAccount: '',
+        channelMinLimit: '',
+        channelMaxLimit: '',
+        isShow: '',
+        isLock: ''
+      }
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .img {

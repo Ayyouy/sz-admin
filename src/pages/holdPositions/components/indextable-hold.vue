@@ -280,11 +280,9 @@ export default {
     handleSizeChange (val) {
       this.form.pageSize = val
       this.getList()
-      console.log(`每页 ${val} 条`)
     },
     handleCurrentChange (val) {
       this.form.pageNum = val
-      console.log(`当前页: ${val}`)
       this.getList()
     },
     async refreshList () {

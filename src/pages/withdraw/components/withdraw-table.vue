@@ -155,7 +155,7 @@
                 type="primary"
                 plain
                 size="small"
-                :disabled="scope.row.withStatus != 0" 
+                :disabled="scope.row.withStatus != 0"
                 @click="editStatus(scope.row)"
                 >审核</el-button
               >
@@ -193,135 +193,135 @@
 </template>
 
 <script>
-import * as api from "@/axios/api";
-import DetailDialog from "./change-dialog";
+import * as api from '@/axios/api'
+import DetailDialog from './change-dialog'
 
 export default {
   components: {
-    DetailDialog,
+    DetailDialog
   },
   props: {},
-  data() {
+  data () {
     return {
       form: {
-        realName: "",
-        status: "",
-        agentId: "",
-        userId: "",
-        time: "",
+        realName: '',
+        status: '',
+        agentId: '',
+        userId: '',
+        time: '',
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 10
       },
       list: {
-        list: [],
+        list: []
       },
       agentList: [
         {
           id: 2,
-          agentName: "下级1",
-          agentRealName: "下级1",
-          agentPhone: "18888888888",
-          agentCode: "8888",
-        },
+          agentName: '下级1',
+          agentRealName: '下级1',
+          agentPhone: '18888888888',
+          agentCode: '8888'
+        }
       ],
       loading: false, // 表格加载
-      detail: null,
-    };
+      detail: null
+    }
   },
   watch: {},
   computed: {},
-  created() {},
-  mounted() {
-    this.getList();
-    this.getAgentList();
+  created () {},
+  mounted () {
+    this.getList()
+    this.getAgentList()
   },
   methods: {
-    export2Excel() {
+    export2Excel () {
       require.ensure([], () => {
         const {
-          export_json_to_excel,
-        } = require("../../../assets/js/Export2Excel");
+          export_json_to_excel
+        } = require('../../../assets/js/Export2Excel')
         const tHeader = [
-          "用户id",
-          "代理id",
-          "用户名",
-          "出金金额",
-          "手续费",
-          "状态",
-          "提现银行",
-          "提现支行地址",
-          "银行卡号",
-          "申请时间",
-          "出金时间",
-        ];
+          '用户id',
+          '代理id',
+          '用户名',
+          '出金金额',
+          '手续费',
+          '状态',
+          '提现银行',
+          '提现支行地址',
+          '银行卡号',
+          '申请时间',
+          '出金时间'
+        ]
         // 上面设置Excel的表格第一行的标题
         const filterVal = [
-          "id",
-          "agentId",
-          "withName",
-          "withAmt",
-          "withFee",
-          "withMsg",
-          "bankName",
-          "bankAddress",
-          "bankNo",
-          "applyTime",
-          "transTime",
-        ];
+          'id',
+          'agentId',
+          'withName',
+          'withAmt',
+          'withFee',
+          'withMsg',
+          'bankName',
+          'bankAddress',
+          'bankNo',
+          'applyTime',
+          'transTime'
+        ]
         // 上面的index、phone_Num、school_Name是tableData里对象的属性
-        const list = this.list.list; // 把data里的tableData存到list
-        const data = this.formatJson(filterVal, list);
-        let nowdate = new Date();
-        let year = nowdate.getFullYear();
-        let month = nowdate.getMonth() + 1;
-        let day = nowdate.getDay();
-        export_json_to_excel(tHeader, data, "提现列表" + year + month + day);
-      });
+        const list = this.list.list // 把data里的tableData存到list
+        const data = this.formatJson(filterVal, list)
+        let nowdate = new Date()
+        let year = nowdate.getFullYear()
+        let month = nowdate.getMonth() + 1
+        let day = nowdate.getDay()
+        export_json_to_excel(tHeader, data, '提现列表' + year + month + day)
+      })
     },
-    formatJson(filterVal, jsonData) {
-      return jsonData.map((v) => filterVal.map((j) => v[j]));
+    formatJson (filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]))
     },
-    handleSizeChange(val) {
-      this.form.pageSize = val;
-      this.getList();
+    handleSizeChange (val) {
+      this.form.pageSize = val
+      this.getList()
     },
-    handleCurrentChange(val) {
-      this.form.pageNum = val;
-      this.getList();
+    handleCurrentChange (val) {
+      this.form.pageNum = val
+      this.getList()
     },
-    onSubmit() {
+    onSubmit () {
       // 查询表格
-      this.getList();
+      this.getList()
     },
-    async getAgentList() {
+    async getAgentList () {
       // 获取下级代理数据
       let opts = {
         pageNum: 1,
-        pageSize: 100,
-      };
-      let data = await api.getSecondAgent(opts);
+        pageSize: 100
+      }
+      let data = await api.getSecondAgent(opts)
       if (data.status === 0) {
-        this.agentList = data.data.list;
+        this.agentList = data.data.list
       } else {
-        this.$message.error(data.msg);
+        this.$message.error(data.msg)
       }
     },
-    async getList() {
+    async getList () {
       // 获取表格数据
       let opts = {
         agentId: this.form.agentId,
         realName: this.form.realName,
         userId: this.form.userId,
         state: this.form.status,
-        beginTime: this.form.time ? this.form.time[0] : "",
-        endTime: this.form.time ? this.form.time[1] : "",
+        beginTime: this.form.time ? this.form.time[0] : '',
+        endTime: this.form.time ? this.form.time[1] : '',
         pageNum: this.form.pageNum,
-        pageSize: this.form.pageSize,
-      };
-      this.loading = true;
-      let data = await api.withdrawList(opts);
+        pageSize: this.form.pageSize
+      }
+      this.loading = true
+      let data = await api.withdrawList(opts)
       if (data.status === 0) {
-        this.list = data.data;
+        this.list = data.data
         for (var i = 0; i < this.list.list.length; i++) {
           // if (this.list.list[i].withStatus === 0) {
           //   this.list.list[i].withMsg = "审核中";
@@ -333,62 +333,60 @@ export default {
           //   this.list.list[i].withMsg = "取消";
           // }
 
-          var date = new Date(this.list.list[i].applyTime);
-          this.list.list[i].applyTime = date.toLocaleString(); // 返回格式化后的日期字符串
+          var date = new Date(this.list.list[i].applyTime)
+          this.list.list[i].applyTime = date.toLocaleString() // 返回格式化后的日期字符串
 
-          date = new Date(this.list.list[i].transTime);
-          this.list.list[i].transTime = date.toLocaleString(); // 返回格式化后的日期字符串
+          date = new Date(this.list.list[i].transTime)
+          this.list.list[i].transTime = date.toLocaleString() // 返回格式化后的日期字符串
         }
-
-        console.log(this.list);
       } else {
-        this.$message.error(data.msg);
+        this.$message.error(data.msg)
       }
-      this.loading = false;
+      this.loading = false
     },
-    editStatus(val) {
+    editStatus (val) {
       // 修改状态
-      this.detail = val;
-      this.$refs.detailDialog.dialogVisible = true;
-      this.$refs.detailDialog.isEdit = false;
+      this.detail = val
+      this.$refs.detailDialog.dialogVisible = true
+      this.$refs.detailDialog.isEdit = false
     },
-    detailDialog(val) {
+    detailDialog (val) {
       // 详情
-      this.detail = val;
-      this.$refs.detailDialog.dialogVisible = true;
-      this.$refs.detailDialog.isEdit = true;
+      this.detail = val
+      this.$refs.detailDialog.dialogVisible = true
+      this.$refs.detailDialog.isEdit = true
     },
-    getSummaries(param) {
+    getSummaries (param) {
       // 底部计算
-      const { columns, data } = param;
-      const sums = [];
+      const { columns, data } = param
+      const sums = []
       columns.forEach((column, index) => {
         // 第一行 不统计
         if (index === 0) {
-          sums[index] = "统计";
-          return;
+          sums[index] = '统计'
+          return
         }
-        if (column.property === "withAmt" || column.property === "withFee") {
+        if (column.property === 'withAmt' || column.property === 'withFee') {
           // 需要计算列 ==>    userAmt enableAmt  allFreezAmt allProfitAndLose forceLine
-          const values = data.map((item) => Number(item[column.property]));
+          const values = data.map((item) => Number(item[column.property]))
           if (!values.every((value) => isNaN(value))) {
             sums[index] = values.reduce((prev, curr) => {
-              const value = Number(curr);
+              const value = Number(curr)
               if (!isNaN(value)) {
-                let num = prev + curr;
-                return num;
+                let num = prev + curr
+                return num
               } else {
-                return prev;
+                return prev
               }
-            }, 0);
-            sums[index] = sums[index].toFixed(2);
+            }, 0)
+            sums[index] = sums[index].toFixed(2)
           } else {
-            sums[index] = "N/A";
+            sums[index] = 'N/A'
           }
         }
-      });
-      return sums;
-    },
-  },
-};
+      })
+      return sums
+    }
+  }
+}
 </script>

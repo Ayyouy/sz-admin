@@ -6,13 +6,6 @@
       width="50%">
       <div>
         <el-form :model="form" ref="ruleForm" label-width="80px" :rules="rule" class="demo-form-inline">
-          <!-- <el-form-item label="渠道类型" prop="channelType">
-              <el-select v-model="form.channelType" placeholder="渠道类型">
-                  <el-option label="支付宝" value="0"></el-option>
-                  <el-option label="对公转账" value="1"></el-option>
-                  <el-option label="微信" value="2"></el-option>
-              </el-select>
-          </el-form-item> -->
           <el-row>
             <el-col :span="12">
               <el-form-item label="货币" prop="currency">
@@ -53,7 +46,6 @@
 
 <script>
 import * as api from '@/axios/api'
-import * as APIUrl from '@/axios/api.url'
 
 export default {
   components: {},
@@ -75,16 +67,14 @@ export default {
         code: '',
         rate: '',
         currency: '',
-        symbol: '',
+        symbol: ''
       },
       fileList: [],
       rule: {
         channelType: [
           { required: true, message: '请输入渠道类型', trigger: 'blur' }
-        ],
-      },
-      admin: '',
-      imgurl: '' // 图片地址
+        ]
+      }
     }
   },
   watch: {
@@ -93,49 +83,28 @@ export default {
       this.form.rate = val.rate
       this.form.currency = val.currency
       this.form.symbol = val.symbol
-
-    }
-  },
-  computed: {},
-  created () {},
-  mounted () {
-    this.admin = process.env.API_HOST
-    if (this.admin === undefined) {
-      this.admin = ''
     }
   },
   methods: {
-    handleRemove (file, fileList) {
-      this.imgurl = ''
-      console.log(file, fileList)
-    },
-    handlePreview (file) {
-      console.log(file)
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-    },
-    beforeRemove (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
-    },
-    handleSuccess (response, file, fileList) {
-      this.imgurl = response.data.url
-    },
+    // handleExceed (files, fileList) {
+    //   this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    // },
+    // beforeRemove (file, fileList) {
+    //   return this.$confirm(`确定移除 ${file.name}？`)
+    // },
+    // handleSuccess (response, file, fileList) {
+    //   this.imgurl = response.data.url
+    // },
     submit (formName) {
       // 提交
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          // 支付宝的必须添加图片
-          // if(this.form.cType == 0 && !this.imgurl){
-          //     this.$message.error('支付宝必须添加图片')
-          //     return
-          // }
           let opts = {
             id: this.info.id,
             code: this.form.code,
             rate: this.form.rate,
             currency: this.form.currency,
-            symbol: this.form.symbol,
+            symbol: this.form.symbol
           }
           let data = await api.updateexchangeRate(opts)
           if (data.status === 0) {

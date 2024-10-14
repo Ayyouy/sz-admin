@@ -38,7 +38,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          
+
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -108,7 +108,7 @@ export default {
   },
   watch: {
     info (val) {
-      if (val && this.info.id>0) {
+      if (val && this.info.id > 0) {
         this.form.dealerInstitutionsId = this.info.dealerInstitutionsId
         this.form.dealerInstitutionsName = this.info.dealerInstitutionsName
         this.form.accountName = this.info.accountName
@@ -130,7 +130,6 @@ export default {
       // 提交
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          
           let opts = {
             id: this.info.id,
             dealerInstitutionsId: this.form.dealerInstitutionsId,
@@ -140,10 +139,9 @@ export default {
             status: this.form.status,
             remarks: this.form.remarks
           }
-          console.log(opts)
           let data = await api.saveTradingAccount(opts)
           if (data.status === 0) {
-            this.$message.success("操作成功")
+            this.$message.success('操作成功')
             this.getMaxNumber()
             this.dialogVisible = false
             this.getDate()
@@ -175,11 +173,10 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    currentSel(selVal) {
+    currentSel (selVal) {
       this.form.dealerInstitutionsId = selVal.id
       this.form.tmepdealerInstitutionsName = selVal.dealerInstitutionsName
       this.accountList = [{accountName: selVal.accountName}]
-      // console.log("选择的name为：" + this.form.tmepdealerInstitutionsName, "选择的id为:" + this.form.dealerInstitutionsId+",selval="+selVal);
     }
   }
 }

@@ -95,25 +95,21 @@
             <el-input v-model="form.code" placeholder="代码"></el-input>
           </el-form-item>
           <el-row>
-            <!-- <el-alert
-                title="如果通道名是支付宝，必须上传收款二维码"
-                type="error"
-                :closable="false">
-            </el-alert> -->
           </el-row>
           <el-upload
+            name="upload_file"
             :with-credentials='true'
-            class="upload-demo"
-            :action="admin+'/admin/upload.do'"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :on-success="handleSuccess"
-            :before-remove="beforeRemove"
+            action="#"
             multiple
             :limit="1"
-            name="upload_file"
+            :file-list="fileList"
+            :show-file-list="false"
+            :auto-upload="false"
             :on-exceed="handleExceed"
-            :file-list="fileList">
+            :on-remove="handleRemove"
+            :on-change="handleChange"
+            :before-remove="beforeRemove"
+            class="upload-demo">
             <el-button size="small" type="primary">上传收款二维码</el-button>
           </el-upload>
 
@@ -130,6 +126,7 @@
 <script>
 import * as api from '@/axios/api'
 import * as APIUrl from '@/axios/api.url'
+import axios from 'axios'
 
 export default {
   components: {},
@@ -158,7 +155,7 @@ export default {
         channelMaxLimit: '',
         isShow: '0',
         isLock: '0',
-        countryId: '',
+        countryId: ''
       },
       fileList: [],
       rule: {
@@ -193,35 +190,55 @@ export default {
           { required: true, message: '请选择可用状态', trigger: 'change' }
         ]
       },
-      admin: '',
-      imgurl: '' // 图片地址
+      url: '',
+      imgUrl: '' // 图片地址
     }
   },
-  watch: {},
-  computed: {},
-  created () {},
   mounted () {
-    this.admin = process.env.API_HOST
-    if (this.admin === undefined) {
-      this.admin = ''
-    }
+    // this.admin = process.env.API_HOST
+    // if (this.admin === undefined) {
+    //   this.admin = ''
+    // }
+    this.url = APIUrl.baseURL
   },
   methods: {
     handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview (file) {
-      console.log(file)
+      this.imgUrl = ''
+      this.fileList = fileList
     },
     handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      // this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.$message.warning('每次最多上传一个文件')
+      this.fileList = []
     },
     beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
     },
+    handleChange (file, fileList) {
+      this.fileList = fileList
+      const isLt10M = (file.size / 1024 / 1024 < 10)
+      if (!isLt10M) {
+        this.$message.warning('上传图片大小不能超过 10MB!')
+        this.fileList.pop()
+      } else {
+        const param = new FormData()
+        param.append('upload_file', this.fileList[0].raw)
+        const url = this.url + '/admin/upload.do'
+        axios(url, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'token': localStorage.getItem('admin-token')
+          },
+          method: 'POST',
+          data: param
+        }).then(res => {
+          this.imgUrl = res.data.data.url
+        })
+      }
+      return isLt10M
+    },
     handleSuccess (response, file, fileList) {
-      console.log(response, 'response')
-      this.imgurl = response.data.url
+      this.imgUrl = response.data.url
     },
     submit (formName) {
       // 提交
@@ -236,7 +253,7 @@ export default {
             channelMaxLimit: this.form.channelMaxLimit,
             isShow: this.form.isShow,
             isLock: this.form.isLock,
-            channelImg: this.imgurl,
+            channelImg: this.imgUrl,
             cType: this.form.cType,
             code: this.form.code,
             formUrl: this.form.formUrl,

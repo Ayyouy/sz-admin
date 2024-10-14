@@ -72,16 +72,15 @@
 <script>
 import * as api from '@/axios/api'
 
-import { quillEditor } from "vue-quill-editor";
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
-import "quill/dist/quill.bubble.css";
-
+import {quillEditor} from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 
 export default {
   components: {
-    //界面组件引用
-    quillEditor,
+    // 界面组件引用
+    quillEditor
   },
   props: {
     getDate: {
@@ -100,100 +99,99 @@ export default {
     return {
       dialogVisible: false,
       countryIdList: [
-        { type: '香港', value: '1' },
-        { type: '美国', value: '2' },
-        { type: '日本', value: '3' },
-        { type: '印度', value: '4' },
+        {type: '香港', value: '1'},
+        {type: '美国', value: '2'},
+        {type: '日本', value: '3'},
+        {type: '印度', value: '4'}
 
       ],
       form: {
-            id: '',
-            stockCode: '',
-            stockName: '',
-            isLock: '0',
-            isShow: '0',
-            countryId: '',
-            discount: '',
-            lockTime: '',
-            remark: '',
-            totalLimit: '',
+        id: '',
+        stockCode: '',
+        stockName: '',
+        isLock: '0',
+        isShow: '0',
+        countryId: '',
+        discount: '',
+        lockTime: '',
+        remark: '',
+        totalLimit: ''
       },
       rule: {
         stockName: [
-          { required: true, message: '请输入股票名称', trigger: 'blur' }
+          {required: true, message: '请输入股票名称', trigger: 'blur'}
         ],
         // stockPlate: [
         //     { required: true, message: '是否为科创板', trigger: 'change' },
         // ],
         stockCode: [
-          { required: true, message: '请输入股票代码', trigger: 'blur' },
+          {required: true, message: '请输入股票代码', trigger: 'blur'}
         ],
         isLock: [
-          { required: true, message: '是否锁定', trigger: 'change' }
+          {required: true, message: '是否锁定', trigger: 'change'}
         ],
         isShow: [
-          { required: true, message: '是否显示', trigger: 'change' }
+          {required: true, message: '是否显示', trigger: 'change'}
         ],
         lockTime: [
-          { required: true, message: '请输入锁仓天数', trigger: 'blur' }
+          {required: true, message: '请输入锁仓天数', trigger: 'blur'}
         ],
         discount: [
-          { required: true, message: '请输入折扣率', trigger: 'blur' }
+          {required: true, message: '请输入折扣率', trigger: 'blur'}
         ],
         totalLimit: [
-          { required: true, message: '请输入总额度', trigger: 'blur' }
+          {required: true, message: '请输入总额度', trigger: 'blur'}
         ],
         countryId: [
-          { required: true, message: '请选择国家', trigger: 'change' }
-        ],
+          {required: true, message: '请选择国家', trigger: 'change'}
+        ]
       },
       editorOption: {
-        placeholder: "请输入",
-        theme: "snow",
+        placeholder: '请输入',
+        theme: 'snow',
         modules: {
           toolbar: {
             container: [
-              ["bold", "italic", "underline", "strike"], // 加粗 斜体 下划线 删除线
-              ["blockquote", "code-block"], // 引用  代码块
-              [{ header: 1 }, { header: 2 }], // 1、2 级标题
-              [{ list: "ordered" }, { list: "bullet" }], // 有序、无序列表
-              [{ script: "sub" }, { script: "super" }], // 上标/下标
-              [{ indent: "-1" }, { indent: "+1" }], // 缩进
+              ['bold', 'italic', 'underline', 'strike'], // 加粗 斜体 下划线 删除线
+              ['blockquote', 'code-block'], // 引用  代码块
+              [{header: 1}, {header: 2}], // 1、2 级标题
+              [{list: 'ordered'}, {list: 'bullet'}], // 有序、无序列表
+              [{script: 'sub'}, {script: 'super'}], // 上标/下标
+              [{indent: '-1'}, {indent: '+1'}], // 缩进
               // [{ direction: 'rtl' }], // 文本方向
               [
                 {
                   size: [
-                    "12",
-                    "14",
-                    "16",
-                    "18",
-                    "20",
-                    "22",
-                    "24",
-                    "28",
-                    "32",
-                    "36",
-                  ],
-                },
+                    '12',
+                    '14',
+                    '16',
+                    '18',
+                    '20',
+                    '22',
+                    '24',
+                    '28',
+                    '32',
+                    '36'
+                  ]
+                }
               ], // 字体大小
-              [{ header: [1, 2, 3, 4, 5, 6] }], // 标题
-              [{ color: [] }, { background: [] }], // 字体颜色、字体背景颜色
+              [{header: [1, 2, 3, 4, 5, 6]}], // 标题
+              [{color: []}, {background: []}], // 字体颜色、字体背景颜色
               // [{ font: ['songti'] }], // 字体种类
-              [{ align: [] }], // 对齐方式
-              ["clean"], // 清除文本格式
+              [{align: []}], // 对齐方式
+              ['clean'] // 清除文本格式
               // ["image"], // 链接、图片，需要视频的可以加上video
-            ],
+            ]
             // handlers: {
             //   //此处是图片上传时候需要使用到的
             //   image: function (value) {
-            //     console.log(value);
             //     if (value) {
             //       // 点击图片
             //       document.querySelector("#upload").click();
             //     }
             //   },
             // },
-          },
+          }
           // imageDrop: true, // 图片拖拽
           // imageResize: {
           //   // 图片放大缩小
@@ -204,31 +202,26 @@ export default {
           //   },
           //   modules: ["Resize", "DisplaySize", "Toolbar"],
           // },
-        },
-      },
+        }
+      }
     }
   },
   watch: {
     info (val) {
       if (val) {
-        console.log('info',this.info)
         this.form.id = this.info.id
         this.form.stockName = this.info.stockName
         this.form.stockCode = this.info.stockCode
-        this.form.isLock = ''+this.info.isLock
-        this.form.isShow = ''+this.info.isShow
+        this.form.isLock = '' + this.info.isLock
+        this.form.isShow = '' + this.info.isShow
         this.form.lockTime = this.info.lockTime / (60 * 24)
         this.form.discount = (this.info.discount * 100).toFixed(0)
         this.form.totalLimit = this.info.totalLimit
-        this.form.countryId = ''+this.info.countryId
+        this.form.countryId = '' + this.info.countryId
         this.form.remark = this.info.remark
-
       }
     }
   },
-  computed: {},
-  created () {},
-  mounted () {},
   methods: {
     submit (formName) {
       // 提交
@@ -242,9 +235,9 @@ export default {
             isShow: this.form.isShow,
             countryId: this.form.countryId,
             discount: (this.form.discount / 100).toFixed(2),
-            lockTime: this.form.lockTime * 60 *24,
+            lockTime: this.form.lockTime * 60 * 24,
             remark: this.form.remark,
-            totalLimit: this.form.totalLimit,
+            totalLimit: this.form.totalLimit
           }
           let data = await api.updateStock(opts)
           if (data.status == 0) {
@@ -261,17 +254,17 @@ export default {
       })
     },
     clearForm () {
-      this.form= {
-            id: '',
-            stockCode: '',
-            stockName: '',
-            isLock: '0',
-            isShow: '0',
-            countryId: '',
-            discount: '',
-            lockTime: '',
-            remark: '',
-            totalLimit: '',
+      this.form = {
+        id: '',
+        stockCode: '',
+        stockName: '',
+        isLock: '0',
+        isShow: '0',
+        countryId: '',
+        discount: '',
+        lockTime: '',
+        remark: '',
+        totalLimit: ''
       }
     }
   }
@@ -280,12 +273,15 @@ export default {
 <style lang="less" scoped>
 /deep/ .remark {
   display: flex;
+
   .el-form-item__label {
     flex-shrink: 0;
   }
+
   .quill-editor {
     .ql-container {
       height: 300px;
+
       .ql-editor {
         height: 100%;
       }

@@ -405,7 +405,6 @@ export default {
       }
     },
     handleSelect(item) {
-      console.log(item)
     }
   }
 }

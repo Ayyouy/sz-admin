@@ -10,17 +10,19 @@
           <el-form-item label="图片" prop="bannerUrl">
             <el-upload
               ref="uploadBtn"
-              :with-credentials='true'
-              class="upload-demo"
-              :action="admin+'/admin/upload.do'"
-              :before-remove="beforeRemove"
-              :on-success="handleSuccess"
-              :multiple='false'
-              :limit="1"
               name="upload_file"
-              :before-upload='beforeUploadClear'
+              :with-credentials='true'
+              action="#"
+              multiple
+              :limit="1"
+              :file-list="fileList"
+              :show-file-list="false"
+              :auto-upload="false"
               :on-exceed="handleExceed"
-              :file-list="fileList">
+              :on-remove="handleRemove"
+              :on-change="handleChange"
+              :before-remove="beforeRemove"
+              class="upload-demo">
               <el-button size="small" type="primary">上传图片</el-button>
             </el-upload>
           </el-form-item>
@@ -68,7 +70,8 @@
 
 <script>
 import * as api from '@/axios/api'
-import APIUrl from '@/axios/api.url' // 引入api.url.js
+import APIUrl from '@/axios/api.url'
+import axios from 'axios' // 引入api.url.js
 
 export default {
   components: {},
@@ -102,7 +105,7 @@ export default {
           { required: true, message: '请输入排序', trigger: 'blur' }
         ]
       },
-      admin: '',
+      url: '',
       fileList: []
     }
   },
@@ -120,23 +123,49 @@ export default {
       }
     }
   },
-  computed: {},
-  created () {},
   mounted () {
-    this.admin = APIUrl.baseURL
-    if (this.admin === undefined) {
-      this.admin = ''
-    }
+    // this.admin = APIUrl.baseURL
+    // if (this.admin === undefined) {
+    //   this.admin = ''
+    // }
+    this.url = APIUrl.baseURL
   },
   methods: {
-    beforeUploadClear () {
+    handleRemove (file, fileList) {
+      this.form.bannerUrl = ''
+      this.fileList = fileList
     },
     handleExceed (files, fileList) {
       this.$refs.uploadBtn.clearFiles()
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.$message.warning('每次最多上传一个文件')
+      this.fileList = []
+      // this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
     },
     beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleChange (file, fileList) {
+      this.fileList = fileList
+      const isLt10M = (file.size / 1024 / 1024 < 10)
+      if (!isLt10M) {
+        this.$message.warning('上传图片大小不能超过 10MB!')
+        this.fileList.pop()
+      } else {
+        const param = new FormData()
+        param.append('upload_file', this.fileList[0].raw)
+        const url = this.url + '/admin/upload.do'
+        axios(url, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'token': localStorage.getItem('admin-token')
+          },
+          method: 'POST',
+          data: param
+        }).then(res => {
+          this.form.bannerUrl = res.data.data.url
+        })
+      }
+      return isLt10M
     },
     handleSuccess (response, file, fileList) {
       this.form.bannerUrl = response.data.url

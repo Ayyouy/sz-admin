@@ -162,7 +162,6 @@ export default {
             // handlers: {
             //   //此处是图片上传时候需要使用到的
             //   image: function (value) {
-            //     console.log(value);
             //     if (value) {
             //       // 点击图片
             //       document.querySelector("#upload").click();
@@ -225,7 +224,6 @@ export default {
             info: this.form.info,
             addUserId: this.$store.state.userInfo.id
           }
-          console.log(opts)
           let data = await api.addFund(opts)
           if (data.status === 0) {
             this.$message.success('添加成功')

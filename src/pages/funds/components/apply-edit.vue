@@ -19,7 +19,7 @@
             </el-select>
             <p>
               <span class="pro red">
-                  分配给配资人的证券子账户 
+                  分配给配资人的证券子账户
               </span>
             </p>
           </el-form-item>
@@ -60,7 +60,6 @@
             </el-row>
           </div>
         </el-form>
-        
 
         </div>
       <span slot="footer" class="dialog-footer">
@@ -128,7 +127,7 @@ export default {
   },
   watch: {
     info (val) {
-      if (val && this.info.id>0) {
+      if (val && this.info.id > 0) {
         this.form.auditOpinion = this.info.auditOpinion
         this.form.fundsType = this.info.fundsType
         this.form.totalTradingAmount = this.info.totalTradingAmount
@@ -149,8 +148,8 @@ export default {
       // 提交
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          if(this.form.status == 1 && this.form.subaccountNumber == ''){
-            this.$message.error("请选择子账户")
+          if (this.form.status == 1 && this.form.subaccountNumber == '') {
+            this.$message.error('请选择子账户')
             return
           }
           let opts = {
@@ -162,7 +161,7 @@ export default {
           }
           let data = await api.auditApply(opts)
           if (data.status === 0) {
-            this.$message.success("操作成功")
+            this.$message.success('操作成功')
             this.dialogVisible = false
             this.getDate()
           } else {
@@ -174,7 +173,6 @@ export default {
       })
     },
     async getEnabledAccount () {
-		console.log("---getEnabledAccount---");
       // 查询可用交易账户
       let opts = {
         pageNum: this.form.pageNum,
@@ -183,12 +181,8 @@ export default {
         status: 0
       }
       let data = await api.getTradingAccountList(opts)
-	  console.log(data);
-	  console.log("-------------------");
       if (data.status === 0) {
-		  console.log(data);
-        if(data.data.data.list.length>0){
-		  
+        if (data.data.data.list.length > 0) {
           this.accountList = data.data.data.list
         }
       } else {

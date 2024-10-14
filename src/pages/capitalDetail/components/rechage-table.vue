@@ -295,7 +295,7 @@ export default {
       let data = await api.rechargeList(opts)
       if (data.status === 0) {
         this.list = data.data
-       for (var i = 0; i < this.list.list.length; i++) {
+        for (var i = 0; i < this.list.list.length; i++) {
         //  if(this.list.list[i].orderStatus===0){
         //    this.list.list[i].orderDesc = "审核中"
         //  }else if(this.list.list[i].orderStatus===1){
@@ -305,14 +305,11 @@ export default {
         //  }else{
         //    this.list.list[i].orderDesc = "取消"
         //  }
-
-         var date = new Date(this.list.list[i].addTime);
-         this.list.list[i].addTime = date.toLocaleString(); // 返回格式化后的日期字符串
-
-         date = new Date(this.list.list[i].payTime);
-         this.list.list[i].payTime = date.toLocaleString(); // 返回格式化后的日期字符串
-       }
-        console.log(this.list)
+          var date = new Date(this.list.list[i].addTime)
+          this.list.list[i].addTime = date.toLocaleString() // 返回格式化后的日期字符串
+          date = new Date(this.list.list[i].payTime)
+          this.list.list[i].payTime = date.toLocaleString() // 返回格式化后的日期字符串
+        }
       } else {
         this.$message.error(data.msg)
       }

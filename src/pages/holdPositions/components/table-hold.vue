@@ -308,11 +308,9 @@ export default {
     handleSizeChange(val) {
       this.form.pageSize = val
       this.getList()
-      console.log(`每页 ${val} 条`)
     },
     handleCurrentChange(val) {
       this.form.pageNum = val
-      console.log(`当前页: ${val}`)
       this.getList()
     },
     async refreshList() {
@@ -391,7 +389,6 @@ export default {
       }
     },
     toDetail(row) {
-      console.log(row)
       // 查看详情
       this.detail = row
       this.$refs.detailDialog.dialogVisible = true

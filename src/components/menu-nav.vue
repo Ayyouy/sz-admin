@@ -449,7 +449,6 @@ export default {
       // let data = await api.getMenu(opts)
       // if (data.status === 0) {
       //   this.menus = data.data
-      //   console.log(this.menus)
       //   for(var i=0;i<this.menus.length;i++){
       //     var menu = this.menus[i];
       //     if(menu.aid === 1001){

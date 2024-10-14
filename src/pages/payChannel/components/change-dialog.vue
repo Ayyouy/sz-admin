@@ -118,36 +118,36 @@
             <el-input v-model="form.code" placeholder="代码"></el-input>
           </el-form-item>
           <el-upload
+            name="upload_file"
             :with-credentials="true"
-            class="upload-demo"
-            :action="admin + '/admin/upload.do'"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :on-success="handleSuccess"
-            :before-remove="beforeRemove"
+            action="#"
             multiple
             :limit="1"
-            name="upload_file"
-            :on-exceed="handleExceed"
             :file-list="fileList"
-          >
+            :show-file-list="false"
+            :auto-upload="false"
+            :on-exceed="handleExceed"
+            :on-remove="handleRemove"
+            :on-change="handleChange"
+            :before-remove="beforeRemove"
+            class="upload-demo">
             <el-button size="small" type="primary">上传收款二维码</el-button>
           </el-upload>
           <el-row v-if="info" style="margin-top: 24px">
             <el-upload
+              name="upload_file"
               :with-credentials="true"
-              class="upload-demo"
-              :action="admin + '/admin/upload.do'"
-              :on-preview="handlePreview"
-              :on-remove="handleRemoveIcon"
-              :on-success="handleSuccessIcon"
-              :before-remove="beforeRemove"
+              action="#"
               multiple
               :limit="1"
-              name="upload_file"
-              :on-exceed="handleExceed"
               :file-list="iconFileList"
-            >
+              :show-file-list="false"
+              :auto-upload="false"
+              :on-exceed="handleExceedIcon"
+              :on-remove="handleRemoveIcon"
+              :on-change="handleChangeIcon"
+              :before-remove="beforeRemove"
+              class="upload-demo">
               <el-button size="small" type="primary">上传icon图标</el-button>
             </el-upload>
           </el-row>
@@ -162,148 +162,197 @@
 </template>
 
 <script>
-import * as api from "@/axios/api";
-import * as APIUrl from "@/axios/api.url";
+import * as api from '@/axios/api'
+import * as APIUrl from '@/axios/api.url'
+import axios from 'axios'
 
 export default {
   components: {},
   props: {
     getDate: {
       type: Function,
-      default: function () {},
+      default: function () {
+      }
     },
     info: {
-      type: Object,
-    },
+      type: Object
+    }
   },
-  data() {
+  data () {
     return {
       dialogVisible: false,
       form: {
-        cType: "",
-        code: "",
-        formUrl: "",
-        channelType: "",
-        channelName: "",
-        channelDesc: "",
-        channelAccount: "",
-        channelMinLimit: "",
-        channelMaxLimit: "",
-        isShow: "",
-        isLock: "",
-        countryId: "",
+        cType: '',
+        code: '',
+        formUrl: '',
+        channelType: '',
+        channelName: '',
+        channelDesc: '',
+        channelAccount: '',
+        channelMinLimit: '',
+        channelMaxLimit: '',
+        isShow: '',
+        isLock: '',
+        countryId: ''
       },
       fileList: [],
       iconFileList: [],
       rule: {
-        countryId: [{ required: true, message: "请选择货币", trigger: "blur" }],
+        countryId: [{required: true, message: '请选择货币', trigger: 'blur'}],
         channelType: [
-          { required: true, message: "请输入渠道类型", trigger: "blur" },
+          {required: true, message: '请输入渠道类型', trigger: 'blur'}
         ],
         channelName: [
-          { required: true, message: "请输入渠道名字", trigger: "blur" },
+          {required: true, message: '请输入渠道名字', trigger: 'blur'}
         ],
         channelDesc: [
-          { required: true, message: "请输入渠道描述", trigger: "blur" },
+          {required: true, message: '请输入渠道描述', trigger: 'blur'}
         ],
         channelAccount: [
-          { required: true, message: "请输入渠道账户", trigger: "blur" },
+          {required: true, message: '请输入渠道账户', trigger: 'blur'}
         ],
         channelMinLimit: [
-          { required: true, message: "请输入最小充值金额", trigger: "blur" },
+          {required: true, message: '请输入最小充值金额', trigger: 'blur'}
         ],
         channelMaxLimit: [
-          { required: true, message: "请输入最大充值金额", trigger: "blur" },
+          {required: true, message: '请输入最大充值金额', trigger: 'blur'}
         ],
         cType: [
-          { required: true, message: "请选择通道类型", trigger: "change" },
+          {required: true, message: '请选择通道类型', trigger: 'change'}
         ],
         isShow: [
-          { required: true, message: "请选择显示状态", trigger: "change" },
+          {required: true, message: '请选择显示状态', trigger: 'change'}
         ],
         isLock: [
-          { required: true, message: "请选择可用状态", trigger: "change" },
-        ],
+          {required: true, message: '请选择可用状态', trigger: 'change'}
+        ]
       },
-      admin: "",
-      imgurl: "", // 图片地址
-      iconUrl: "",
-    };
+      admin: '',
+      imgUrl: '', // 图片地址
+      iconUrl: ''
+    }
   },
   watch: {
-    info(val) {
-      this.form.channelType = val.channelType;
-      this.form.channelName = val.channelName;
-      this.form.channelDesc = val.channelDesc;
-      this.form.channelAccount = val.channelAccount;
-      this.form.channelMinLimit = val.channelMinLimit;
-      this.form.channelMaxLimit = val.channelMaxLimit;
-      this.form.isShow = val.isShow;
-      this.form.isLock = val.isLock;
-      this.form.cType = val.ctype;
-      this.form.code = val.formCode;
-      this.form.formUrl = val.formUrl;
-      this.form.countryId = `${val.countryId}`;
-      this.imgurl = val.channelImg;
-      this.iconUrl = val.iconUrl;
-      this.fileList = [];
+    info (val) {
+      this.form.channelType = val.channelType
+      this.form.channelName = val.channelName
+      this.form.channelDesc = val.channelDesc
+      this.form.channelAccount = val.channelAccount
+      this.form.channelMinLimit = val.channelMinLimit
+      this.form.channelMaxLimit = val.channelMaxLimit
+      this.form.isShow = val.isShow
+      this.form.isLock = val.isLock
+      this.form.cType = val.ctype
+      this.form.code = val.formCode
+      this.form.formUrl = val.formUrl
+      this.form.countryId = `${val.countryId}`
+      this.imgUrl = val.channelImg
+      this.iconUrl = val.iconUrl
+      this.fileList = []
       if (val.channelImg) {
-        this.fileList.push({ name: "二维码", url: val.channelImg });
+        this.fileList.push({name: '二维码', url: val.channelImg})
       }
-      this.iconFileList = [];
+      this.iconFileList = []
       if (val.iconUrl) {
-        this.iconFileList.push({ name: "图标", url: val.iconUrl });
+        this.iconFileList.push({name: '图标', url: val.iconUrl})
       }
-    },
+    }
   },
   computed: {},
-  created() {},
-  mounted() {
-    this.admin = process.env.API_HOST;
+  created () {
+  },
+  mounted () {
+    this.admin = process.env.API_HOST
     if (this.admin === undefined) {
-      this.admin = "";
+      this.admin = ''
     }
   },
   methods: {
-    handleRemove(file, fileList) {
-      this.imgurl = "";
+    handleRemove (file, fileList) {
+      this.imgUrl = ''
       this.fileList = []
-      console.log(file, fileList);
     },
-    handleRemoveIcon(file, fileList) {
-      console.log(file, fileList);
+    handleRemoveIcon (file, fileList) {
       this.iconFileList = []
       this.iconUrl = ''
     },
-    handlePreview(file) {
-      console.log(file);
+    handleExceed (files, fileList) {
+      // this.$message.warning(
+      //   `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+      //     files.length + fileList.length
+      //   } 个文件`
+      // )
+      this.$message.warning('每次最多上传一个文件')
+      this.fileList = []
     },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      );
+    handleExceedIcon (files, fileList) {
+      // this.$message.warning(
+      //   `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+      //     files.length + fileList.length
+      //   } 个文件`
+      // )
+      this.$message.warning('每次最多上传一个文件')
+      this.iconFileList = []
     },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
+    beforeRemove (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
     },
-    handleSuccess(response, file, fileList) {
-      this.imgurl = response.data.url;
+    handleChange (file, fileList) {
+      this.fileList = fileList
+      const isLt10M = (file.size / 1024 / 1024 < 10)
+      if (!isLt10M) {
+        this.$message.warning('上传图片大小不能超过 10MB!')
+        this.fileList.pop()
+      } else {
+        const param = new FormData()
+        param.append('upload_file', this.fileList[0].raw)
+        const url = this.url + '/admin/upload.do'
+        axios(url, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'token': localStorage.getItem('admin-token')
+          },
+          method: 'POST',
+          data: param
+        }).then(res => {
+          this.imgUrl = res.data.data.url
+        })
+      }
+      return isLt10M
     },
-    handleSuccessIcon(response, file, fileList) {
-      console.log(response.data, "response");
-      this.iconUrl = response.data.url;
+    handleChangeIcon (file, fileList) {
+      this.iconFileList = fileList
+      const isLt10M = (file.size / 1024 / 1024 < 10)
+      if (!isLt10M) {
+        this.$message.warning('上传图片大小不能超过 10MB!')
+        this.iconFileList.pop()
+      } else {
+        const param = new FormData()
+        param.append('upload_file', this.iconFileList[0].raw)
+        const url = this.url + '/admin/upload.do'
+        axios(url, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'token': localStorage.getItem('admin-token')
+          },
+          method: 'POST',
+          data: param
+        }).then(res => {
+          this.iconUrl = res.data.data.url
+        })
+      }
+      return isLt10M
     },
-    submit(formName) {
+    handleSuccess (response, file, fileList) {
+      this.imgUrl = response.data.url
+    },
+    handleSuccessIcon (response, file, fileList) {
+      this.iconUrl = response.data.url
+    },
+    submit (formName) {
       // 提交
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          // 支付宝的必须添加图片
-          // if(this.form.cType == 0 && !this.imgurl){
-          //     this.$message.error('支付宝必须添加图片')
-          //     return
-          // }
           let opts = {
             id: this.info.id,
             channelType: this.form.channelType,
@@ -317,26 +366,26 @@ export default {
             cType: this.form.cType,
             formCode: this.form.code,
             formUrl: this.form.formUrl,
-            channelImg: this.imgurl ? this.imgurl : "",
+            channelImg: this.imgUrl ? this.imgUrl : '',
             countryId: this.form.countryId,
-            imgurl: this.imgurl,
-            iconUrl: this.iconUrl,
-          };
-          let data = await api.updatePayChannel(opts);
+            imgurl: this.imgUrl,
+            iconUrl: this.iconUrl
+          }
+          let data = await api.updatePayChannel(opts)
           if (data.status === 0) {
-            this.$message.success("修改成功");
-            this.dialogVisible = false;
-            this.getDate();
+            this.$message.success('修改成功')
+            this.dialogVisible = false
+            this.getDate()
           } else {
-            this.$message.error(data.msg);
+            this.$message.error(data.msg)
           }
         } else {
-          return false;
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .img {

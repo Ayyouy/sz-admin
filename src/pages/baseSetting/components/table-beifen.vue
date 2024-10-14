@@ -1,5 +1,15 @@
 <template>
   <div>
+    <!-- <div>
+        <div class="table-top-btn">
+            <el-row class="text-right">
+                <el-button type="text" size="small" @click="addAccount">
+                    <i class="iconfont icon-add"></i>添加设置信息
+                </el-button>
+            </el-row>
+        </div>
+
+    </div> -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>logo设置</span>
@@ -27,19 +37,16 @@
             <el-col :span="6">
               <el-form-item label="大logo">
                 <el-upload
-                  name="upload_file"
                   :with-credentials='true'
-                  action="#"
+                  class="upload-demo"
+                  :action="admin+'/admin/upload.do'"
+                  :before-remove="beforeRemovelogo"
+                  :on-success="handleSuccesslogo"
                   multiple
                   :limit="1"
-                  :file-list="fileListlogo"
-                  :show-file-list="false"
-                  :auto-upload="false"
-                  :on-exceed="handleExceed1"
-                  :on-remove="handleRemove1"
-                  :on-change="handleChange1"
-                  :before-remove="beforeRemove"
-                  class="upload-demo">
+                  name="upload_file"
+                  :on-exceed="handleExceedlogo"
+                  :file-list="fileListlogo">
                   <el-button size="small" type="primary">上传大logo</el-button>
                 </el-upload>
               </el-form-item>
@@ -53,21 +60,19 @@
             <el-col :span="6">
               <el-form-item label="小logo">
                 <el-upload
-                  name="upload_file"
                   :with-credentials='true'
-                  action="#"
+                  class="upload-demo"
+                  :action="admin+'/admin/upload.do'"
+                  :before-remove="beforeRemovelogo2"
+                  :on-success="handleSuccesslogo2"
                   multiple
                   :limit="1"
-                  :file-list="fileListlogo2"
-                  :show-file-list="false"
-                  :auto-upload="false"
-                  :on-exceed="handleExceed2"
-                  :on-remove="handleRemove2"
-                  :on-change="handleChange2"
-                  :before-remove="beforeRemove"
-                  class="upload-demo">
+                  name="upload_file"
+                  :on-exceed="handleExceedlogo2"
+                  :file-list="fileListlogo2">
                   <el-button size="small" type="primary">上传min-logo</el-button>
                 </el-upload>
+                <!-- <el-input v-model="logoform.siteLogoSm" placeholder="小logo"></el-input> -->
               </el-form-item>
               <p>
                 图片建议：背景色为透明色，格式为png图片
@@ -95,19 +100,16 @@
             <el-col :span="8">
               <el-form-item label="安卓二维码">
                 <el-upload
-                  name="upload_file"
                   :with-credentials='true'
-                  action="#"
+                  class="upload-demo"
+                  :action="admin+'/admin/upload.do'"
+                  :before-remove="beforeRemove"
+                  :on-success="handleSuccess"
                   multiple
                   :limit="1"
-                  :file-list="fileList"
-                  :show-file-list="false"
-                  :auto-upload="false"
-                  :on-exceed="handleExceed3"
-                  :on-remove="handleRemove3"
-                  :on-change="handleChange3"
-                  :before-remove="beforeRemove"
-                  class="upload-demo">
+                  name="upload_file"
+                  :on-exceed="handleExceed"
+                  :file-list="fileList">
                   <el-button size="small" type="primary">上传安卓二维码</el-button>
                 </el-upload>
               </el-form-item>
@@ -125,19 +127,16 @@
             <el-col :span="8">
               <el-form-item label="IOS二维码">
                 <el-upload
-                  name="upload_file"
                   :with-credentials='true'
-                  action="#"
+                  class="upload-demo"
+                  :action="admin+'/admin/upload.do'"
+                  :before-remove="beforeRemove2"
+                  :on-success="handleSuccess2"
                   multiple
                   :limit="1"
-                  :file-list="fileList2"
-                  :show-file-list="false"
-                  :auto-upload="false"
-                  :on-exceed="handleExceed4"
-                  :on-remove="handleRemove4"
-                  :on-change="handleChange4"
-                  :before-remove="beforeRemove"
-                  class="upload-demo">
+                  name="upload_file"
+                  :on-exceed="handleExceed2"
+                  :file-list="fileList2">
                   <el-button size="small" type="primary">上传IOS二维码</el-button>
                 </el-upload>
               </el-form-item>
@@ -163,7 +162,7 @@
       <div slot="header" class="clearfix">
         <span>汇率设定</span>
       </div>
-      <div class="text item">
+	<div class="text item">
         <el-form :inline="true" :model="logoform" class="demo-form-inline" size="small" ref="logoForm">
           <el-row>
             <el-col :span="8">
@@ -179,7 +178,7 @@
           </el-row>
         </el-form>
       </div>
-    </el-card>
+    </el-card>	
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>系统颜色配置  （该颜色主题仅针对pc端和手机端用户配置）</span>
@@ -238,19 +237,15 @@
             <el-col :span="12">
               <el-form-item label="资质1">
                 <el-upload
-                  name="upload_file"
                   :with-credentials='true'
-                  action="#"
-                  multiple
+                  class="upload-demo"
+                  :action="admin+'/admin/upload.do'"
+                  :before-remove="beforeRemoveimg"
+                  :on-success="handleSuccessimg"
                   :limit="1"
-                  :file-list="fileListimg"
-                  :show-file-list="false"
-                  :auto-upload="false"
-                  :on-exceed="handleExceed5"
-                  :on-remove="handleRemove5"
-                  :on-change="handleChange5"
-                  :before-remove="beforeRemove"
-                  class="upload-demo">
+                  name="upload_file"
+                  :on-exceed="handleExceedimg"
+                  :file-list="fileListimg">
                   <el-button size="small" type="primary">上传资质1</el-button>
                 </el-upload>
               </el-form-item>
@@ -258,19 +253,15 @@
             <el-col :span="12">
               <el-form-item label="资质2">
                 <el-upload
-                  name="upload_file"
                   :with-credentials='true'
-                  action="#"
-                  multiple
+                  class="upload-demo"
+                  :action="admin+'/admin/upload.do'"
+                  :before-remove="beforeRemoveimg2"
+                  :on-success="handleSuccessimg2"
                   :limit="1"
-                  :file-list="fileListimg2"
-                  :show-file-list="false"
-                  :auto-upload="false"
-                  :on-exceed="handleExceed6"
-                  :on-remove="handleRemove6"
-                  :on-change="handleChange6"
-                  :before-remove="beforeRemove"
-                  class="upload-demo">
+                  name="upload_file"
+                  :on-exceed="handleExceedimg2"
+                  :file-list="fileListimg2">
                   <el-button size="small" type="primary">上传资质2</el-button>
                 </el-upload>
               </el-form-item>
@@ -348,66 +339,57 @@
             <el-col :span="24">
               <el-form-item label="注册协议地址">
                 <el-upload
-                  name="upload_file"
                   :with-credentials='true'
-                  action="#"
-                  multiple
+                  class="upload-demo"
+                  :action="admin+'/admin/upload.do'"
+                  :before-remove="beforeRemoveagress"
+                  :on-success="handleSuccessagress"
                   :limit="1"
-                  :file-list="fileListagress"
-                  :show-file-list="false"
-                  :auto-upload="false"
-                  :on-exceed="handleExceed7"
-                  :on-remove="handleRemove7"
-                  :on-change="handleChange7"
-                  :before-remove="beforeRemove"
-                  class="upload-demo">
+                  name="upload_file"
+                  :on-exceed="handleExceedagress"
+                  :file-list="fileListagress">
                   <el-button size="small" type="primary">上传注册协议地址</el-button>
                 </el-upload>
               </el-form-item>
               <p style="margin-bottom:10px;">
-                {{ contactform.regAgress }}
+                {{contactform.regAgress}}
               </p>
             </el-col>
             <el-col :span="24">
               <el-form-item label="融资融券协议地址">
                 <el-upload
-                  name="upload_file"
                   :with-credentials='true'
-                  action="#"
-                  multiple
+                  class="upload-demo"
+                  :action="admin+'/admin/upload.do'"
+                  :before-remove="beforeRemoveagress2"
+                  :on-success="handleSuccessagress2"
                   :limit="1"
-                  :file-list="fileListagress2"
-                  :show-file-list="false"
-                  :auto-upload="false"
-                  :on-exceed="handleExceed8"
-                  :on-remove="handleRemove8"
-                  :on-change="handleChange8"
-                  :before-remove="beforeRemove"
-                  class="upload-demo">
+                  name="upload_file"
+                  :on-exceed="handleExceedagress2"
+                  :file-list="fileListagress2">
                   <el-button size="small" type="primary">上传融资融券协议地址</el-button>
                 </el-upload>
               </el-form-item>
               <p style="margin-bottom:10px;">
-                {{ contactform.tradeAgress }}
+                {{contactform.tradeAgress}}
               </p>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
               <el-form-item label="注册协议文本">
-                <Editor v-model="contactform.regAgreeText" :isClear="false" @change="editorChange1"></Editor>
+                <Editor v-model="contactform.regAgreeText" :isClear="false" @change="editorChange1"></Editor> 
                 <!-- <el-input type="textarea" rows="5" style="width:800px" v-model="contactform.regAgreeText" placeholder="注册协议文本"></el-input> -->
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-form-item label="融资融券标题">
-                <el-input type="textarea" rows="1" style="width:800px" v-model="contactform.tradeAgreeTitle"
-                          placeholder="融资融券标题"></el-input>
+                <el-input type="textarea" rows="1" style="width:800px" v-model="contactform.tradeAgreeTitle" placeholder="融资融券标题"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-form-item label="融资融券文本">
-                <Editor v-model="contactform.tradeAgreeText" :isClear="false" @change="editorChange2"></Editor>
+                 <Editor v-model="contactform.tradeAgreeText" :isClear="false" @change="editorChange2"></Editor> 
                 <!-- <el-input type="textarea" rows="5" style="width:800px" v-model="contactform.tradeAgreeText" placeholder="融资融券协议文本"></el-input> -->
               </el-form-item>
             </el-col>
@@ -431,7 +413,6 @@ import * as api from '@/axios/api'
 import DetailDialog from './add-dialog'
 import APIUrl from '@/axios/api.url' // 引入api.url.js
 import Editor from '@/components/UE'
-import axios from 'axios'
 
 export default {
   components: {
@@ -469,7 +450,7 @@ export default {
         siteHost: '',
         tradeAgreeTitle: '',
         tradeAgreeText: '',
-        regAgreeText: '',
+        regAgreeText:'',
         onlineService: ''
       },
       companyform: {
@@ -492,223 +473,100 @@ export default {
       type: '', // 添加或者更新
       admin: '',
       rule: {},
-      id: '',
-      url: ''
+      id: ''
+
     }
   },
   watch: {},
   computed: {},
   mounted () {
     this.getSettingInfo()
-    // this.admin = APIUrl.baseURL
-    // if (this.admin === undefined) {
-    //   this.admin = ''
-    // }
-    this.url = APIUrl.baseURL
+    this.admin = APIUrl.baseURL
+    if (this.admin === undefined) {
+      this.admin = ''
+    }
   },
   methods: {
+    editorChange1(val) {
+      this.contactform.regAgreeText = val
+    },
+    editorChange2(val) {
+      this.contactform.tradeAgreeText = val
+    },
+    handleExceed (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
     beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
     },
-    handleExceed1 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
-      this.fileListlogo = []
-    },
-    handleRemove1 (file, fileList) {
-      this.logoform.siteLogo = ''
-      this.fileListlogo = fileList
-    },
-    handleChange1 (file, fileList) {
-      this.fileListlogo = fileList
-      const isLt10M = (file.size / 1024 / 1024 < 10)
-      if (!isLt10M) {
-        this.$message.warning('上传图片大小不能超过 10MB!')
-        this.fileListlogo.pop()
-      } else {
-        this.handleConfirm(1, this.fileListlogo[0])
-      }
-      return isLt10M
-    },
-    handleExceed2 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
-      this.fileListlogo2 = []
-    },
-    handleRemove2 (file, fileList) {
-      this.logoform.siteLogoSm = ''
-      this.fileListlogo2 = fileList
-    },
-    handleChange2 (file, fileList) {
-      this.fileListlogo2 = fileList
-      const isLt10M = (file.size / 1024 / 1024 < 10)
-      if (!isLt10M) {
-        this.$message.warning('上传图片大小不能超过 10MB!')
-        this.fileListlogo2.pop()
-      } else {
-        this.handleConfirm(2, this.fileListlogo2[0])
-      }
-      return isLt10M
-    },
-    handleExceed3 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
-      this.fileList = []
-    },
-    handleRemove3 (file, fileList) {
-      this.downform.siteAndroidImg = ''
-      this.fileList = fileList
-    },
-    handleChange3 (file, fileList) {
-      this.fileList = fileList
-      const isLt10M = (file.size / 1024 / 1024 < 10)
-      if (!isLt10M) {
-        this.$message.warning('上传图片大小不能超过 10MB!')
-        this.fileList.pop()
-      } else {
-        this.handleConfirm(3, this.fileList[0])
-      }
-      return isLt10M
-    },
-    handleExceed4 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
-      this.fileList2 = []
-    },
-    handleRemove4 (file, fileList) {
-      this.downform.siteIosImg = ''
-      this.fileList2 = fileList
-    },
-    handleChange4 (file, fileList) {
-      this.fileList2 = fileList
-      const isLt10M = (file.size / 1024 / 1024 < 10)
-      if (!isLt10M) {
-        this.$message.warning('上传图片大小不能超过 10MB!')
-        this.fileList2.pop()
-      } else {
-        this.handleConfirm(4, this.fileList2[0])
-      }
-      return isLt10M
-    },
-    handleExceed5 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
-      this.fileListimg = []
-    },
-    handleRemove5 (file, fileList) {
-      this.companyform.certImg1 = ''
-      this.fileListimg = fileList
-    },
-    handleChange5 (file, fileList) {
-      this.fileListimg = fileList
-      const isLt10M = (file.size / 1024 / 1024 < 10)
-      if (!isLt10M) {
-        this.$message.warning('上传图片大小不能超过 10MB!')
-        this.fileListimg.pop()
-      } else {
-        this.handleConfirm(5, this.fileListimg[0])
-      }
-      return isLt10M
-    },
-    handleExceed6 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
-      this.fileListimg2 = []
-    },
-    handleRemove6 (file, fileList) {
-      this.companyform.certImg2 = ''
-      this.fileListimg2 = fileList
-    },
-    handleChange6 (file, fileList) {
-      this.fileListimg2 = fileList
-      const isLt10M = (file.size / 1024 / 1024 < 10)
-      if (!isLt10M) {
-        this.$message.warning('上传图片大小不能超过 10MB!')
-        this.fileListimg2.pop()
-      } else {
-        this.handleConfirm(6, this.fileListimg2[0])
-      }
-      return isLt10M
-    },
-    handleExceed7 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
-      this.fileListagress = []
-    },
-    handleRemove7 (file, fileList) {
-      this.contactform.regAgress = ''
-      this.fileListagress = fileList
-    },
-    handleChange7 (file, fileList) {
-      this.fileListagress = fileList
-      const isLt10M = (file.size / 1024 / 1024 < 10)
-      if (!isLt10M) {
-        this.$message.warning('上传图片大小不能超过 10MB!')
-        this.fileListagress.pop()
-      } else {
-        this.handleConfirm(7, this.fileListagress[0])
-      }
-      return isLt10M
-    },
-    handleExceed8 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
-      this.fileListagress2 = []
-    },
-    handleRemove8 (file, fileList) {
-      this.contactform.tradeAgress = ''
-      this.fileListagress2 = fileList
-    },
-    handleChange8 (file, fileList) {
-      this.fileListagress2 = fileList
-      const isLt10M = (file.size / 1024 / 1024 < 10)
-      if (!isLt10M) {
-        this.$message.warning('上传图片大小不能超过 10MB!')
-        this.fileListagress2.pop()
-      } else {
-        this.handleConfirm(8, this.fileListagress2[0])
-      }
-      return isLt10M
-    },
-    handleConfirm (flag, file) {
-      const param = new FormData()
-      param.append('upload_file', file.raw)
-      const url = this.url + '/admin/upload.do'
-      axios(url, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'token': localStorage.getItem('admin-token')
-        },
-        method: 'POST',
-        data: param
-      }).then(res => {
-        switch (flag) {
-          case 1:
-            this.logoform.siteLogo = res.data.data.url
-            break
-          case 2:
-            this.logoform.siteLogoSm = res.data.data.url
-            break
-          case 3:
-            this.downform.siteAndroidImg = res.data.data.url
-            break
-          case 4:
-            this.downform.siteIosImg = res.data.data.url
-            break
-          case 5:
-            this.companyform.certImg1 = res.data.data.url
-            break
-          case 6:
-            this.companyform.certImg2 = res.data.data.url
-            break
-          case 7:
-            this.contactform.regAgress = res.data.data.url
-            break
-          case 8:
-            this.contactform.tradeAgress = res.data.data.url
-        }
-      })
-    },
-    editorChange1 (val) {
-      this.contactform.regAgreeText = val
-    },
-    editorChange2 (val) {
-      this.contactform.tradeAgreeText = val
-    },
     handleSuccess (response, file, fileList) {
       this.downform.siteAndroidImg = response.data.url
+    },
+    handleExceed2 (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove2 (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleSuccess2 (response, file, fileList) {
+      this.downform.siteIosImg = response.data.url
+    },
+    // 上传资质
+    handleExceedimg (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemoveimg (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleSuccessimg (response, file, fileList) {
+      this.companyform.certImg1 = response.data.url
+    },
+    handleExceedimg2 (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemoveimg2 (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleSuccessimg2 (response, file, fileList) {
+      this.companyform.certImg2 = response.data.url
+    },
+    // logo信息的设置
+    handleExceedlogo (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemovelogo (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleSuccesslogo (response, file, fileList) {
+      this.logoform.siteLogo = response.data.url
+    },
+    handleExceedlogo2 (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemovelogo2 (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleSuccesslogo2 (response, file, fileList) {
+      this.logoform.siteLogoSm = response.data.url
+    },
+    // 协议上传
+    handleExceedagress (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemoveagress (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleSuccessagress (response, file, fileList) {
+      this.contactform.regAgress = response.data.url
+    },
+    handleExceedagress2 (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemoveagress2 (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    handleSuccessagress2 (response, file, fileList) {
+      this.contactform.tradeAgress = response.data.url
     },
     async getSettingInfo () {
       let data = await api.getInfo()
@@ -903,13 +761,13 @@ export default {
 </script>
 <style lang="less" scoped>
 
-.box-card {
-  margin-bottom: 10px;
+  .box-card {
+    margin-bottom: 10px;
 
-  .img {
-    max-width: 80%;
-    background: #eee;
-    max-height: 100px;
+    .img {
+      max-width: 80%;
+      background: #eee;
+      max-height: 100px;
+    }
   }
-}
 </style>

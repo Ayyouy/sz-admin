@@ -511,7 +511,8 @@ export default {
       return this.$confirm(`确定移除 ${file.name}？`)
     },
     handleExceed1 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.logoform.siteLogo = ''
       this.fileListlogo = []
     },
     handleRemove1 (file, fileList) {
@@ -530,7 +531,8 @@ export default {
       return isLt10M
     },
     handleExceed2 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.logoform.siteLogoSm = ''
       this.fileListlogo2 = []
     },
     handleRemove2 (file, fileList) {
@@ -549,7 +551,8 @@ export default {
       return isLt10M
     },
     handleExceed3 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.downform.siteAndroidImg = ''
       this.fileList = []
     },
     handleRemove3 (file, fileList) {
@@ -568,7 +571,8 @@ export default {
       return isLt10M
     },
     handleExceed4 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.downform.siteIosImg = ''
       this.fileList2 = []
     },
     handleRemove4 (file, fileList) {
@@ -587,7 +591,8 @@ export default {
       return isLt10M
     },
     handleExceed5 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.companyform.certImg1 = ''
       this.fileListimg = []
     },
     handleRemove5 (file, fileList) {
@@ -606,7 +611,8 @@ export default {
       return isLt10M
     },
     handleExceed6 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.companyform.certImg2 = ''
       this.fileListimg2 = []
     },
     handleRemove6 (file, fileList) {
@@ -625,7 +631,8 @@ export default {
       return isLt10M
     },
     handleExceed7 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.contactform.regAgress = ''
       this.fileListagress = []
     },
     handleRemove7 (file, fileList) {
@@ -644,7 +651,8 @@ export default {
       return isLt10M
     },
     handleExceed8 (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.contactform.tradeAgress = ''
       this.fileListagress2 = []
     },
     handleRemove8 (file, fileList) {
@@ -677,27 +685,69 @@ export default {
         switch (flag) {
           case 1:
             this.logoform.siteLogo = res.data.data.url
+            this.fileListlogo = []
             break
           case 2:
             this.logoform.siteLogoSm = res.data.data.url
+            this.fileListlogo2 = []
             break
           case 3:
             this.downform.siteAndroidImg = res.data.data.url
+            this.fileList = []
             break
           case 4:
             this.downform.siteIosImg = res.data.data.url
+            this.fileList2 = []
             break
           case 5:
             this.companyform.certImg1 = res.data.data.url
+            this.fileListimg = []
             break
           case 6:
             this.companyform.certImg2 = res.data.data.url
+            this.fileListimg2 = []
             break
           case 7:
             this.contactform.regAgress = res.data.data.url
+            this.fileListagress = []
             break
           case 8:
+            this.fileListagress2 = []
             this.contactform.tradeAgress = res.data.data.url
+        }
+      }).catch(() => {
+        switch (flag) {
+          case 1:
+            this.logoform.siteLogo = ''
+            this.fileListlogo = []
+            break
+          case 2:
+            this.logoform.siteLogoSm = ''
+            this.fileListlogo2 = []
+            break
+          case 3:
+            this.downform.siteAndroidImg = ''
+            this.fileList = []
+            break
+          case 4:
+            this.downform.siteIosImg = ''
+            this.fileList2 = []
+            break
+          case 5:
+            this.companyform.certImg1 = ''
+            this.fileListimg = []
+            break
+          case 6:
+            this.companyform.certImg2 = ''
+            this.fileListimg2 = []
+            break
+          case 7:
+            this.contactform.regAgress = ''
+            this.fileListagress = []
+            break
+          case 8:
+            this.fileListagress2 = []
+            this.contactform.tradeAgress = ''
         }
       })
     },

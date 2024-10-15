@@ -317,6 +317,7 @@
 
 <script>
 import * as api from '@/axios/api'
+import APIUrl from '@/axios/api.url'
 
 export default {
   name: 'MenuNav',
@@ -403,8 +404,6 @@ export default {
       outMoneyOrder: 0
     }
   },
-  watch: {},
-  computed: {},
   created () {
     window.addEventListener('resize', this.getHeight)
     this.getHeight()
@@ -420,17 +419,13 @@ export default {
   mounted () {
     this.getSiteInfo()
     this.getMenu()
-    // this.$store.state.userInfo.id
-    this.adminUrl = process.env.API_HOST
-    if (this.adminUrl === undefined) {
-      this.adminUrl = ''
-    }
+    this.adminUrl = APIUrl.baseURL
   },
   methods: {
     getHeight () {
       this.contentStyleObj.height = window.innerHeight - 62 + 'px'
     },
-    async getSiteInfo() {
+    async getSiteInfo () {
       // 获取站点信息
       let data = await api.getInfo()
       if (data.status === 0) {
@@ -440,7 +435,7 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    async getMenu() {
+    async getMenu () {
       // 获取站点信息
       // 刷新出金订单A
       let opts = {
@@ -614,7 +609,7 @@ export default {
       //   this.$message.error(data.msg)
       // }
     },
-    async refreshOutMoneyOrderNum() {
+    async refreshOutMoneyOrderNum () {
       // 刷新出金订单
       let opts = {
         state: 0,

@@ -163,7 +163,7 @@
 
 <script>
 import * as api from '@/axios/api'
-import * as APIUrl from '@/axios/api.url'
+import APIUrl from '@/axios/api.url'
 import axios from 'axios'
 
 export default {
@@ -227,7 +227,7 @@ export default {
           {required: true, message: '请选择可用状态', trigger: 'change'}
         ]
       },
-      admin: '',
+      url: '',
       imgUrl: '', // 图片地址
       iconUrl: ''
     }
@@ -258,14 +258,8 @@ export default {
       }
     }
   },
-  computed: {},
-  created () {
-  },
   mounted () {
-    this.admin = process.env.API_HOST
-    if (this.admin === undefined) {
-      this.admin = ''
-    }
+    this.url = APIUrl.baseURL
   },
   methods: {
     handleRemove (file, fileList) {
@@ -277,22 +271,14 @@ export default {
       this.iconUrl = ''
     },
     handleExceed (files, fileList) {
-      // this.$message.warning(
-      //   `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-      //     files.length + fileList.length
-      //   } 个文件`
-      // )
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
       this.fileList = []
+      this.imgUrl = ''
     },
     handleExceedIcon (files, fileList) {
-      // this.$message.warning(
-      //   `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-      //     files.length + fileList.length
-      //   } 个文件`
-      // )
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
       this.iconFileList = []
+      this.iconUrl = ''
     },
     beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
@@ -316,6 +302,10 @@ export default {
           data: param
         }).then(res => {
           this.imgUrl = res.data.data.url
+          this.fileList = []
+        }).catch(() => {
+          this.imgUrl = ''
+          this.fileList = []
         })
       }
       return isLt10M
@@ -339,15 +329,13 @@ export default {
           data: param
         }).then(res => {
           this.iconUrl = res.data.data.url
+          this.iconFileList = []
+        }).catch(() => {
+          this.iconUrl = ''
+          this.iconFileList = []
         })
       }
       return isLt10M
-    },
-    handleSuccess (response, file, fileList) {
-      this.imgUrl = response.data.url
-    },
-    handleSuccessIcon (response, file, fileList) {
-      this.iconUrl = response.data.url
     },
     submit (formName) {
       // 提交

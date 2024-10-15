@@ -99,10 +99,10 @@ export default {
       },
       rule: {
         bannerUrl: [
-          { required: true, message: '请输入url', trigger: 'blur' }
+          {required: true, message: '请输入url', trigger: 'blur'}
         ],
         isOrder: [
-          { required: true, message: '请输入排序', trigger: 'blur' }
+          {required: true, message: '请输入排序', trigger: 'blur'}
         ]
       },
       url: '',
@@ -124,10 +124,6 @@ export default {
     }
   },
   mounted () {
-    // this.admin = APIUrl.baseURL
-    // if (this.admin === undefined) {
-    //   this.admin = ''
-    // }
     this.url = APIUrl.baseURL
   },
   methods: {
@@ -137,9 +133,9 @@ export default {
     },
     handleExceed (files, fileList) {
       this.$refs.uploadBtn.clearFiles()
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
       this.fileList = []
-      // this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.form.bannerUrl = ''
     },
     beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
@@ -163,12 +159,13 @@ export default {
           data: param
         }).then(res => {
           this.form.bannerUrl = res.data.data.url
+          this.fileList = []
+        }).catch(() => {
+          this.fileList = []
+          this.form.bannerUrl = ''
         })
       }
       return isLt10M
-    },
-    handleSuccess (response, file, fileList) {
-      this.form.bannerUrl = response.data.url
     },
     submit (formName) {
       // 提交
@@ -202,9 +199,9 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .img {
-    max-width: 200px;
-    max-height: 120px;
-    margin-left: 100px;
-  }
+.img {
+  max-width: 200px;
+  max-height: 120px;
+  margin-left: 100px;
+}
 </style>

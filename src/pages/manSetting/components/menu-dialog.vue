@@ -214,7 +214,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
             <div class="title">资金管理<span class="sub-tit">状态为开启即表示该账号开启这个权限 </span>
             </div>
             <el-row>
@@ -237,7 +236,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
             <div class="title">日志管理<span class="sub-tit">状态为开启即表示该账号开启这个权限 </span>
             </div>
             <el-row>
@@ -272,7 +270,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
             <div class="title">管理设置<span class="sub-tit">状态为开启即表示该账号开启这个权限 </span>
             </div>
             <el-row>
@@ -283,7 +280,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
             <div class="title">风控设置<span class="sub-tit">状态为开启即表示该账号开启这个权限 </span>
             </div>
             <el-row>
@@ -318,7 +314,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
             <div class="title">系统基本设置<span class="sub-tit">状态为开启即表示该账号开启这个权限 </span>
             </div>
             <el-row>
@@ -355,7 +350,6 @@
       </el-card>
     </el-dialog>
   </div>
-
 </template>
 
 <script>
@@ -432,13 +426,7 @@ export default {
       P12004: false
     }
   },
-  watch: {},
-  computed: {},
   mounted () {
-    this.admin = process.env.API_HOST
-    if (this.admin === undefined) {
-      this.admin = ''
-    }
     this.getProductSetting()
   },
   methods: {
@@ -611,7 +599,7 @@ export default {
       }
     },
     async updateProductSetting () {
-      var auth = ''
+      let auth = ''
       if (this.P1001) {
         auth = auth + '1001,'
       }
@@ -772,7 +760,6 @@ export default {
       }
       let data = await api.addAuth(opts)
       if (data.status === 0) {
-        // logo
         this.$message.success('修改成功')
       } else {
         this.$message.error(data.msg)

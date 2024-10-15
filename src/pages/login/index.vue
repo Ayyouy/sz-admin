@@ -7,7 +7,6 @@
       <div class="lowin-wrapper">
         <div class="lowin-box lowin-login">
           <div class="lowin-box-inner">
-            <!-- <el-form class="demo-form-inline" size="small"> -->
             <p>管理系统登录</p>
             <div class="lowin-group">
               <label>用户名 <a href="#" class="login-back-link">登录?</a></label>
@@ -22,29 +21,20 @@
               <label>验证码</label>
               <img @click="refreshImg" class='code-img' :src="adminUrl+'/code/getCode.do?time=' + imgCodeTime"
                    alt="验证码">
-              <input v-model="code2" @keyup.enter="tologin" type="text" placeholder="验证码" name="password"
+              <input v-model="code2" @keyup.enter="toLogin" type="text" placeholder="验证码" name="password"
                      class="lowin-input">
             </div>
-            <button @click="tologin" class="lowin-btn login-btn">
+            <button @click="toLogin" class="lowin-btn login-btn">
               登录
             </button>
-            <!-- <div class="text-foot">
-                            还没有账户? <a href="" class="register-link">注册</a>
-                        </div> -->
-            <!-- </el-form> -->
           </div>
         </div>
       </div>
-
-      <!-- <footer class="lowin-footer">
-
-          </footer> -->
     </div>
   </div>
 </template>
 
 <script>
-// import '@/assets/style/login.css'
 import * as api from '@/axios/api'
 import {isNull, isPhone} from '@/utils/utils'
 import APIUrl from '@/axios/api.url' // 引入api.url.js
@@ -52,7 +42,7 @@ import APIUrl from '@/axios/api.url' // 引入api.url.js
 export default {
   components: {},
   props: {},
-  data() {
+  data () {
     return {
       adminUrl: null,
       code2: '',
@@ -65,20 +55,14 @@ export default {
   },
   watch: {},
   computed: {},
-  created() {
+  created () {
   },
-  mounted() {
+  mounted () {
     this.adminUrl = APIUrl.baseURL
-    if (this.adminUrl === undefined) {
-      this.adminUrl = ''
-    }
     this.getSiteInfo()
   },
   methods: {
-    toRegister() {
-      // 注册
-    },
-    async tologin() {
+    async toLogin () {
       // 登录
       if (isNull(this.phone) || !isPhone(this.phone)) {
         this.$message.error('请输入正确的手机号码')
@@ -108,24 +92,21 @@ export default {
         }
       }
     },
-    refreshImg() {
+    refreshImg () {
       this.adminUrl = ''
       this.imgCodeTime = Date.now()
       this.dialogImgShow = false
       let this_ = this
       setTimeout(() => {
-        this_.adminUrl = APIUrl.baseURL //process.env.API_HOST
-        if (this_.adminUrl === undefined) {
-          this_.adminUrl = ''
-        }
+        this_.adminUrl = APIUrl.baseURL
         this_.dialogImgShow = true
       }, 500)
     },
-    async checkCode() {
+    async checkCode () {
       let data = await api.checkCode({code: this.code2})
       return data
     },
-    async getSiteInfo() {
+    async getSiteInfo () {
       // 获取站点信息
       let data = await api.getInfo()
       if (data.status === 0) {

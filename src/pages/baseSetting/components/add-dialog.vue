@@ -116,9 +116,9 @@ export default {
     },
     handleExceed (files, fileList) {
       this.$refs.uploadBtn.clearFiles()
-      // this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
       this.fileList = []
+      this.form.bannerUrl = ''
     },
     beforeRemove (file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
@@ -142,12 +142,13 @@ export default {
           data: param
         }).then(res => {
           this.form.bannerUrl = res.data.data.url
+          this.fileList = []
+        }).catch(() => {
+          this.form.bannerUrl = ''
+          this.fileList = []
         })
       }
       return isLt10M
-    },
-    handleSuccess (response, file, fileList) {
-      this.form.bannerUrl = response.data.url
     },
     submit (formName) {
       // 提交

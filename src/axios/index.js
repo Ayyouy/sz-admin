@@ -10,12 +10,21 @@ axios.defaults.baseURL = APIUrl.baseURL // 默认baseURL
 // axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.withCredentials = true // 表示跨域请求时是否需要使用凭证
-
 // http request 拦截器
 // 在ajax发送之前拦截 比如对所有请求统一添加header token
 axios.interceptors.request.use(
   config => {
-    config.headers['token'] = localStorage.getItem('admin-token')
+    let url = config.url
+    // 1.url是登录，则token不用管了
+    // 2.url不是登录，则token必须为非空才行
+    if (url !== '/api/admin/login.do') {
+      let token = localStorage.getItem('admin-token')
+      if (token === undefined || token == null) {
+        router.push('/login')
+      } else {
+        config.headers['token'] = token
+      }
+    }
     return config
   },
   err => {

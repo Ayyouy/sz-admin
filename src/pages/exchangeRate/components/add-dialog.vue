@@ -6,18 +6,6 @@
       width="50%">
       <div>
         <el-form :model="form" ref="ruleForm" label-width="80px" :rules="rule" class="demo-form-inline">
-          <!-- <el-form-item label="渠道类型" prop="channelType">
-              <el-select v-model="form.channelType" placeholder="渠道类型">
-                  <el-option label="支付宝" value="0"></el-option>
-                  <el-option label="对公转账" value="1"></el-option>
-                  <el-option label="微信" value="2"></el-option>
-              </el-select>
-          </el-form-item> -->
-          <!-- <el-alert
-              title="默认企业支付宝转账的渠道类型为0,的渠道类型为1,其他类型请自定义"
-              type="success"
-              :closable="false">
-          </el-alert> -->
           <el-row>
             <el-col :span="12">
               <el-form-item label="通道名称" prop="channelType">
@@ -125,7 +113,7 @@
 
 <script>
 import * as api from '@/axios/api'
-import * as APIUrl from '@/axios/api.url'
+import APIUrl from '@/axios/api.url'
 import axios from 'axios'
 
 export default {
@@ -160,34 +148,34 @@ export default {
       fileList: [],
       rule: {
         countryId: [
-          { required: true, message: '请选择货币', trigger: 'blur' }
+          {required: true, message: '请选择货币', trigger: 'blur'}
         ],
         channelType: [
-          { required: true, message: '请输入渠道名称', trigger: 'blur' }
+          {required: true, message: '请输入渠道名称', trigger: 'blur'}
         ],
         channelName: [
-          { required: true, message: '请输入收款名称', trigger: 'blur' }
+          {required: true, message: '请输入收款名称', trigger: 'blur'}
         ],
         channelDesc: [
-          { required: true, message: '请输入收款银行', trigger: 'blur' }
+          {required: true, message: '请输入收款银行', trigger: 'blur'}
         ],
         channelAccount: [
-          { required: true, message: '请输入收款账户', trigger: 'blur' }
+          {required: true, message: '请输入收款账户', trigger: 'blur'}
         ],
         channelMinLimit: [
-          { required: true, message: '请输入最小充值金额', trigger: 'blur' }
+          {required: true, message: '请输入最小充值金额', trigger: 'blur'}
         ],
         channelMaxLimit: [
-          { required: true, message: '请输入最大充值金额', trigger: 'blur' }
+          {required: true, message: '请输入最大充值金额', trigger: 'blur'}
         ],
         cType: [
-          { required: true, message: '请选择通道类型', trigger: 'change' }
+          {required: true, message: '请选择通道类型', trigger: 'change'}
         ],
         isShow: [
-          { required: true, message: '请选择显示状态', trigger: 'change' }
+          {required: true, message: '请选择显示状态', trigger: 'change'}
         ],
         isLock: [
-          { required: true, message: '请选择可用状态', trigger: 'change' }
+          {required: true, message: '请选择可用状态', trigger: 'change'}
         ]
       },
       url: '',
@@ -195,10 +183,6 @@ export default {
     }
   },
   mounted () {
-    // this.admin = process.env.API_HOST
-    // if (this.admin === undefined) {
-    //   this.admin = ''
-    // }
     this.url = APIUrl.baseURL
   },
   methods: {
@@ -207,8 +191,8 @@ export default {
       this.fileList = fileList
     },
     handleExceed (files, fileList) {
-      // this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.imgUrl = ''
       this.fileList = []
     },
     beforeRemove (file, fileList) {
@@ -233,12 +217,13 @@ export default {
           data: param
         }).then(res => {
           this.imgUrl = res.data.data.url
+          this.fileList = []
+        }).catch(() => {
+          this.imgUrl = ''
+          this.fileList = []
         })
       }
       return isLt10M
-    },
-    handleSuccess (response, file, fileList) {
-      this.imgUrl = response.data.url
     },
     submit (formName) {
       // 提交
@@ -289,8 +274,8 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .img {
-    max-width: 150px;
-    max-height: 150px;
-  }
+.img {
+  max-width: 150px;
+  max-height: 150px;
+}
 </style>

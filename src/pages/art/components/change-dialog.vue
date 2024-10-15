@@ -91,7 +91,7 @@
 
 <script>
 import * as api from '@/axios/api'
-import * as APIUrl from '@/axios/api.url'
+import APIUrl from '@/axios/api.url'
 import axios from 'axios'
 
 export default {
@@ -162,10 +162,6 @@ export default {
     }
   },
   mounted () {
-    // this.admin = process.env.API_HOST
-    // if (this.admin === undefined) {
-    //   this.admin = ''
-    // }
     this.url = APIUrl.baseURL
   },
   methods: {
@@ -174,8 +170,8 @@ export default {
       this.fileList = fileList
     },
     handleExceed (files, fileList) {
-      // this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.imgUrl = ''
       this.fileList = []
     },
     beforeRemove (file, fileList) {
@@ -200,12 +196,13 @@ export default {
           data: param
         }).then(res => {
           this.imgUrl = res.data.data.url
+          this.fileList = []
+        }).catch(() => {
+          this.imgUrl = ''
+          this.fileList = []
         })
       }
       return isLt10M
-    },
-    handleSuccess (response, file, fileList) {
-      this.imgUrl = response.data.url
     },
     submit (formName) {
       // 提交

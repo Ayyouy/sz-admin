@@ -124,7 +124,7 @@
 
 <script>
 import * as api from '@/axios/api'
-import APIUrl from '../../axios/api.url'
+import APIUrl from '@/axios/api.url'
 import axios from 'axios'
 
 export default {
@@ -201,7 +201,8 @@ export default {
       return this.$confirm(`确定移除 ${file.name}？`)
     },
     handleExceed (files, fileList) {
-      this.$message.warning('每次最多上传一个文件')
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.imgUrl = ''
       this.fileList = []
     },
     handleRemove (file, fileList) {
@@ -227,6 +228,10 @@ export default {
           data: param
         }).then(res => {
           this.imgUrl = res.data.data.url
+          this.fileList = []
+        }).catch(() => {
+          this.imgUrl = ''
+          this.fileList = []
         })
       }
       return isLt10M

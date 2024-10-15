@@ -218,7 +218,8 @@ export default {
         }).then(res => {
           this.imgUrl = res.data.data.url
           this.fileList = []
-        }).catch(() => {
+        }).catch(res => {
+          this.$message.error(res.data.msg)
           this.imgUrl = ''
           this.fileList = []
         })

@@ -715,7 +715,8 @@ export default {
             this.fileListagress2 = []
             this.contactform.tradeAgress = res.data.data.url
         }
-      }).catch(() => {
+      }).catch(res => {
+        this.$message.error(res.data.msg)
         switch (flag) {
           case 1:
             this.logoform.siteLogo = ''

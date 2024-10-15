@@ -160,7 +160,8 @@ export default {
         }).then(res => {
           this.form.bannerUrl = res.data.data.url
           this.fileList = []
-        }).catch(() => {
+        }).catch(res => {
+          this.$message.error(res.data.msg)
           this.fileList = []
           this.form.bannerUrl = ''
         })

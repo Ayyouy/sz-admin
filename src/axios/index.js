@@ -48,12 +48,15 @@ axios.interceptors.response.use(
     if (data instanceof Object) {
       if (data.status === 401) {
         data.msg = '您还未登录,请先登录'
+        localStorage.clear()
         router.push('/login')
       }
     }
     return response
   },
   error => {
+    this.$message.error('服务器异常，请联系管理员')
+    localStorage.clear()
     return Promise.reject(error)
   }
 )

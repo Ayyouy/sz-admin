@@ -26,16 +26,16 @@
           </el-table-column>
           <el-table-column
             prop="totalNum"
-            label="发行总分数">
+            label="发行总份数">
             <template slot-scope="scope">
-              <p> {{ scope.row.totalNum }}</p>
+              <p>{{ scope.row.totalNum }}份</p>
             </template>
           </el-table-column>
           <el-table-column
             prop="perValue"
             label="每份净值">
             <template slot-scope="scope">
-              <p> {{ scope.row.perValue }}</p>
+              <p>${{ scope.row.perValue }}</p>
             </template>
           </el-table-column>
           <el-table-column
@@ -102,6 +102,13 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="annualizedReturn"
+            label="年化收益">
+            <template slot-scope="scope">
+              <p> {{ scope.row.annualizedReturn }}% </p>
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="state"
             label="状态">
             <template slot-scope="scope">
@@ -123,7 +130,7 @@
             <template slot-scope="scope">
               <el-button type="text" title="编辑" size="small" @click="showEditDialog(scope.row)">编辑</el-button>
               <el-button type="text" title="隐藏" size="small" @click="showStateDialog(scope.row)">
-                {{ scope.row.state == 0 ? "隐藏" : "显示" }}
+                {{ scope.row.state == 0 ? '隐藏' : '显示' }}
               </el-button>
             </template>
           </el-table-column>
@@ -160,7 +167,7 @@ export default {
     editFundDialog,
     stateFundDialog
   },
-  data() {
+  data () {
     return {
       form: {
         pageNum: 1,
@@ -173,19 +180,19 @@ export default {
       loading: false
     }
   },
-  mounted() {
+  mounted () {
     this.getList()
   },
   methods: {
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.form.pageSize = val
       this.getList()
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.form.pageNum = val
       this.getList()
     },
-    async getList() {
+    async getList () {
       if (this.loading) {
         return
       }
@@ -203,14 +210,14 @@ export default {
       }
       this.loading = false
     },
-    async showAddFundDialog() {
+    async showAddFundDialog () {
       this.$refs.addFundDialog.dialogVisible = true
     },
-    async showEditDialog(val) {
+    async showEditDialog (val) {
       this.detail = val
       this.$refs.editFundDialog.dialogVisible = true
     },
-    async showStateDialog(val) {
+    async showStateDialog (val) {
       this.detail = val
       this.$refs.stateFundDialog.dialogVisible = true
     }

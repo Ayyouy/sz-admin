@@ -31,10 +31,12 @@
             <el-input v-model="form.blackoutPeriod" placeholder="请输入" type="number"></el-input>
           </el-form-item>
           <el-form-item label="申购费率" prop="purchaseRates">
-            <el-input v-model="form.purchaseRates" :value="form.purchaseRates" placeholder="请输入" type="number"></el-input>
+            <el-input v-model="form.purchaseRates" :value="form.purchaseRates" placeholder="请输入"
+                      type="number"></el-input>
           </el-form-item>
           <el-form-item label="赎回费率" prop="redemptionRate">
-            <el-input v-model="form.redemptionRate" :value="form.redemptionRate" placeholder="请输入" type="number"></el-input>
+            <el-input v-model="form.redemptionRate" :value="form.redemptionRate" placeholder="请输入"
+                      type="number"></el-input>
           </el-form-item>
           <el-form-item label="直推奖比例" prop="recommendScale">
             <el-input v-model="form.recommendScale" placeholder="请输入" type="number"></el-input>
@@ -95,25 +97,27 @@ export default {
         info: ''
       },
       rule: {
-        name: [{required: true, message: '不可为空', trigger: 'blur'}],
-        totalNum: [
-          {required: true, message: '请输入发行总数', trigger: 'blur'},
+        annualizedReturn: [
+          {required: true, message: '请输入年华收益', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
         ],
-        perValue: [
-          {required: true, message: '请输入每份净值', trigger: 'change'},
+        recommendScale: [
+          {required: true, message: '请输入直推奖比例', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
         ],
-        maxNum: [
-          {required: true, message: '请输入限购值', trigger: 'change'},
-          {validator: this.validateNumber, trigger: 'blur'},
-          {validator: this.validateCount, trigger: 'blur'}
+        redemptionRate: [
+          {required: true, message: '请输入费率', trigger: 'blur'},
+          {validator: this.validateNumberZero, trigger: 'blur'}
         ],
-        oneIncome: [
-          {required: true, message: '请输入收益率', trigger: 'blur'},
+        purchaseRates: [
+          {required: true, message: '请输入费率', trigger: 'blur'},
+          {validator: this.validateNumberZero, trigger: 'blur'}
+        ],
+        blackoutPeriod: [
+          {required: true, message: '请输入每期天数', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
         ],
-        twoIncome: [
+        fourIncome: [
           {required: true, message: '请输入收益率', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
         ],
@@ -121,29 +125,29 @@ export default {
           {required: true, message: '请输入收益率', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
         ],
-        fourIncome: [
+        twoIncome: [
           {required: true, message: '请输入收益率', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
         ],
-        blackoutPeriod: [
-          {required: true, message: '请输入每期天数', trigger: 'blur'},
+        oneIncome: [
+          {required: true, message: '请输入收益率', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
         ],
-        purchaseRates: [
-          {required: true, message: '请输入费率', trigger: 'blur'},
-          {validator: this.validateNumberZero, trigger: 'blur'}
+        maxNum: [
+          {required: true, message: '请输入限购值', trigger: 'change'},
+          {validator: this.validateNumber, trigger: 'blur'},
+          {validator: this.validateCount, trigger: 'blur'}
         ],
-        redemptionRate: [
-          {required: true, message: '请输入费率', trigger: 'blur'},
-          {validator: this.validateNumberZero, trigger: 'blur'}
-        ],
-        recommendScale: [
-          {required: true, message: '请输入直推奖比例', trigger: 'blur'},
+        perValue: [
+          {required: true, message: '请输入每份净值', trigger: 'change'},
           {validator: this.validateNumber, trigger: 'blur'}
         ],
-        annualizedReturn: [
-          {required: true, message: '请输入年华收益', trigger: 'blur'},
+        totalNum: [
+          {required: true, message: '请输入发行总数', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
+        ],
+        name: [
+          {required: true, message: '不可为空', trigger: 'blur'}
         ]
       },
       editorOption: {
@@ -199,9 +203,6 @@ export default {
       callback()
     },
     validateNumber (rule, value, callback) {
-      // if (!value) {
-      //   return callback(new Error('输入不能为空'))
-      // }
       if (value <= 0) {
         return callback(new Error('输入值需大于零'))
       }
@@ -241,6 +242,7 @@ export default {
           } else {
             this.$message.error(data.msg)
           }
+          this.$refs.ruleForm.clearValidate()
           this.dialogVisible = false
         } else {
           return false

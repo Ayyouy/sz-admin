@@ -39,6 +39,9 @@
           <el-form-item label="直推奖比例" prop="recommendScale">
             <el-input v-model="form.recommendScale" placeholder="请输入" type="number"></el-input>
           </el-form-item>
+          <el-form-item label="年化收益" prop="annualizedReturn">
+            <el-input v-model="form.annualizedReturn" placeholder="请输入" type="number"></el-input>
+          </el-form-item>
           <el-form-item label="基金信息" prop="info" class="remark">
             <quill-editor v-model="form.info" ref="myQuillEditor" :options="editorOption"></quill-editor>
           </el-form-item>
@@ -53,7 +56,7 @@
 </template>
 
 <script>
-import * as api from "@/axios/api"
+import * as api from '@/axios/api'
 import {quillEditor} from 'vue-quill-editor'
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -77,7 +80,7 @@ export default {
       }
     }
   },
-  data() {
+  data () {
     return {
       dialogVisible: false,
       form: {
@@ -94,6 +97,7 @@ export default {
         purchaseRates: 0,
         redemptionRate: 0,
         recommendScale: 0,
+        annualizedReturn: 0,
         info: ''
       },
       rule: {
@@ -133,14 +137,18 @@ export default {
         ],
         purchaseRates: [
           {required: true, message: '请输入费率', trigger: 'blur'},
-          {validator: this.validateNumber, trigger: 'blur'}
+          {validator: this.validateNumberZero, trigger: 'blur'}
         ],
         redemptionRate: [
           {required: true, message: '请输入费率', trigger: 'blur'},
-          {validator: this.validateNumber, trigger: 'blur'}
+          {validator: this.validateNumberZero, trigger: 'blur'}
         ],
         recommendScale: [
           {required: true, message: '请输入直推奖比例', trigger: 'blur'},
+          {validator: this.validateNumber, trigger: 'blur'}
+        ],
+        annualizedReturn: [
+          {required: true, message: '请输入年华收益', trigger: 'blur'},
           {validator: this.validateNumber, trigger: 'blur'}
         ]
       },
@@ -168,7 +176,7 @@ export default {
     }
   },
   watch: {
-    info(val) {
+    info (val) {
       if (val) {
         this.form.name = this.info.name
         this.form.id = this.info.id
@@ -183,28 +191,32 @@ export default {
         this.form.purchaseRates = this.info.purchaseRates
         this.form.redemptionRate = this.info.redemptionRate
         this.form.recommendScale = this.info.recommendScale
+        this.form.annualizedReturn = this.info.annualizedReturn
         this.form.info = this.info.info
         this.form.addUserId = this.$store.state.userInfo.id
       }
     }
   },
   methods: {
-    validateNumber(rule, value, callback) {
-      if (!value) {
-        return callback(new Error('输入不能为空'))
+    validateNumberZero (rule, value, callback) {
+      if (value < 0) {
+        return callback(new Error('输入值需大于等于零'))
       }
+      callback()
+    },
+    validateNumber (rule, value, callback) {
       if (value <= 0) {
         return callback(new Error('输入值需大于零'))
       }
       callback()
     },
-    validateCount(rule, value, callback) {
+    validateCount (rule, value, callback) {
       if (value > this.form.totalNum) {
         return callback(new Error('限购值不能大于发行值'))
       }
       callback()
     },
-    submit(formName) {
+    submit (formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           let opts = {
@@ -221,6 +233,7 @@ export default {
             purchaseRates: this.form.purchaseRates,
             redemptionRate: this.form.redemptionRate,
             recommendScale: this.form.recommendScale,
+            annualizedReturn: this.form.annualizedReturn,
             info: this.form.info,
             addUserId: this.$store.state.userInfo.id
           }
@@ -238,7 +251,7 @@ export default {
         }
       })
     },
-    clearForm() {
+    clearForm () {
       this.form = {
         name: '',
         id: 0,
@@ -253,6 +266,7 @@ export default {
         purchaseRates: 0,
         redemptionRate: 0,
         recommendScale: 0,
+        annualizedReturn: 0,
         info: '',
         addUserId: 0
       }

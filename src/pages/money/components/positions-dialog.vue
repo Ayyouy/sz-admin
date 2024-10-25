@@ -44,7 +44,7 @@
               时间：<span>{{ item.addTime | timeFormat }}</span>
             </el-col>
             <el-col :span="3">
-              收益：<span>{{ item.amount }}</span>
+              金额：<span>{{ item.amount }}</span>
             </el-col>
             <el-col :span="7" class="text-right">
               说明：<span>{{ item.remark }}</span>

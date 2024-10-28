@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item label="基金名称">
           <el-select clearable filterable placeholder="所有" value-key="id"
-                     @change="currentSel"  v-model="form.fundName">
+                     @change="currentSel" v-model="form.fundName">
             <el-option v-for="item in funds" :key="item.id" :label="item.name" :value="item"></el-option>
           </el-select>
         </el-form-item>
@@ -82,14 +82,14 @@
             prop="buyPortion"
             label="购买金额(份额)">
             <template slot-scope="scope">
-              ${{Number(scope.row.buyPortion*scope.row.perValue).toFixed(3)}}（{{ scope.row.buyPortion }}份）
+              ${{ Number(scope.row.buyPortion * scope.row.perValue).toFixed(3) }}（{{ scope.row.buyPortion }}份）
             </template>
           </el-table-column>
           <el-table-column
             prop="redeemedPortion"
             label="已赎回金额(份额)">
             <template slot-scope="scope">
-              ${{Number(scope.row.redeemedPortion*scope.row.perValue).toFixed(3)}}（{{ scope.row.redeemedPortion }}份）
+              ${{ Number(scope.row.redeemedPortion * scope.row.perValue).toFixed(3) }}（{{ scope.row.redeemedPortion }}份）
             </template>
           </el-table-column>
           <el-table-column
@@ -110,7 +110,7 @@
             prop="transState"
             label="持仓天数">
             <template slot-scope="scope">
-              {{scope.row.buyDays}}天
+              {{ scope.row.buyDays }}天
             </template>
           </el-table-column>
           <el-table-column
@@ -171,7 +171,7 @@ export default {
   components: {
     PositionDialog
   },
-  data() {
+  data () {
     return {
       form: {
         fundName: '',
@@ -192,24 +192,24 @@ export default {
       loading: false
     }
   },
-  mounted() {
+  mounted () {
     this.getFunds()
     this.getList()
   },
   methods: {
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.form.pageSize = val
       this.getList()
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.form.pageNum = val
       this.getList()
     },
-    onSubmit() {
+    onSubmit () {
       this.form.pageNum = 1
       this.getList()
     },
-    async getFunds() {
+    async getFunds () {
       let opts = {
         fName: ''
       }
@@ -220,7 +220,7 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    async getList() {
+    async getList () {
       if (this.loading) {
         return
       }
@@ -245,10 +245,10 @@ export default {
       }
       this.loading = false
     },
-    showDetailDialog(val) {
+    showDetailDialog (val) {
       this.getDetailPosition(val)
     },
-    async getDetailPosition(val) {
+    async getDetailPosition (val) {
       let opts = {
         id: val
       }
@@ -258,7 +258,9 @@ export default {
         this.detail = data.data
         let amounts = 0
         data.data.list.forEach(item => {
-          amounts += item.amount
+          if (item.typeId !== 'bug_fund' && item.typeId !== 'back_fund') {
+            amounts += item.amount
+          }
         })
         this.detail.amounts = amounts
         this.detail.flag = 0
@@ -266,7 +268,7 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    currentSel(val) {
+    currentSel (val) {
       this.form.fundId = val.id
       this.form.fundName = val.name
     }

@@ -90,10 +90,24 @@
             </template>
           </el-table-column>
           <el-table-column
+            prop="fundName"
+            label="基金名称">
+            <template slot-scope="scope">
+              {{ scope.row.fundName }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="money"
+            label="金额(份额)">
+            <template slot-scope="scope">
+              ${{ Number(scope.row.money).toFixed(3)}}（{{ scope.row.portion }}份）
+            </template>
+          </el-table-column>
+          <el-table-column
             prop="addTime"
             label="时间">
             <template slot-scope="scope">
-              {{ scope.row.addTime | timeFormat}}
+              {{ scope.row.addTime | timeFormat }}
             </template>
           </el-table-column>
           <el-table-column
@@ -103,13 +117,13 @@
               {{ scope.row.type }}
             </template>
           </el-table-column>
-          <el-table-column
-            prop="remark"
-            label="说明">
-            <template slot-scope="scope">
-              {{ scope.row.remark }}
-            </template>
-          </el-table-column>
+          <!--          <el-table-column-->
+          <!--            prop="remark"-->
+          <!--            label="说明">-->
+          <!--            <template slot-scope="scope">-->
+          <!--              {{ scope.row.remark }}-->
+          <!--            </template>-->
+          <!--          </el-table-column>-->
         </el-table>
         <div class="page-box">
           <el-pagination
@@ -134,12 +148,12 @@ import * as epi from 'xlsx'
 import {saveAs} from 'file-saver'
 
 export default {
-  data() {
+  data () {
     return {
       pickerOptions: {
         shortcuts: [{
           text: '最近一个月',
-          onClick(picker) {
+          onClick (picker) {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
@@ -147,7 +161,7 @@ export default {
           }
         }, {
           text: '最近三个月',
-          onClick(picker) {
+          onClick (picker) {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
@@ -155,7 +169,7 @@ export default {
           }
         }, {
           text: '最近六个月',
-          onClick(picker) {
+          onClick (picker) {
             const end = new Date()
             const start = new Date()
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
@@ -183,24 +197,24 @@ export default {
       loading: false
     }
   },
-  mounted() {
+  mounted () {
     this.getTypes()
     this.getList()
   },
   methods: {
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.form.pageSize = val
       this.getList()
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.form.pageNum = val
       this.getList()
     },
-    onSubmit() {
+    onSubmit () {
       this.form.pageNum = 1
       this.getList()
     },
-    onExport() {
+    onExport () {
       const fileName = 'financial-page-' + this.form.pageNum + '.xlsx'
       // 获取表格的DOM元素
       const elTable = this.$refs.elTable
@@ -214,7 +228,7 @@ export default {
       }
       return wbout
     },
-    async getTypes() {
+    async getTypes () {
       let data = await api.getFinancialTypes()
       if (data.status === 0) {
         this.types = data.data
@@ -222,7 +236,7 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    async getList() {
+    async getList () {
       if (this.loading) {
         return
       }
@@ -248,10 +262,10 @@ export default {
       }
       this.loading = false
     },
-    currentSel(val) {
+    currentSel (val) {
       this.form.type = val
     },
-    timeFormatTiString(val) {
+    timeFormatTiString (val) {
       let fmt = 'yyyy-MM-dd hh:mm:ss'
       if (!val) {
         return

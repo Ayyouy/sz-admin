@@ -20,8 +20,8 @@
         </el-form-item>
         <el-form-item label="奖励类型">
           <el-select clearable filterable v-model="form.frType" placeholder="所有">
-            <el-option label="团队奖" value="0"></el-option>
-            <el-option label="层级奖" value="1"></el-option>
+            <el-option label="团队奖" value="1"></el-option>
+            <el-option label="层级奖" value="0"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -70,10 +70,10 @@
           </el-table-column>
           <el-table-column
             prop="monthIncome"
-            label="本月差额">
+            label="本月差额" v-show="form.frType==0">
             <template slot-scope="scope">
-              <span v-if="scope.row.frType==1">
-                 {{ scope.row.monthIncome - scope.row.lastMonthIncome }}
+              <span v-if="scope.row.frType==0">
+                 ${{ scope.row.monthIncome - scope.row.lastMonthIncome }}
               </span>
             </template>
           </el-table-column>
@@ -142,7 +142,7 @@ export default {
     PerformanceDialog
   },
   props: {},
-  data() {
+  data () {
     return {
       form: {
         frType: '',
@@ -160,12 +160,12 @@ export default {
       loading: false
     }
   },
-  mounted() {
+  mounted () {
     this.lastTwelveMonths()
     this.getList()
   },
   methods: {
-    lastTwelveMonths() {
+    lastTwelveMonths () {
       let date = new Date()
       let currentYear = date.getFullYear()
       let currentMonth = date.getMonth() + 1
@@ -181,26 +181,26 @@ export default {
       }
       // this.months.reverse()
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.form.pageSize = val
       this.getList()
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.form.pageNum = val
       this.getList()
     },
-    onSubmit() {
+    onSubmit () {
       this.form.pageNum = 1
       this.getList()
     },
-    async getList() {
+    async getList () {
       if (this.loading) {
         return
       }
       this.loading = true
       // 获取表格数据
       let opts = {
-        frType: this.form.frType === '' ? 1 : this.form.frType,
+        frType: this.form.frType === '' ? -1 : this.form.frType,
         farMonth: this.form.farMonth,
         agentIdOrName: this.form.agentIdOrName,
         agentLevel: this.form.agentLevel,
@@ -215,7 +215,7 @@ export default {
       }
       this.loading = false
     },
-    showDetailDialog(val) {
+    showDetailDialog (val) {
       let opts = {
         type: val.frType,
         month: val.farMonth,
@@ -223,7 +223,7 @@ export default {
       }
       this.getDetailPerformance(opts)
     },
-    async getDetailPerformance(opts) {
+    async getDetailPerformance (opts) {
       let data = await api.incomesDetail(opts)
       if (data.status === 0) {
         this.$refs.performanceDialog.dialogVisible = true

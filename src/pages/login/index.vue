@@ -9,19 +9,20 @@
           <div class="lowin-box-inner">
             <p>管理系统登录</p>
             <div class="lowin-group">
-              <label>用户名 <a href="#" class="login-back-link">登录?</a></label>
-              <input v-model="phone" max="11" maxlength="11" type="name" placeholder="用户名" name="email"
-                     class="lowin-input">
+              <label>账户名 <a href="#" class="login-back-link">登录?</a></label>
+              <input v-model="phone" min="7" minlength="7" type="text" placeholder="请输入账号" class="lowin-input">
             </div>
             <div class="lowin-group password-group">
               <label>密码</label>
-              <input v-model="password" type="password" name="password" placeholder="密码" class="lowin-input">
+              <input v-model="password" pattern="[a-zA-Z0-9]+" type="password" placeholder="请输入密码"
+                     class="lowin-input">
             </div>
             <div class="lowin-group password-group">
               <label>验证码</label>
               <img @click="refreshImg" class='code-img' :src="adminUrl+'/code/getCode.do?time=' + imgCodeTime"
                    alt="验证码">
-              <input v-model="code2" @keyup.enter="toLogin" type="text" placeholder="验证码" name="password"
+              <input v-model="code2" @keyup.enter="toLogin" type="text"
+                     placeholder="验证码" pattern="[a-zA-Z0-9]+"
                      class="lowin-input">
             </div>
             <button @click="toLogin" class="lowin-btn login-btn">
@@ -36,7 +37,7 @@
 
 <script>
 import * as api from '@/axios/api'
-import {isNull, isPhone} from '@/utils/utils'
+import {isNull} from '@/utils/utils'
 import APIUrl from '@/axios/api.url' // 引入api.url.js
 
 export default {
@@ -53,25 +54,25 @@ export default {
       imgCodeTime: 0
     }
   },
-  watch: {},
-  computed: {},
-  created () {
-  },
   mounted () {
     this.adminUrl = APIUrl.baseURL
     this.getSiteInfo()
   },
   methods: {
+    pwdReg (value) {
+      const regex = /^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*].{6,12}$/
+      return regex.test(value)
+    },
     async toLogin () {
       // 登录
-      if (isNull(this.phone) || !isPhone(this.phone)) {
-        this.$message.error('请输入正确的手机号码')
+      if (isNull(this.phone) || this.phone.length < 7) {
+        this.$message.error('请输入正确的账户名')
       } else if (isNull(this.password)) {
         this.$message.error('请输入密码')
-        // }else if(!this.checkCode()){
-        // 验证图形码是否正确
-        //     this.$message.error('请输入正确图形验证码')
-        //     return
+      } else if (!this.pwdReg(this.password)) {
+        this.$message.error('密码为6~12位，数字、字母或符号')
+      } else if (isNull(this.code2)) {
+        this.$message.error('请输入验证码')
       } else {
         let opts = {
           adminPhone: this.phone,

@@ -37,21 +37,21 @@
                 prop="buyTotal"
                 :label="flag==0?'总购买金额':'购买金额'">
                 <template slot-scope="scope">
-                  {{ scope.row.buyTotal }}
+                  ${{ scope.row.buyTotal }}
                 </template>
               </el-table-column>
               <el-table-column
                 prop="redTotal"
                 :label="flag==0?'总赎回金额':'赎回金额'">
                 <template slot-scope="scope">
-                  {{ scope.row.redTotal }}
+                  ${{ scope.row.redTotal }}
                 </template>
               </el-table-column>
               <el-table-column
                 prop="redTotal"
                 label="净购买额">
                 <template slot-scope="scope">
-                  {{ scope.row.buyTotal - scope.row.redTotal }}
+                  ${{ scope.row.buyTotal - scope.row.redTotal }}
                 </template>
               </el-table-column>
             </el-table>
@@ -59,7 +59,7 @@
         </el-card>
         <el-row>
           <el-col :span="24" class="text-right" style="margin-top: 20px;">
-            合计：<span>{{ amounts }}</span>
+            合计：<span>${{ amounts }}</span>
           </el-col>
         </el-row>
       </div>

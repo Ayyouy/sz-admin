@@ -17,7 +17,6 @@
         <el-form-item label="代理手机">
           <el-input v-model="form.phone" placeholder="代理手机"></el-input>
         </el-form-item>
-
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -38,8 +37,8 @@
             width="120">
             <template slot-scope="scope">
               <p>
-                {{scope.row.agentName}}
-                <span style="font-size:12px;color:#959595;">({{scope.row.id}})</span>
+                {{ scope.row.agentName }}
+                <span style="font-size:12px;color:#959595;">({{ scope.row.id }})</span>
               </p>
             </template>
           </el-table-column>
@@ -53,8 +52,8 @@
             label="上级代理"
             width="100">
             <template slot-scope="scope">
-              {{scope.row.parentName}}
-              <span v-if="scope.row.parentId" style="font-size:12px;color:#959595;">({{scope.row.parentId}})</span>
+              {{ scope.row.parentName }}
+              <span v-if="scope.row.parentId" style="font-size:12px;color:#959595;">({{ scope.row.parentId }})</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -71,10 +70,11 @@
             prop="totalMoney"
             label="总资金">
             <template slot-scope="scope">
-            <p class="bounceIn">
-              <span :class="scope.row.totalMoney>0?'green':'red'">{{scope.row.totalMoney}}</span>
-            </p>
-          </template>
+              <p class="bounceIn">
+                <span :class="scope.row.totalMoney>0?'green':'red'"><span
+                  v-show="Number(scope.row.totalMoney)>0">$</span>{{ scope.row.totalMoney }}</span>
+              </p>
+            </template>
           </el-table-column>
           <!-- <el-table-column
           width="120px"
@@ -88,7 +88,8 @@
               <div class="lock-status">
                 <a v-if="scope.row.isLock == 0" class="hide-td" title="正常"><i
                   class="iconfont icon-zhengchang1"></i>正常</a>
-                <a v-if="scope.row.isLock == 1" class="hide-td" title="锁定"><i class="iconfont icon-suoding"></i>锁定</a>
+                <a v-if="scope.row.isLock == 1" class="hide-td" title="锁定"><i
+                  class="iconfont icon-suoding"></i>锁定</a>
               </div>
               <!-- {{scope.row.isLock == 0?'未锁定':'锁定'}} -->
             </template>
@@ -97,7 +98,7 @@
             width="180px"
             prop="addTime"
             label="注册时间">
-            <template slot-scope="scope">{{scope.row.addTime | timeFormat}}</template>
+            <template slot-scope="scope">{{ scope.row.addTime | timeFormat }}</template>
           </el-table-column>
           <el-table-column
             fixed="right"
@@ -165,7 +166,8 @@ export default {
   },
   watch: {},
   computed: {},
-  created () {},
+  created () {
+  },
   mounted () {
     this.getList()
     this.getAgentList()
@@ -232,7 +234,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
-        let data = await api.delAgent({ agentId: row.id })
+        let data = await api.delAgent({agentId: row.id})
         if (data.status === 0) {
           this.$message.success(data.msg)
           this.getList()

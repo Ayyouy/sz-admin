@@ -1,9 +1,11 @@
 <template>
   <div class="wrapper">
-    <el-dialog title="添加下级代理" :visible.sync="dialogVisible" width="50%">
+    <el-dialog title="添加下级代理" :visible.sync="dialogVisible" width="50%" :onclose="closeDialog"
+               :close-on-press-escape="false"
+               :close-on-click-modal="false">
       <div>
         <el-form
-          :inline="true"
+          :inline="false"
           label-width="100px"
           :model="form"
           ref="ruleForm"
@@ -20,7 +22,7 @@
             <el-input v-model="form.agentName" placeholder="代理名"></el-input>
           </el-form-item>
           <el-form-item label="代理手机" prop="agentPhone">
-            <el-input v-model="form.agentPhone" placeholder="代理手机">
+            <el-input v-model="form.agentPhone" placeholder="代理手机" type="tel" pattern="[0-9]*">
               <el-select
                 v-model="select"
                 slot="prepend"
@@ -29,16 +31,13 @@
                 size="mini"
                 style="width: 80px"
               >
-                <el-option label="+1" value="+1"></el-option>
-                <el-option label="+852" value="+852"></el-option>
-                <el-option label="+91" value="+91"></el-option>
-                <el-option label="+81" value="+81"></el-option>
-
+                <el-option v-for="item in options" :key="item" :label="item" :value="item">{{ item }}</el-option>
               </el-select>
             </el-input>
           </el-form-item>
           <el-form-item label="密码" prop="agentPwd">
-            <el-input v-model="form.agentPwd" placeholder="密码"></el-input>
+            <el-input v-model="form.agentPwd" placeholder="密码为6~12位数字、字母或符号"
+                      pattern="[a-zA-Z0-9]+"></el-input>
           </el-form-item>
           <el-form-item label="真实姓名" prop="agentRealName">
             <el-input
@@ -58,7 +57,7 @@
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button @click="closeDialog">取 消</el-button>
         <el-button type="primary" @click="submit('ruleForm')">确 定</el-button>
       </span>
     </el-dialog>
@@ -66,55 +65,53 @@
 </template>
 
 <script>
-import * as api from "@/axios/api";
+import * as api from '@/axios/api'
 
 export default {
   components: {},
   props: {
     getDate: {
       type: Function,
-      default: function () {},
+      default: function () {
+      }
     },
     agentList: {
       type: Array,
-      default: function () {},
-    },
+      default: function () {
+      }
+    }
   },
-  data() {
+  data () {
     return {
       dialogVisible: false,
       form: {
-        agentName: "",
-        agentPwd: "",
-        agentPhone: "",
-        agentRealName: "",
-        parentId: "",
+        agentName: '',
+        agentPwd: '',
+        agentPhone: '',
+        agentRealName: '',
+        parentId: ''
       },
+      options: ['+1', '+852', '+91', '+81'],
       rule: {
         parentId: [
-          { required: false, message: "请选择上级代理", trigger: "change" },
+          {required: false, message: '请选择上级代理', trigger: 'change'}
         ],
         agentName: [
-          { required: true, message: "请输入代理名称", trigger: "blur" },
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          {required: true, message: '请输入代理名称', trigger: 'blur'},
+          {min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur'}
         ],
         agentPwd: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 6, message: "最少需要6位数的密码", trigger: "blur" },
+          {required: true, message: '请输入密码', trigger: 'blur'},
+          {validator: this.validatePwd, trigger: 'blur'}
         ],
         agentPhone: [
-          { required: true, message: "请输入手机号码", trigger: "blur" },
-          {
-            min: 11,
-            max: 11,
-            message: "请输入正确的手机号码",
-            trigger: "blur",
-          },
+          {required: true, message: '请输入手机号码', trigger: 'blur'},
+          {min: 7, message: '请输入正确的手机号码', trigger: 'blur'}
         ],
         agentRealName: [
-          { required: true, message: "请输入真实姓名", trigger: "blur" },
-          { min: 2, max: 5, message: "请输入真实姓名", trigger: "blur" },
-        ],
+          {required: true, message: '请输入真实姓名', trigger: 'blur'},
+          {min: 2, max: 50, message: '长度在 2 到 50 个字符', trigger: 'blur'}
+        ]
         // ,
         // poundageScale: [
         //   { required: true, message: '请输入手续费比例', trigger: 'blur' }
@@ -127,42 +124,57 @@ export default {
         // ]
       },
       select: '+1'
-    };
+    }
   },
-  watch: {},
-  computed: {},
-  created() {},
-  mounted() {},
   methods: {
-    submit(formName) {
+    closeDialog () {
+      this.dialogVisible = false
+      this.$refs.ruleForm.clearValidate()
+    },
+    validatePwd (rule, value, callback) {
+      if (value === undefined || value == null || value.length === 0) {
+        return callback(new Error('请输入密码'))
+      }
+      const regex = /^(?![a-zA-z]+$)(?!\d+$)(?![!@#$%^&*]+$)[a-zA-Z\d!@#$%^&*].{6,12}$/
+      if (!regex.test(value)) {
+        return callback(new Error('密码为6~12位数字、字母或符号'))
+      }
+      callback()
+    },
+    submit (formName) {
       // 提交
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
           let opts = {
-            parentId: 0, //this.form.parentId === '' ? null : this.form.parentId,
+            parentId: 0, // this.form.parentId === '' ? null : this.form.parentId,
             agentName: this.form.agentName,
             agentPwd: this.form.agentPwd,
             agentPhone: this.select + this.form.agentPhone,
-            agentRealName: this.form.agentRealName,
+            agentRealName: this.form.agentRealName
             // ,poundageScale: this.form.poundageScale,
             // deferredFeesScale: this.form.deferredFeesScale,
             // receiveDividendsScale: this.form.receiveDividendsScale
-          };
-          let data = await api.addAgent(opts);
+          }
+          let data = await api.addAgent(opts)
           if (data.status === 0) {
-            this.$message.success("添加成功");
-            this.getDate();
-            this.dialogVisible = false;
+            this.$message.success('添加成功')
+            this.getDate()
+            this.dialogVisible = false
+            this.form.parentId = ''
+            this.form.agentName = ''
+            this.form.agentPwd = ''
+            this.form.agentPhone = ''
+            this.form.agentRealName = ''
           } else {
-            this.$message.error(data.msg);
+            this.$message.error(data.msg)
           }
         } else {
-          return false;
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 </style>

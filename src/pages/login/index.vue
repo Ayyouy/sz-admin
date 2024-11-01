@@ -9,7 +9,7 @@
           <div class="lowin-box-inner">
             <p>管理系统登录</p>
             <div class="lowin-group">
-              <label>账户名 <a href="#" class="login-back-link">登录?</a></label>
+              <label>账户名<a href="#" class="login-back-link">登录?</a></label>
               <input v-model="phone" min="7" minlength="7" type="text" placeholder="请输入账号" class="lowin-input">
             </div>
             <div class="lowin-group password-group">
@@ -69,8 +69,8 @@ export default {
         this.$message.error('请输入正确的账户名')
       } else if (isNull(this.password)) {
         this.$message.error('请输入密码')
-      } else if (!this.pwdReg(this.password)) {
-        this.$message.error('密码为6~12位，数字、字母或符号')
+      // } else if (!this.pwdReg(this.password)) {
+      //   this.$message.error('密码为6~12位，数字、字母或符号')
       } else if (isNull(this.code2)) {
         this.$message.error('请输入验证码')
       } else {

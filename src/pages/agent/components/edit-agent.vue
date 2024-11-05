@@ -162,8 +162,8 @@ export default {
   },
   methods: {
     closeDialog () {
-      this.dialogVisible = false
       this.$refs.ruleForm.clearValidate()
+      this.dialogVisible = false
     },
     validatePwd (rule, value, callback) {
       if (value === undefined || value == null || value.length === 0) {

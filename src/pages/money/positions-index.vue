@@ -22,13 +22,24 @@
             <el-option v-for="item in funds" :key="item.id" :label="item.name" :value="item"></el-option>
           </el-select>
         </el-form-item>
+<!--        <el-form-item label="购买日期">-->
+<!--          <el-date-picker-->
+<!--            v-model="form.buyTime"-->
+<!--            type="date"-->
+<!--            placeholder="选择日期"-->
+<!--            format="yyyy-MM-dd"-->
+<!--            value-format="yyyy-MM-dd">-->
+<!--          </el-date-picker>-->
+<!--        </el-form-item>-->
         <el-form-item label="购买日期">
           <el-date-picker
-            v-model="form.buyTime"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd">
+            v-model="form.rangeTime"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="datetimerange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item label="订单编号">
@@ -45,12 +56,14 @@
           style="width: 100%">
           <el-table-column
             prop="userId"
+            width="150px"
             label="客户姓名/ID">
             <template slot-scope="scope">
               {{ scope.row.realName }}/{{ scope.row.userId }}
             </template>
           </el-table-column>
           <el-table-column
+            width="150px"
             prop="agentId"
             label="归属代理/ID">
             <template slot-scope="scope">
@@ -58,6 +71,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="80px"
             prop="agentLevel"
             label="代理等级">
             <template slot-scope="scope">
@@ -72,6 +86,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="80px"
             prop="perValue"
             label="每份净值">
             <template slot-scope="scope">
@@ -79,6 +94,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="150px"
             prop="buyPortion"
             label="购买金额(份额)">
             <template slot-scope="scope">
@@ -86,6 +102,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="150px"
             prop="redeemedPortion"
             label="已赎回金额(份额)">
             <template slot-scope="scope">
@@ -93,6 +110,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="80px"
             prop="blackoutPeriod"
             label="每期天数">
             <template slot-scope="scope">
@@ -100,6 +118,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="170px"
             prop="buyTime"
             label="购买时间">
             <template slot-scope="scope">
@@ -107,6 +126,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="80px"
             prop="transState"
             label="持仓天数">
             <template slot-scope="scope">
@@ -121,6 +141,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="120px"
             prop="subscriptionFee"
             label="申购手续费">
             <template slot-scope="scope">
@@ -173,12 +194,39 @@ export default {
   },
   data () {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近六个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      },
       form: {
         fundName: '',
         userIdOrName: '',
         agentIdOrName: '',
         agentLevel: '',
-        buyTime: '',
+        rangeTime: '',
         orderNum: '',
         fundId: '',
         pageNum: 1,
@@ -230,7 +278,9 @@ export default {
         userIdOrName: this.form.userIdOrName,
         agentIdOrName: this.form.agentIdOrName,
         agentLevel: this.form.agentLevel,
-        buyTime: this.form.buyTime,
+        // buyTime: this.form.buyTime,
+        buyTimeStart: this.form.rangeTime ? this.form.rangeTime[0] : null,
+        buyTimeEnd: this.form.rangeTime ? this.form.rangeTime[1] : null,
         orderNum: this.form.orderNum,
         fundId: this.form.fundId,
         isRedeem: 0,

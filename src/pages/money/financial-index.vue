@@ -117,13 +117,6 @@
               {{ scope.row.type }}
             </template>
           </el-table-column>
-          <!--          <el-table-column-->
-          <!--            prop="remark"-->
-          <!--            label="说明">-->
-          <!--            <template slot-scope="scope">-->
-          <!--              {{ scope.row.remark }}-->
-          <!--            </template>-->
-          <!--          </el-table-column>-->
         </el-table>
         <div class="page-box">
           <el-pagination
@@ -183,8 +176,6 @@ export default {
         userIdOrName: '',
         agentIdOrName: '',
         agentLevel: '',
-        buyTimeStart: '',
-        buyTimeEnd: '',
         orderNum: '',
         rangeTime: '',
         type: ''

@@ -7,15 +7,6 @@
             <el-option v-for="i in agentList" :key="i.key" :label="i.agentName" :value="i.id"></el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="账号类型">
-          <el-select clearable v-model="form.type" placeholder="账号类型">
-            <el-option label="正式" value="0"></el-option>
-            <el-option label="模拟" value="1"></el-option>
-          </el-select>
-        </el-form-item> -->
-        <!-- <el-form-item label="用户id">
-            <el-input v-model="form.userId" placeholder="用户id"></el-input>
-        </el-form-item> -->
         <el-form-item label="真实姓名">
           <el-input v-model="form.realName" placeholder="真实姓名"></el-input>
         </el-form-item>
@@ -57,27 +48,27 @@
                 </el-form-item> -->
                 <el-form-item label="融资资金">
                   <!-- <span>{{ props.row.userAmt}}</span> -->
-                  <el-tag>{{ props.row.userAmt}}</el-tag>
+                  <el-tag>{{ props.row.userAmt }}</el-tag>
                 </el-form-item>
                 <el-form-item label="融资可用">
                   <!-- <span>{{ props.row.enableAmt}}</span> -->
-                  <el-tag>{{ props.row.enableAmt}}</el-tag>
+                  <el-tag>{{ props.row.enableAmt }}</el-tag>
                 </el-form-item>
                 <el-form-item label="指数资金">
                   <!-- <span>{{ props.row.userIndexAmt}}</span> -->
-                  <el-tag>{{ props.row.userIndexAmt}}</el-tag>
+                  <el-tag>{{ props.row.userIndexAmt }}</el-tag>
                 </el-form-item>
                 <el-form-item label="指数可用">
                   <!-- <span>{{ props.row.enableIndexAmt}}</span> -->
-                  <el-tag>{{ props.row.enableIndexAmt}}</el-tag>
+                  <el-tag>{{ props.row.enableIndexAmt }}</el-tag>
                 </el-form-item>
                 <el-form-item label="期货资金">
                   <!-- <span>{{ props.row.userFutAmt}}</span> -->
-                  <el-tag>{{ props.row.userFutAmt}}</el-tag>
+                  <el-tag>{{ props.row.userFutAmt }}</el-tag>
                 </el-form-item>
                 <el-form-item label="期货可用">
                   <!-- <span>{{ props.row.enableFutAmt}}</span> -->
-                  <el-tag>{{ props.row.enableFutAmt}}</el-tag>
+                  <el-tag>{{ props.row.enableFutAmt }}</el-tag>
                 </el-form-item>
                 <!-- <el-form-item label="注册时间">
                   <span>{{props.row.regTime | timeFormat}}</span>
@@ -86,32 +77,29 @@
             </template>
           </el-table-column>
           <el-table-column
-            width="120px"
+            width="150px"
             prop="agentName"
             label="所属代理/id">
             <template slot-scope="scope">
               <p>
-                {{scope.row.agentName}}
-                <span class="small">
-                ({{scope.row.agentId}})
-              </span>
+                {{ scope.row.agentName }}<span class="small">/{{ scope.row.agentId }}</span>
               </p>
             </template>
           </el-table-column>
           <el-table-column
             prop="realName"
-            width="130px"
+            width="150px"
             label="真实姓名">
             <template slot-scope="scope">
               <p>
-                {{scope.row.realName}}/<span class="small">{{scope.row.id}}</span>
+                {{ scope.row.realName }}<span class="small">/{{ scope.row.id }}</span>
                 <span class="small" v-if="scope.row.accountType == 1">(模拟)</span>
               </p>
             </template>
           </el-table-column>
           <el-table-column
             prop="phone"
-            width="120px"
+            width="140px"
             label="手机号">
           </el-table-column>
           <el-table-column
@@ -119,81 +107,13 @@
             label="总资金">
             <template slot-scope="scope">
               <p class="number proColor bounceIn">
-                {{(Number(scope.row.userAmt) + Number(scope.row.userIndexAmt) +
-                Number(scope.row.userFutAmt)).toFixed(2)}}
+                {{
+                  (Number(scope.row.userAmt) + Number(scope.row.userIndexAmt) +
+                    Number(scope.row.userFutAmt)).toFixed(2)
+                }}
               </p>
             </template>
           </el-table-column>
-          <!-- <el-table-column
-            width="110px"
-            prop="userAmt"
-            label="融资资金">
-            <template slot-scope="scope">
-              <p class="number proColor bounceIn">
-                {{scope.row.userAmt}}
-              </p>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="110px"
-            prop="enableAmt"
-            label="融资可用资金">
-            <template slot-scope="scope">
-              <p class="number proColor">
-                {{scope.row.enableAmt}}
-              </p>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="110px"
-            prop="userAmt"
-            label="期货资金">
-            <template slot-scope="scope">
-              <p class="number proColor bounceIn">
-                {{scope.row.userAmt}}
-              </p>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="110px"
-            prop="enableAmt"
-            label="期货可用资金">
-            <template slot-scope="scope">
-              <p class="number proColor">
-                {{scope.row.enableAmt}}
-              </p>
-            </template>
-          </el-table-column> -->
-          <!-- <el-table-column
-            width="110px"
-            prop="userIndexAmt"
-            label="指数资金">
-            <template slot-scope="scope">
-              <p class="number proColor bounceIn">
-                {{scope.row.userIndexAmt}}
-              </p>
-            </template>
-          </el-table-column>
-          <el-table-column
-            width="110px"
-            prop="enableIndexAmt"
-            label="指数可用资金">
-            <template slot-scope="scope">
-              <p class="number proColor">
-                {{scope.row.enableIndexAmt}}
-              </p>
-            </template>
-          </el-table-column> -->
-          <!-- <el-table-column
-            width="110px"
-            prop="sumBuyAmt"
-            label="买入资金">
-            <template slot-scope="scope">
-              <p class="proColor">
-                {{scope.row.enableAmt}}
-              </p>
-            </template>
-          </el-table-column> -->
           <el-table-column
             prop="isActive"
             label="认证信息">
@@ -207,7 +127,6 @@
                   class="iconfont icon-tongguo4"></i>成功</a>
                 <a v-if="scope.row.isActive == 3" class="yellow" title="驳回"><i class="iconfont icon-audi1Reject"></i>驳回</a>
               </div>
-              <!-- {{scope.row.isLock == 0?'未锁定':'锁定'}} -->
             </template>
           </el-table-column>
           <el-table-column
@@ -227,20 +146,24 @@
               <div class="lock-status">
                 <span v-if="scope.row.isLogin == 0" class="green">可登陆</span>
                 <span v-if="scope.row.isLogin == 1" class="red">不可登陆</span>
-                <!-- <a v-if="scope.row.isLogin == 0" class="hide-td" title="正常">
-                  正常
-                </a>
-                <a v-if="scope.row.isLogin == 1" class="hide-td yellow" title="不可登陆">
-                  不可登陆
-                </a> -->
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="150px"
+            prop="recName"
+            label="推荐人">
+            <template slot-scope="scope">
+              <p>
+                {{ scope.row.recName }}<span class="small">/{{ scope.row.recId }}</span>
+              </p>
             </template>
           </el-table-column>
           <el-table-column
             width="170px"
             prop="regTime"
             label="注册时间">
-            <template slot-scope="scope">{{scope.row.regTime | timeFormat}}</template>
+            <template slot-scope="scope">{{ scope.row.regTime | timeFormat }}</template>
           </el-table-column>
           <el-table-column
             fixed="right"
@@ -248,8 +171,9 @@
             prop="isLock"
             label="操作">
             <template slot-scope="scope">
-              <el-button style="color:#606262;" type="text" title="查看详情" size="small" @click="toDetail(scope.row)"><i
-                class="iconfont icon-chakan"></i></el-button>
+              <el-button style="color:#606262;" type="text" title="查看详情" size="small" @click="toDetail(scope.row)">
+                <i
+                  class="iconfont icon-chakan"></i></el-button>
               <el-button type="text" title="修改用户信息" size="small" @click="toEditInfo(scope.row)"><i
                 class="iconfont icon-xiugai"></i></el-button>
               <el-button type="text" title="修改银行卡" size="small" @click="toEditBankInfo(scope.row)"><i
@@ -340,10 +264,10 @@ export default {
     }
   },
   watch: {
-    $route(){
+    $route () {
       this.usertype = this.$route.query.type
     },
-    usertype() {
+    usertype () {
       this.getList()
     },
   },
@@ -452,7 +376,7 @@ export default {
     },
     async toLockUser (val) {
       // 锁定用户
-      let data = await api.updateLock({ userId: val })
+      let data = await api.updateLock({userId: val})
       if (data.status === 0) {
         await this.getList()
         this.$message.success('锁定成功！')
@@ -462,7 +386,7 @@ export default {
     },
     async toUnlockUser (val) {
       // 解锁用户
-      let data = await api.updateLock({ userId: val })
+      let data = await api.updateLock({userId: val})
       if (data.status === 0) {
         await this.getList()
         this.$message.success('解除锁定成功！')
@@ -485,7 +409,7 @@ export default {
       this.detail = row
       this.$refs.editBankInfoDialog.dialogVisible = true
     },
-    tableRowClassName ({ row, rowIndex }) {
+    tableRowClassName ({row, rowIndex}) {
       // 设置表格行高亮
       if (row.allProfitAndLose < 0 && ((-row.allProfitAndLose) / row.forceLine) >= 0.8) {
         return 'warning-row'
@@ -494,7 +418,7 @@ export default {
     },
     getSummaries (param) {
       // 底部计算
-      const { columns, data } = param
+      const {columns, data} = param
       const sums = []
       columns.forEach((column, index) => {
         // 第一行 不统计
@@ -530,7 +454,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
-        let data = await api.deleteDetail({ userId: val })
+        let data = await api.deleteDetail({userId: val})
         if (data.status === 0) {
           await this.getList()
           this.$message.success('删除成功！')
@@ -548,21 +472,21 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-  .table .el-table .warning-row {
-    background: rgba(245, 108, 108, .1);
+.table .el-table .warning-row {
+  background: rgba(245, 108, 108, .1);
+}
+
+.table .demo-table-expand {
+  /deep/ label {
+    display: block;
+    text-align: center;
+    line-height: 20px;
+    width: 100%;
   }
 
-  .table .demo-table-expand {
-    /deep/ label {
-      display: block;
-      text-align: center;
-      line-height: 20px;
-      width: 100%;
-    }
-
-    /deep/ .el-form-item {
-      width: 16.6%;
-      text-align: center;
-    }
+  /deep/ .el-form-item {
+    width: 16.6%;
+    text-align: center;
   }
+}
 </style>

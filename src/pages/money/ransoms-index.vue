@@ -47,7 +47,7 @@
             prop="userId"
             label="客户姓名/ID">
             <template slot-scope="scope">
-              {{ scope.row.realName }}/{{ scope.row.userId }}
+              {{ scope.row.realName }}<span class="small">/{{ scope.row.userId }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -55,7 +55,7 @@
             prop="agentId"
             label="归属代理/ID">
             <template slot-scope="scope">
-              {{ scope.row.agentRealName }}/{{ scope.row.agentId }}
+              {{ scope.row.agentRealName }}<span class="small">/{{ scope.row.agentId }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -101,7 +101,8 @@
             prop="redeemedPortion"
             label="赎回金额(份额)">
             <template slot-scope="scope">
-              ${{Number(scope.row.redeemedPortion*scope.row.perValue).toFixed(3)}}（{{ scope.row.redeemedPortion }}份）
+              ${{Number(scope.row.redeemedPortion*scope.row.perValue).toFixed(3)}}
+              <span class="small">（{{ scope.row.redeemedPortion }}份）</span>
             </template>
           </el-table-column>
           <el-table-column

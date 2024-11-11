@@ -44,7 +44,7 @@
             prop="agentName"
             label="代理姓名/ID">
             <template slot-scope="scope">
-              {{ scope.row.agentName }}/{{ scope.row.agentId }}
+              {{ scope.row.agentName }}<span class="small">/{{ scope.row.agentId }}</span>
             </template>
           </el-table-column>
           <el-table-column

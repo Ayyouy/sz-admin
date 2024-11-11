@@ -45,9 +45,12 @@
             <el-input v-model="form.annualizedReturn" placeholder="请输入" type="number"></el-input>
           </el-form-item>
           <el-form-item label="基金信息" prop="info" class="remark">
-            <quill-editor v-model="form.info" ref="myQuillEditor" :options="editorOption"></quill-editor>
+<!--            <Editor v-model="form.info" :isClear="false" @change="editorInfo"></Editor>-->
           </el-form-item>
         </el-form>
+        <div class="self-textarea-bg">
+          <textarea v-model="form.info" placeholder="输入基金信息(一个回车代表一段)" class="self-textarea-style" style=""></textarea>
+        </div>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -59,15 +62,11 @@
 
 <script>
 import * as api from '@/axios/api'
-import {quillEditor} from 'vue-quill-editor'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+import Editor from '@/components/UE'
 
 export default {
   components: {
-    // 界面组件引用
-    quillEditor
+    Editor
   },
 
   props: {
@@ -149,53 +148,13 @@ export default {
         name: [
           {required: true, message: '不可为空', trigger: 'blur'}
         ]
-      },
-      editorOption: {
-        placeholder: '请输入',
-        theme: 'snow',
-        modules: {
-          toolbar: {
-            container: [
-              ['bold', 'italic', 'underline', 'strike'], // 加粗 斜体 下划线 删除线
-              ['blockquote', 'code-block'], // 引用  代码块
-              [{header: 1}, {header: 2}], // 1、2 级标题
-              [{list: 'ordered'}, {list: 'bullet'}], // 有序、无序列表
-              [{script: 'sub'}, {script: 'super'}], // 上标/下标
-              [{indent: '-1'}, {indent: '+1'}], // 缩进
-              // [{ direction: 'rtl' }], // 文本方向
-              [{size: ['12', '14', '16', '18', '20', '22', '24', '28', '32', '36']}], // 字体大小
-              [{header: [1, 2, 3, 4, 5, 6]}], // 标题
-              [{color: []}, {background: []}], // 字体颜色、字体背景颜色
-              // [{ font: ['songti'] }], // 字体种类
-              [{align: []}], // 对齐方式
-              ['clean'] // 清除文本格式
-              // ["image"], // 链接、图片，需要视频的可以加上video
-            ]
-            // handlers: {
-            //   //此处是图片上传时候需要使用到的
-            //   image: function (value) {
-            //     if (value) {
-            //       // 点击图片
-            //       document.querySelector("#upload").click();
-            //     }
-            //   },
-            // },
-          }
-          // imageDrop: true, // 图片拖拽
-          // imageResize: {
-          //   // 图片放大缩小
-          //   displayStyles: {
-          //     backgroundColor: "black",
-          //     border: "none",
-          //     color: "white",
-          //   },
-          //   modules: ["Resize", "DisplaySize", "Toolbar"],
-          // },
-        }
       }
     }
   },
   methods: {
+    editorInfo (val) {
+      this.form.info = val
+    },
     validateNumberZero (rule, value, callback) {
       if (value < 0) {
         return callback(new Error('输入值需大于等于零'))
@@ -271,6 +230,24 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.self-textarea-bg {
+  margin-left: 100px;
+  margin-right: 100px;
+  border: 1px solid #f8f9f9;
+  height: 8rem;
+}
+
+.self-textarea-style {
+  display: flex;
+  width: 100%;
+  height: 8rem;
+  resize: none;/* 去掉用户可调大小的手柄*/
+  border: none;/* 去掉默认边框*/
+  outline: none;/* 去掉聚焦时的轮廓*/
+  padding: 10px;
+  font-size: 14px;
+  background-color: #f8f9f9;
+}
 /deep/ .remark {
   display: flex;
 

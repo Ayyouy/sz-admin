@@ -1,4 +1,4 @@
-<template>
+<template xmlns:el-col="http://www.w3.org/1999/html">
   <div>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
@@ -211,26 +211,25 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="公司简介">
-                <el-input type="textarea" rows="3" v-model="companyform.siteIntro" placeholder="公司简介"></el-input>
+                <el-input type="textarea" rows="4" v-model="companyform.siteIntro" placeholder="公司简介"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-form-item label="公司信息">
-                <el-input type="textarea" rows="5" v-model="companyform.companyInfo" placeholder="公司信息"></el-input>
+                <el-input type="textarea" rows="6" v-model="companyform.companyInfo" placeholder="公司信息"></el-input>
               </el-form-item>
             </el-col>
-
           </el-row>
-
           <el-row>
             <el-col :span="24">
               <el-form-item label="风险提示">
-                <el-input type="textarea" rows="3" v-model="companyform.riskNotice" placeholder="风险提示"></el-input>
+                <el-input type="textarea" rows="2" v-model="companyform.riskNotice" placeholder="风险提示"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="24">
               <el-form-item label="版权信息">
-                <el-input type="textarea" v-model="companyform.siteVersionInfo" placeholder="版权信息"></el-input>
+                <el-input type="textarea" rows="1" v-model="companyform.siteVersionInfo"
+                          placeholder="版权信息"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -394,10 +393,12 @@
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="注册协议文本">
-                <Editor v-model="contactform.regAgreeText" :isClear="false" @change="editorChange1"></Editor>
-                <!-- <el-input type="textarea" rows="5" style="width:800px" v-model="contactform.regAgreeText" placeholder="注册协议文本"></el-input> -->
+              <el-form-item label="注册协议文本：">
               </el-form-item>
+            </el-col>
+            <el-col :span="24" style="margin-bottom: 20px">
+              <el-input type="textarea" rows="35" style="width:100%;font-size: 12px" v-model="contactform.regAgreeText"
+                        placeholder="注册协议文本(一个回车代表一段)"></el-input>
             </el-col>
             <el-col :span="24">
               <el-form-item label="融资融券标题">

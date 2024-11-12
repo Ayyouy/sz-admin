@@ -22,21 +22,12 @@
             <el-option v-for="item in funds" :key="item.id" :label="item.name" :value="item"></el-option>
           </el-select>
         </el-form-item>
-<!--        <el-form-item label="购买日期">-->
-<!--          <el-date-picker-->
-<!--            v-model="form.buyTime"-->
-<!--            type="date"-->
-<!--            placeholder="选择日期"-->
-<!--            format="yyyy-MM-dd"-->
-<!--            value-format="yyyy-MM-dd">-->
-<!--          </el-date-picker>-->
-<!--        </el-form-item>-->
         <el-form-item label="购买日期">
           <el-date-picker
             v-model="form.rangeTime"
             :picker-options="pickerOptions"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetimerange"
+            value-format="yyyy-MM-dd"
+            type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期">
@@ -278,7 +269,6 @@ export default {
         userIdOrName: this.form.userIdOrName,
         agentIdOrName: this.form.agentIdOrName,
         agentLevel: this.form.agentLevel,
-        // buyTime: this.form.buyTime,
         buyTimeStart: this.form.rangeTime ? this.form.rangeTime[0] : null,
         buyTimeEnd: this.form.rangeTime ? this.form.rangeTime[1] : null,
         orderNum: this.form.orderNum,

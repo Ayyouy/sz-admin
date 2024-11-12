@@ -69,8 +69,8 @@ export default {
         this.$message.error('请输入正确的账户名')
       } else if (isNull(this.password)) {
         this.$message.error('请输入密码')
-      // } else if (!this.pwdReg(this.password)) {
-      //   this.$message.error('密码为6~12位，数字、字母或符号')
+      } else if (!this.pwdReg(this.password)) {
+        this.$message.error('密码为6~12位，数字、字母或符号')
       } else if (isNull(this.code2)) {
         this.$message.error('请输入验证码')
       } else {

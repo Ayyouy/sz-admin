@@ -20,8 +20,8 @@
         </el-form-item>
         <el-form-item label="奖励类型">
           <el-select clearable filterable v-model="form.frType" placeholder="所有">
-            <el-option label="团队奖" value="1"></el-option>
-            <el-option label="层级奖" value="0"></el-option>
+            <el-option label="团队奖" value="0"></el-option>
+            <el-option label="层级奖" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -58,22 +58,22 @@
             prop="transState"
             label="上月业绩">
             <template slot-scope="scope">
-              ${{ scope.row.lastMonthIncome }}
+              ${{ Number(scope.row.lastMonthIncome).toFixed(2) }}
             </template>
           </el-table-column>
           <el-table-column
             prop="transState"
             label="本月业绩">
             <template slot-scope="scope">
-              ${{ scope.row.monthIncome }}
+              ${{ Number(scope.row.monthIncome).toFixed(2) }}
             </template>
           </el-table-column>
           <el-table-column
             prop="monthIncome"
-            label="本月差额" v-show="form.frType==0">
+            label="本月差额">
             <template slot-scope="scope">
-              <span v-if="scope.row.frType==0">
-                 ${{ scope.row.monthIncome - scope.row.lastMonthIncome }}
+              <span v-if="scope.row.frType==1">
+                 ${{ Number(scope.row.monthIncome - scope.row.lastMonthIncome).toFixed(2) }}
               </span>
             </template>
           </el-table-column>
@@ -88,11 +88,11 @@
             prop="income"
             label="收益额">
             <template slot-scope="scope">
-             <span v-if="scope.row.frType==1">
-                 ${{ (scope.row.monthIncome - scope.row.lastMonthIncome) * scope.row.frRatio / 100 }}
+             <span v-if="scope.row.frType==0">
+                 ${{ Number((scope.row.monthIncome - scope.row.lastMonthIncome) * scope.row.frRatio / 100).toFixed(2) }}
               </span>
-              <span v-else-if="scope.row.frType==0">
-                ${{ scope.row.monthIncome * scope.row.frRatio / 100 }}
+              <span v-else-if="scope.row.frType==1">
+                ${{ Number(scope.row.monthIncome * scope.row.frRatio / 100).toFixed(2) }}
               </span>
             </template>
           </el-table-column>
@@ -101,7 +101,7 @@
             label="奖励类型">
             <template slot-scope="scope">
               <el-tag :type="scope.row.frType==1?'':'warning'">
-                {{ scope.row.frType == 1 ? '团队奖' : '层级奖' }}
+                {{ scope.row.frType == 0 ? '团队奖' : '层级奖' }}
               </el-tag>
             </template>
           </el-table-column>

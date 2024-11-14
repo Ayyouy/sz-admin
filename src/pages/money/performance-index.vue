@@ -48,37 +48,37 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="floatRate"
+            prop="agentLevel"
             label="代理等级">
             <template slot-scope="scope">
               {{ scope.row.agentLevel + 1 }}级
             </template>
           </el-table-column>
           <el-table-column
-            prop="transState"
+            prop="lastMonthIncome"
             label="上月业绩">
             <template slot-scope="scope">
               ${{ Number(scope.row.lastMonthIncome).toFixed(2) }}
             </template>
           </el-table-column>
           <el-table-column
-            prop="transState"
+            prop="monthIncome"
             label="本月业绩">
             <template slot-scope="scope">
               ${{ Number(scope.row.monthIncome).toFixed(2) }}
             </template>
           </el-table-column>
           <el-table-column
-            prop="monthIncome"
+            prop="ducMonthIncome"
             label="本月差额">
             <template slot-scope="scope">
-              <span v-if="scope.row.frType==1">
+              <span v-if="scope.row.frType==0">
                  ${{ Number(scope.row.monthIncome - scope.row.lastMonthIncome).toFixed(2) }}
               </span>
             </template>
           </el-table-column>
           <el-table-column
-            prop="transState"
+            prop="frRatio"
             label="奖励比例">
             <template slot-scope="scope">
               {{ scope.row.frRatio }}%
@@ -222,19 +222,28 @@ export default {
         agentId: val.agentId
       }
       this.getDetailPerformance(opts)
+      opts.frRatio = val.frRatio
     },
     async getDetailPerformance (opts) {
       let data = await api.incomesDetail(opts)
       if (data.status === 0) {
-        this.$refs.performanceDialog.dialogVisible = true
-        let amounts = 0
+        // 团队
+        this.$refs.performanceDialog.dialogVisibleZero = opts.type === 0
+        // 层级
+        this.$refs.performanceDialog.dialogVisibleOne = opts.type === 1
+        let currentMonthAmounts = 0
+        let lastMonthAmounts = 0
         data.data.forEach(item => {
-          amounts += (item.buyTotal - item.redTotal)
+          currentMonthAmounts += Number(item.monthIncome)
+          if (opts.type === 0) {
+            lastMonthAmounts += Number(item.lastMonthIncome)
+          }
         })
         this.detail = data
-        this.detail.amounts = amounts
-        this.detail.type = opts.type
+        this.detail.amounts = Number(currentMonthAmounts).toFixed(2)
+        this.detail.ducAmounts = Number(currentMonthAmounts - lastMonthAmounts).toFixed(2)
         this.detail.month = opts.month
+        this.detail.frRatio = opts.frRatio
       } else {
         this.$message.error(data.msg)
       }

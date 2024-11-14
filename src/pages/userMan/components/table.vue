@@ -151,11 +151,11 @@
           </el-table-column>
           <el-table-column
             width="150px"
-            prop="recName"
+            prop="parentName"
             label="推荐人">
             <template slot-scope="scope">
-              <p>
-                {{ scope.row.recName }}<span class="small">/{{ scope.row.recId }}</span>
+              <p v-show="scope.row.parentId>0">
+                {{ scope.row.parentName }}<span class="small">/{{ scope.row.parentId }}</span>
               </p>
             </template>
           </el-table-column>

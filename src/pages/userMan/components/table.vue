@@ -231,7 +231,6 @@ export default {
     ChangeAuthDialog,
     EditBankInfoDialog
   },
-  props: {},
   data () {
     return {
       form: {
@@ -269,11 +268,7 @@ export default {
     },
     usertype () {
       this.getList()
-    },
-  },
-  computed: {},
-  created () {
-    // this.timer = setInterval(this.refreshList, 5000)
+    }
   },
   beforeDestroy () {
     clearInterval(this.timer)

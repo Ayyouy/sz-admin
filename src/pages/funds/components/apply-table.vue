@@ -10,7 +10,7 @@
         </el-form-item>
       </el-form>
       <div class="table">
-        
+
         <el-table
           v-loading="loading"
           :data="list.list"
@@ -130,7 +130,7 @@
         </div>
       </div>
     </el-card>
-    <editInfoDialog :info='detail' :getDate='getApplyList' ref="editInfoDialog"></editInfoDialog> 
+    <editInfoDialog :info='detail' :getDate='getApplyList' ref="editInfoDialog"></editInfoDialog>
   </div>
 
 </template>
@@ -160,10 +160,10 @@ export default {
     }
   },
   watch: {
-    $route(){
+    $route () {
       this.applyType = this.$route.query.type
     },
-    applyType() {
+    applyType () {
       this.getApplyList()
     }
   },
@@ -185,7 +185,7 @@ export default {
       this.form.pageNum = val
       this.getApplyList()
     },
- 
+
     async getApplyList () {
       let opts = {
         pageNum: this.form.pageNum,
@@ -200,7 +200,7 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    
+
     editInfo (row) {
       // 修改
       this.detail = row

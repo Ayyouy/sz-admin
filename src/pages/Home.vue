@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper">
     <el-container style="border: 1px solid #eee">
-
       <el-container>
         <!-- 头部 -->
         <el-aside :width="isCollapse ? '60px' : '200px'">
@@ -49,7 +48,6 @@ export default {
     MenuNav,
     countChart
   },
-  props: {},
   data () {
     return {
       expandIcon,
@@ -98,7 +96,7 @@ export default {
       // 退出登录
       let data = await api.logout()
       if (data.status === 0) {
-        this.$router.push('/login')
+        await this.$router.push('/login')
       } else {
         this.$message.error(data.msg)
       }

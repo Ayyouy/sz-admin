@@ -33,16 +33,6 @@
               <el-menu-item index="3-1">代理列表</el-menu-item>
             </router-link>
           </el-menu-item-group>
-
-          <!-- <router-link to="/agentStatistics" tag="li">
-              <el-menu-item index="3-2">股票持仓统计</el-menu-item>
-          </router-link>
-          <router-link to="/inedxStatistics" tag="li">
-              <el-menu-item index="3-3">指数持仓统计</el-menu-item>
-          </router-link>
-          <router-link to="/futuresStatistics" tag="li">
-              <el-menu-item index="3-4">期货持仓统计</el-menu-item>
-          </router-link> -->
         </el-submenu>
         <el-submenu index="12">
           <template slot="title">
@@ -304,11 +294,6 @@
                  :href="adminUrl+'/admins/introduction.pdf'">系统说明</a>
             </span>
           </template>
-          <!-- <template slot="title"> -->
-          <!-- 融资融券 2.0 系统说明书 -->
-          <!-- <a title="融资融券 2.0 系统说明书" download="introduction.pdf" :href="adminUrl+'/admins/introduction.pdf'">系统说明</a> -->
-          <!-- <a title="系统说明" download="1.pdf" href="../assets/1.pdf">系统说明</a> -->
-          <!-- </template> -->
         </el-submenu>
       </el-menu>
     </el-scrollbar>

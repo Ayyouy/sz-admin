@@ -27,7 +27,6 @@ export default {
   destroyed () {
     window.removeEventListener('resize', this.getHeight)
   },
-  mounted () {},
   methods: {
     getHeight () {
       this.contentStyleObj.height = window.innerHeight + 'px'

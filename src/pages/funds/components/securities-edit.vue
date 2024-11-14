@@ -139,7 +139,6 @@ export default {
         this.form.minimumCommissions = this.info.minimumCommissions
         this.form.status = this.info.status
         this.form.tmepdealerInstitutionsName = this.info.dealerInstitutionsName
-
       }
     }
   },
@@ -153,7 +152,6 @@ export default {
       // 提交
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-
           let opts = {
             id: this.info.id,
             dealerInstitutionsId: this.form.dealerInstitutionsId,
@@ -169,7 +167,7 @@ export default {
           }
           let data = await api.saveSecuritiesInfo(opts)
           if (data.status === 0) {
-            this.$message.success("操作成功")
+            this.$message.success('操作成功')
             this.dialogVisible = false
             this.getDate()
           } else {
@@ -195,7 +193,7 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    currentSel(selVal) {
+    currentSel (selVal) {
       this.form.dealerInstitutionsId = selVal.id
       this.form.tmepdealerInstitutionsName = selVal.dealerName
     }

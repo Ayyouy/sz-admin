@@ -38,7 +38,6 @@ export default {
     MenuNav,
     ConTable
   },
-  props: {},
   data () {
     return {
       activeCategory: 'home',
@@ -46,9 +45,6 @@ export default {
         height: ''
       }
     }
-  },
-  activated () {
-
   },
   created () {
     window.addEventListener('resize', this.getHeight)
@@ -65,7 +61,7 @@ export default {
       // 退出登录
       let data = await api.logout()
       if (data.status == 0) {
-        this.$router.push('/login')
+        await this.$router.push('/login')
       } else {
         this.$message.error(data.msg)
       }
@@ -73,7 +69,7 @@ export default {
     getHeight () {
       this.contentStyleObj.height = window.innerHeight - 64 + 'px'
     }
-  },
+  }
 }
 </script>
 <style lang="less" scoped>

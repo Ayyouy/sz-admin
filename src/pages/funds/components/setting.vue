@@ -23,7 +23,6 @@
           </el-row>
         </div>
       </el-card>
-
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>免息设置</span>
@@ -48,7 +47,6 @@
                 <el-input class="form-input" v-model="info.interestFreeProfit" placeholder="免息盈利"></el-input>
               </el-form-item>
             </el-col>
-            
           </el-row>
           <el-row>
             <el-col :span="6">
@@ -74,7 +72,6 @@
           </el-row>
         </div>
       </el-card>
-
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>按天设置</span>
@@ -114,7 +111,7 @@
           </el-row>
         </div>
       </el-card>
-      
+
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>交易设置</span>
@@ -153,10 +150,10 @@
               </el-form-item>
             </el-col>
           </el-row>
-          
+
         </div>
       </el-card>
-      
+
       <el-row class="text-center submit-btn">
         <el-button type="primary" @click="saveFundsSetting">保存设置信息</el-button>
       </el-row>
@@ -180,8 +177,6 @@ export default {
       info: {}
     }
   },
-  watch: {},
-  computed: {},
   mounted () {
     this.getFundsSetting()
   },
@@ -212,7 +207,7 @@ export default {
         stampDutyRate: this.info.stampDutyRate, // 每笔最低费用
         profitSharingRatio: this.info.profitSharingRatio, // 盈利分成比例
         daysUsePeriod: this.info.daysUsePeriod // 按天使用期限
-        
+
       }
       let data = await api.saveFundsSetting(opts)
       if (data.status === 0) {

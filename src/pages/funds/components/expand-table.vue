@@ -11,7 +11,6 @@
       </el-form>
       <div class="table">
         <div class="table-top-btn">
-          
         </div>
         <el-table
           v-loading="loading"
@@ -88,7 +87,6 @@
                 <span style="font-size:12px;color:#959595;">{{scope.row.tradersCycle}}天</span>
             </template>
           </el-table-column>
-          
           <el-table-column
             prop="status"
             label="状态">
@@ -108,7 +106,6 @@
               <el-button v-if="scope.row.status==0" type="primary" title="修改" size="small" @click="editInfo(scope.row)">修改</el-button>
             </template>
           </el-table-column>
-
         </el-table>
         <div class="page-box">
           <el-pagination
@@ -124,9 +121,8 @@
         </div>
       </div>
     </el-card>
-    <editInfoDialog :info='detail' :getDate='getAppendList' ref="editInfoDialog"></editInfoDialog> 
+    <editInfoDialog :info='detail' :getDate='getAppendList' ref="editInfoDialog"></editInfoDialog>
   </div>
-
 </template>
 
 <script>
@@ -153,12 +149,10 @@ export default {
     }
   },
   watch: {
-    $route(){
+    $route () {
       this.getAppendList()
-    },
+    }
   },
-  computed: {},
-  created () {},
   mounted () {
     this.getAppendList()
   },
@@ -175,7 +169,6 @@ export default {
       this.form.pageNum = val
       this.getAppendList()
     },
- 
     async getAppendList () {
       let opts = {
         pageNum: this.form.pageNum,
@@ -191,7 +184,6 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    
     editInfo (row) {
       // 修改
       this.detail = row

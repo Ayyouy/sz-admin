@@ -63,7 +63,6 @@
               <el-button v-if="scope.row.status==0" type="primary" title="修改" size="small" @click="editInfo(scope.row)">修改</el-button>
             </template>
           </el-table-column>
-
         </el-table>
         <div class="page-box">
           <el-pagination
@@ -79,9 +78,8 @@
         </div>
       </div>
     </el-card>
-    <editInfoDialog :info='detail' :getDate='getTradingAccountList' ref="editInfoDialog"></editInfoDialog> 
+    <editInfoDialog :info='detail' :getDate='getTradingAccountList' ref="editInfoDialog"></editInfoDialog>
   </div>
-
 </template>
 
 <script>
@@ -107,9 +105,6 @@ export default {
       detail: {} // 用户信息
     }
   },
-  watch: {},
-  computed: {},
-  created () {},
   mounted () {
     this.getTradingAccountList()
   },
@@ -126,7 +121,6 @@ export default {
       this.form.pageNum = val
       this.getTradingAccountList()
     },
- 
     async getTradingAccountList () {
       let opts = {
         pageNum: this.form.pageNum,
@@ -140,7 +134,6 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    
     editInfo (row) {
       // 修改
       this.detail = row

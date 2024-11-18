@@ -42,6 +42,11 @@ export default new Router({
           path: 'list',
           meta: {title: '代理列表'},
           component: _import('agent/components/table')
+        },
+        {
+          path: 'rebate',
+          meta: {title: '返佣明细'},
+          component: _import('agent/components/rebate')
         }
       ]
     }, {

@@ -4,7 +4,7 @@
       <!-- 头部 -->
       <el-aside width="200px">
         <!-- 菜单 -->
-        <MenuNav :index="['2']"/>
+        <MenuNav/>
       </el-aside>
       <el-container>
         <el-header class="header-home">
@@ -17,7 +17,6 @@
               <el-dropdown-item @click.native="logout">注销登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-
         </el-header>
         <el-main class="wrapper-content" :style="contentStyleObj">
           <!-- 主页面 -->
@@ -60,7 +59,7 @@ export default {
     async logout () {
       // 退出登录
       let data = await api.logout()
-      if (data.status == 0) {
+      if (data.status === 0) {
         await this.$router.push('/login')
       } else {
         this.$message.error(data.msg)

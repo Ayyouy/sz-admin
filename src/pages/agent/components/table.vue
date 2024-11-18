@@ -2,9 +2,6 @@
   <div>
     <el-card class="box-card">
       <el-form :inline="true" :model="form" class="demo-form-inline" size="small">
-        <!-- <el-form-item label="代理id">
-            <el-input v-model="form.id" placeholder="代理id"></el-input>
-        </el-form-item> -->
         <el-form-item label="代理">
           <el-select clearable filterable v-model="form.id" placeholder="代理">
             <el-option v-for="i in agentList" :key="i.key" :label="i.agentName + ' /' + i.id "
@@ -16,6 +13,20 @@
         </el-form-item>
         <el-form-item label="代理手机">
           <el-input v-model="form.phone" placeholder="代理手机"></el-input>
+        </el-form-item>
+        <el-form-item label="邀请码">
+          <el-input v-model="form.phone" placeholder="代理手机"></el-input>
+        </el-form-item>
+        <el-form-item label="注册时间">
+          <el-date-picker
+            v-model="form.rangeTime"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -61,26 +72,34 @@
             label="真实姓名">
           </el-table-column>
           <el-table-column
+            prop="agentRealName"
+            label="邀请码">
+          </el-table-column>
+          <el-table-column
             width="120px"
             prop="agentPhone"
             label="代理手机号">
           </el-table-column>
           <el-table-column
-            width="100px"
-            prop="totalMoney"
-            label="总资金">
-            <template slot-scope="scope">
-              <p class="bounceIn">
-                <span :class="scope.row.totalMoney>0?'green':'red'"><span
-                  v-show="Number(scope.row.totalMoney)>0">$</span>{{ scope.row.totalMoney }}</span>
-              </p>
-            </template>
+            prop="agentRealName"
+            label="总收益">
           </el-table-column>
-          <!-- <el-table-column
-          width="120px"
-            prop="agentPwd"
-            label="代理密码">
-          </el-table-column> -->
+          <el-table-column
+            prop="agentRealName"
+            label="股票收益">
+          </el-table-column>
+          <el-table-column
+            prop="agentRealName"
+            label="基金收益">
+          </el-table-column>
+          <el-table-column
+            prop="agentRealName"
+            label="股票手续费比例">
+          </el-table-column>
+          <el-table-column
+            prop="agentRealName"
+            label="股票金额比例">
+          </el-table-column>
           <el-table-column
             prop="isLock"
             label="代理状态">
@@ -91,7 +110,6 @@
                 <a v-if="scope.row.isLock == 1" class="hide-td" title="锁定"><i
                   class="iconfont icon-suoding"></i>锁定</a>
               </div>
-              <!-- {{scope.row.isLock == 0?'未锁定':'锁定'}} -->
             </template>
           </el-table-column>
           <el-table-column
@@ -102,16 +120,14 @@
           </el-table-column>
           <el-table-column
             fixed="right"
-            width="250px"
-            label="修改代理">
+            label="操作">
             <template slot-scope="scope">
-              <el-button type="text" title="修改资金" size="small" @click="toEditAmt(scope.row)"><i
-                class="iconfont icon-zijinguanli2"></i></el-button>
-              <el-button type="primary" title="删除代理" size="small" @click="delAgent(scope.row)">删除代理</el-button>
+<!--              <el-button type="text" title="修改资金" size="small" @click="toEditAmt(scope.row)"><i-->
+<!--                class="iconfont icon-zijinguanli2"></i></el-button>-->
+<!--              <el-button type="primary" title="删除代理" size="small" @click="delAgent(scope.row)">删除代理</el-button>-->
               <el-button type="primary" title="修改代理" size="small" @click="editAgent(scope.row)">修改代理</el-button>
             </template>
           </el-table-column>
-
         </el-table>
         <div class="page-box">
           <el-pagination
@@ -149,6 +165,33 @@ export default {
   props: {},
   data () {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近六个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      },
       form: {
         id: '',
         phone: '',

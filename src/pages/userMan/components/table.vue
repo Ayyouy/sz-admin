@@ -13,6 +13,26 @@
         <el-form-item label="用户手机">
           <el-input v-model="form.phone" placeholder="用户手机"></el-input>
         </el-form-item>
+        <el-form-item label="认证信息">
+          <el-select clearable filterable v-model="form.active" placeholder="所有">
+            <el-option label="所有" :value="-1">所有</el-option>
+            <el-option label="未认证" :value="0">未认证</el-option>
+            <el-option label="认证中" :value="1">认证中</el-option>
+            <el-option label="已认证" :value="2">已认证</el-option>
+            <el-option label="认证失败" :value="3">认证失败</el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="注册时间">
+          <el-date-picker
+            v-model="form.rangeTime"
+            :picker-options="pickerOptions"
+            value-format="yyyy-MM-dd"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" size="small" @click="onSubmit">查询</el-button>
         </el-form-item>
@@ -42,38 +62,40 @@
           style="width: 100%">
           <el-table-column type="expand">
             <template slot-scope="props">
-              <el-form label-position="left" inline class="demo-table-expand">
-                <!-- <el-form-item label="总资金">
-                  <span>{{(Number(props.row.userAmt) + Number(props.row.userIndexAmt)).toFixed(2)}}</span>
-                </el-form-item> -->
-                <el-form-item label="融资资金">
-                  <!-- <span>{{ props.row.userAmt}}</span> -->
-                  <el-tag>{{ props.row.userAmt }}</el-tag>
-                </el-form-item>
-                <el-form-item label="融资可用">
-                  <!-- <span>{{ props.row.enableAmt}}</span> -->
-                  <el-tag>{{ props.row.enableAmt }}</el-tag>
-                </el-form-item>
-                <el-form-item label="指数资金">
-                  <!-- <span>{{ props.row.userIndexAmt}}</span> -->
-                  <el-tag>{{ props.row.userIndexAmt }}</el-tag>
-                </el-form-item>
-                <el-form-item label="指数可用">
-                  <!-- <span>{{ props.row.enableIndexAmt}}</span> -->
-                  <el-tag>{{ props.row.enableIndexAmt }}</el-tag>
-                </el-form-item>
-                <el-form-item label="期货资金">
-                  <!-- <span>{{ props.row.userFutAmt}}</span> -->
-                  <el-tag>{{ props.row.userFutAmt }}</el-tag>
-                </el-form-item>
-                <el-form-item label="期货可用">
-                  <!-- <span>{{ props.row.enableFutAmt}}</span> -->
-                  <el-tag>{{ props.row.enableFutAmt }}</el-tag>
-                </el-form-item>
-                <!-- <el-form-item label="注册时间">
-                  <span>{{props.row.regTime | timeFormat}}</span>
-                </el-form-item> -->
-              </el-form>
+              <el-row style="margin-top: 10px;margin-bottom: 10px">
+                <el-col :span="4" class="text-center">现金账户总资产</el-col>
+                <el-col :span="4" class="text-center">持仓市值</el-col>
+                <el-col :span="4" class="text-center">可用余额</el-col>
+                <el-col :span="3" class="text-center">平仓盈亏</el-col>
+                <el-col :span="3" class="text-center">未平仓盈亏</el-col>
+                <el-col :span="3" class="text-center">手续费</el-col>
+                <el-col :span="3"></el-col>
+              </el-row>
+              <el-row style="margin-top: 10px;margin-bottom: 10px">
+                <el-col :span="4" class="text-center"><span class="explain-item"> {{props.row.userAmt}} </span></el-col>
+                <el-col :span="4" class="text-center"><span class="explain-item"> {{props.row.userAmt}} </span></el-col>
+                <el-col :span="4" class="text-center"><span class="explain-item"> {{props.row.userAmt}} </span></el-col>
+                <el-col :span="3" class="text-center"><span class="explain-item"> {{props.row.userAmt}} </span></el-col>
+                <el-col :span="3" class="text-center"><span class="explain-item"> {{props.row.userAmt}} </span></el-col>
+                <el-col :span="3" class="text-center"><span class="explain-item"> {{props.row.userAmt}} </span></el-col>
+                <el-col :span="3"></el-col>
+              </el-row>
+              <el-row style="margin-top: 10px;margin-bottom: 10px">
+                <el-col :span="4" class="text-center">基金账户总资产</el-col>
+                <el-col :span="4" class="text-center">持仓金额</el-col>
+                <el-col :span="4" class="text-center">可用余额</el-col>
+                <el-col :span="3" class="text-center">已获得收益</el-col>
+                <el-col :span="3" class="text-center">手续费</el-col>
+                <el-col :span="6"></el-col>
+              </el-row>
+              <el-row style="margin-top: 10px;margin-bottom: 10px">
+                <el-col :span="4" class="text-center"><span class="explain-item"> {{props.row.userAmt}}</span></el-col>
+                <el-col :span="4" class="text-center"><span class="explain-item"> {{props.row.userAmt}}</span></el-col>
+                <el-col :span="4" class="text-center"><span class="explain-item"> {{props.row.userAmt}}</span></el-col>
+                <el-col :span="3" class="text-center"><span class="explain-item"> {{props.row.userAmt}}</span></el-col>
+                <el-col :span="3" class="text-center"><span class="explain-item"> {{props.row.userAmt}}</span></el-col>
+                <el-col :span="6"></el-col>
+              </el-row>
             </template>
           </el-table-column>
           <el-table-column
@@ -99,12 +121,13 @@
           </el-table-column>
           <el-table-column
             prop="phone"
-            width="140px"
+            width="129px"
             label="手机号">
           </el-table-column>
           <el-table-column
             prop="userAmt"
-            label="总资金">
+            width="155px"
+            label="现金账户总资产">
             <template slot-scope="scope">
               <p class="number proColor bounceIn">
                 {{
@@ -115,6 +138,17 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="150px"
+            prop="userAmt"
+            label="基金账户余额">
+            <template slot-scope="scope">
+              <p class="number proColor bounceIn">
+                -
+              </p>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="120px"
             prop="isActive"
             label="认证信息">
             <template slot-scope="scope">
@@ -130,6 +164,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="80px"
             prop="isLock"
             label="交易状态">
             <template slot-scope="scope">
@@ -140,6 +175,7 @@
             </template>
           </el-table-column>
           <el-table-column
+            width="80px"
             prop="isLogin"
             label="登录状态">
             <template slot-scope="scope">
@@ -167,7 +203,7 @@
           </el-table-column>
           <el-table-column
             fixed="right"
-            width="250px"
+            width="210px"
             prop="isLock"
             label="操作">
             <template slot-scope="scope">
@@ -182,10 +218,6 @@
                 class="iconfont icon-zijinguanli2"></i></el-button>
               <el-button style="color:red;" type="text" title="审核" size="small" @click="toChange(scope.row)"><i
                 class="iconfont icon-shenhe_shangpinfenlei"></i></el-button>
-              <el-button style="color:red;" type="text" title="删除" size="small" @click="deleteUser(scope.row.id)"><i
-                style="font-size: 18px;" class="el-icon-delete"></i></el-button>
-              <!-- <el-button style="color:#FF9800;" v-if="scope.row.isLock == 0" type="text" title="锁定交易状态" size="small" @click="toLockUser(scope.row.id)"><i class="iconfont icon-jiesuo"></i></el-button> -->
-              <!-- <el-button style="color:#FF9800;" v-if="scope.row.isLock == 1" type="text" title="解锁交易状态" size="small" @click="toUnlockUser(scope.row.id)"><i class="iconfont icon-suoding"></i></el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -233,11 +265,40 @@ export default {
   },
   data () {
     return {
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近三个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
+          }
+        }, {
+          text: '最近六个月',
+          onClick (picker) {
+            const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 180)
+            picker.$emit('pick', [start, end])
+          }
+        }]
+      },
       form: {
         realName: '',
         userId: '',
         phone: '',
         type: '0',
+        active: -1,
+        rangeTime: '',
         agentId: '',
         pageNum: 1,
         pageSize: 10
@@ -298,6 +359,9 @@ export default {
         phone: this.form.phone,
         agentId: this.form.agentId,
         accountType: this.usertype,
+        active: this.form.active,
+        buyTimeStart: this.form.rangeTime ? this.form.rangeTime[0] : null,
+        buyTimeEnd: this.form.rangeTime ? this.form.rangeTime[1] : null,
         pageSize: this.form.pageSize,
         pageNum: this.form.pageNum
       }
@@ -342,6 +406,9 @@ export default {
         realName: this.form.realName,
         phone: this.form.phone,
         agentId: this.form.agentId,
+        active: this.form.active,
+        buyTimeStart: this.form.rangeTime ? this.form.rangeTime[0] : null,
+        buyTimeEnd: this.form.rangeTime ? this.form.rangeTime[1] : null,
         accountType: this.usertype,
         pageSize: this.form.pageSize,
         pageNum: this.form.pageNum
@@ -483,5 +550,13 @@ export default {
     width: 16.6%;
     text-align: center;
   }
+}
+
+.explain-item{
+  padding: 2px 5px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  background-color: #87CEFA;
+  font-size: 14px;
 }
 </style>

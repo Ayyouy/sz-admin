@@ -58,7 +58,9 @@
             prop="lastMonthIncome"
             label="上月业绩">
             <template slot-scope="scope">
-              ${{ Number(scope.row.lastMonthIncome).toFixed(2) }}
+              <span v-if="scope.row.frType==0">
+                ${{ Number(scope.row.lastMonthIncome).toFixed(2) }}
+              </span>
             </template>
           </el-table-column>
           <el-table-column
@@ -85,15 +87,16 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="income"
+            prop="amount"
             label="收益额">
             <template slot-scope="scope">
-             <span v-if="scope.row.frType==0">
-                 ${{ Number((scope.row.monthIncome - scope.row.lastMonthIncome) * scope.row.frRatio / 100).toFixed(2) }}
-              </span>
-              <span v-else-if="scope.row.frType==1">
-                ${{ Number(scope.row.monthIncome * scope.row.frRatio / 100).toFixed(2) }}
-              </span>
+              ${{ Number(scope.row.amount).toFixed(2) }}
+              <!--             <span v-if="scope.row.frType==0">-->
+              <!--                 ${{ Number((scope.row.monthIncome - scope.row.lastMonthIncome) * scope.row.frRatio / 100).toFixed(2) }}-->
+              <!--             </span>-->
+              <!--              <span v-else-if="scope.row.frType==1">-->
+              <!--                ${{ Number(scope.row.monthIncome * scope.row.frRatio / 100).toFixed(2) }}-->
+              <!--             </span>-->
             </template>
           </el-table-column>
           <el-table-column

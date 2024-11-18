@@ -211,7 +211,7 @@ import * as api from '@/axios/api'
 export default {
   components: {},
   props: {},
-  data() {
+  data () {
     return {
       loading: false,
       cardShow: false,
@@ -280,15 +280,11 @@ export default {
       buyNumList: []
     }
   },
-  watch: {},
-  computed: {},
-  created() {
-  },
-  mounted() {
+  mounted () {
     this.getSettingInfo()
   },
   methods: {
-    validateCount(rule, value, callback) {
+    validateCount (rule, value, callback) {
       if (!value) {
         return callback(new Error('输入不能为空'))
       }
@@ -297,7 +293,7 @@ export default {
       }
       callback()
     },
-    async getUserDetail(id) {
+    async getUserDetail (id) {
       // 查询用户信息
       this.userInfoLoading = true
       let data = await api.getUserDetail({userId: this.form.userId})
@@ -312,7 +308,7 @@ export default {
       }
       this.userInfoLoading = false
     },
-    async getStock() {
+    async getStock () {
       // 获取股票数据
       this.stockInfoLoading = true
       let opts = {
@@ -326,7 +322,7 @@ export default {
       }
       this.stockInfoLoading = false
     },
-    async getSettingInfo() {
+    async getSettingInfo () {
       // 获取风控设置
       let data = await api.getSettingInfo()
       if (data.status === 0) {
@@ -345,7 +341,7 @@ export default {
         this.$message.error(data.msg)
       }
     },
-    submitOrder(formName) {
+    submitOrder (formName) {
       // todo 持仓天数需要和后台沟通：form.days
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -365,7 +361,7 @@ export default {
         }
       })
     },
-    async creatOrder() {
+    async creatOrder () {
       // 创建持仓单
       this.loading = true
       // let stockId = this.stockInfo.stockGid
@@ -376,7 +372,8 @@ export default {
         buyNum: this.form.number * 100,
         buyTime: this.form.time,
         buyType: this.form.type,
-        lever: this.form.lever
+        lever: this.form.lever,
+        days: this.form.days
       }
       let data = await api.CreateOrderlist(opts)
       if (data.status === 0) {
@@ -387,10 +384,10 @@ export default {
       }
       this.loading = false
     },
-    selectStock() {
+    selectStock () {
       // 选择股票
     },
-    querySearchAsync(queryString, cb) {
+    querySearchAsync (queryString, cb) {
       var restaurants = this.restaurants
       var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants
 
@@ -399,12 +396,12 @@ export default {
         cb(results)
       }, 3000 * Math.random())
     },
-    createStateFilter(queryString) {
+    createStateFilter (queryString) {
       return (state) => {
         return (state.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
       }
     },
-    handleSelect(item) {
+    handleSelect (item) {
     }
   }
 }

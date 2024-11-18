@@ -3,7 +3,7 @@
     <el-container style="border: 1px solid #eee">
       <el-aside width="200px">
         <!-- 菜单 -->
-        <MenuNav :index="['1']"/>
+        <MenuNav/>
       </el-aside>
       <el-container>
         <!-- 头部 -->

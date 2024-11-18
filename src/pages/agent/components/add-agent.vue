@@ -91,7 +91,7 @@ export default {
         agentRealName: '',
         parentId: ''
       },
-      options: ['+1', '+852', '+91', '+81'],
+      options: ['+1', '+852', '+91', '+81', '+86', '+88', '+00', '+99'],
       rule: {
         parentId: [
           {required: false, message: '请选择上级代理', trigger: 'change'}

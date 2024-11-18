@@ -4,7 +4,7 @@
       <!-- 头部 -->
       <el-aside width="200px">
         <!-- 菜单 -->
-        <MenuNav :index="['6']"/>
+        <MenuNav/>
       </el-aside>
       <el-container>
         <el-header class="header-home">

@@ -397,6 +397,7 @@ export default {
       P3018: false,
       P4001: false,
       P4002: false,
+      P5000: false,
       P5001: false,
       P5002: false,
       P6001: false,
@@ -427,177 +428,180 @@ export default {
     }
   },
   mounted () {
-    this.getProductSetting()
+    // this.getProductSetting()
   },
   methods: {
-    async getProductSetting () {
-      let opts = {
-        uid: this.info.id
-      }
-      let data = await api.getMenu(opts)
-      if (data.status === 0) {
-        this.menus = data.data
-        for (let i = 0; i < this.menus.length; i++) {
-          const menu = this.menus[i]
-          if (menu.aid === 1001) {
-            this.P1001 = menu.selected
-          }
-          if (menu.aid === 1002) {
-            this.P1002 = menu.selected
-          }
-          if (menu.aid === 1003) {
-            this.P1003 = menu.selected
-          }
-          if (menu.aid === 2001) {
-            this.P2001 = menu.selected
-          }
-          if (menu.aid === 3001) {
-            this.P3001 = menu.selected
-          }
-          if (menu.aid === 3002) {
-            this.P3002 = menu.selected
-          }
-          if (menu.aid === 3003) {
-            this.P3003 = menu.selected
-          }
-          if (menu.aid === 3004) {
-            this.P3004 = menu.selected
-          }
-          if (menu.aid === 3005) {
-            this.P3005 = menu.selected
-          }
-          if (menu.aid === 3006) {
-            this.P3006 = menu.selected
-          }
-          if (menu.aid === 3007) {
-            this.P3007 = menu.selected
-          }
-          if (menu.aid === 3008) {
-            this.P3008 = menu.selected
-          }
-          if (menu.aid === 3009) {
-            this.P3009 = menu.selected
-          }
-          if (menu.aid === 3010) {
-            this.P3010 = menu.selected
-          }
-          if (menu.aid === 3011) {
-            this.P3011 = menu.selected
-          }
-          if (menu.aid === 3012) {
-            this.P3012 = menu.selected
-          }
-          if (menu.aid === 3013) {
-            this.P3013 = menu.selected
-          }
-          if (menu.aid === 3014) {
-            this.P3014 = menu.selected
-          }
-          if (menu.aid === 3015) {
-            this.P3015 = menu.selected
-          }
-          if (menu.aid === 3016) {
-            this.P3016 = menu.selected
-          }
-          if (menu.aid === 3017) {
-            this.P3017 = menu.selected
-          }
-          if (menu.aid === 3018) {
-            this.P3018 = menu.selected
-          }
-          if (menu.aid === 4001) {
-            this.P4001 = menu.selected
-          }
-          if (menu.aid === 4002) {
-            this.P4002 = menu.selected
-          }
-          if (menu.aid === 5001) {
-            this.P5001 = menu.selected
-          }
-          if (menu.aid === 5002) {
-            this.P5002 = menu.selected
-          }
-          if (menu.aid === 6001) {
-            this.P6001 = menu.selected
-          }
-          if (menu.aid === 6002) {
-            this.P6002 = menu.selected
-          }
-          if (menu.aid === 6003) {
-            this.P6003 = menu.selected
-          }
-          if (menu.aid === 6004) {
-            this.P6004 = menu.selected
-          }
-          if (menu.aid === 7001) {
-            this.P7001 = menu.selected
-          }
-          if (menu.aid === 7002) {
-            this.P7002 = menu.selected
-          }
-          if (menu.aid === 7003) {
-            this.P7003 = menu.selected
-          }
-          if (menu.aid === 8001) {
-            this.P8001 = menu.selected
-          }
-          if (menu.aid === 8002) {
-            this.P8002 = menu.selected
-          }
-          if (menu.aid === 8003) {
-            this.P8003 = menu.selected
-          }
-          if (menu.aid === 9001) {
-            this.P9001 = menu.selected
-          }
-          if (menu.aid === 9002) {
-            this.P9002 = menu.selected
-          }
-          if (menu.aid === 9003) {
-            this.P9003 = menu.selected
-          }
-          if (menu.aid === 9004) {
-            this.P9004 = menu.selected
-          }
-          if (menu.aid === 9005) {
-            this.P9005 = menu.selected
-          }
-          if (menu.aid === 10001) {
-            this.P10001 = menu.selected
-          }
-          if (menu.aid === 11001) {
-            this.P11001 = menu.selected
-          }
-          if (menu.aid === 11002) {
-            this.P11002 = menu.selected
-          }
-          if (menu.aid === 11003) {
-            this.P11003 = menu.selected
-          }
-          if (menu.aid === 11004) {
-            this.P11004 = menu.selected
-          }
-          if (menu.aid === 11005) {
-            this.P11005 = menu.selected
-          }
-          if (menu.aid === 12001) {
-            this.P12001 = menu.selected
-          }
-          if (menu.aid === 12002) {
-            this.P12002 = menu.selected
-          }
-          if (menu.aid === 12003) {
-            this.P12003 = menu.selected
-          }
-          if (menu.aid === 12004) {
-            this.P12004 = menu.selected
-          }
-        }
-        this.$store.state.siteInfo = data.data
-      } else {
-        this.$message.error(data.msg)
-      }
-    },
+    // async getProductSetting () {
+    //   let opts = {
+    //     uid: this.info.id
+    //   }
+    //   let data = await api.getMenu(opts)
+    //   if (data.status === 0) {
+    //     this.menus = data.data
+    //     for (let i = 0; i < this.menus.length; i++) {
+    //       const menu = this.menus[i]
+    //       if (menu.aid === 1001) {
+    //         this.P1001 = menu.selected
+    //       }
+    //       if (menu.aid === 1002) {
+    //         this.P1002 = menu.selected
+    //       }
+    //       if (menu.aid === 1003) {
+    //         this.P1003 = menu.selected
+    //       }
+    //       if (menu.aid === 2001) {
+    //         this.P2001 = menu.selected
+    //       }
+    //       if (menu.aid === 3001) {
+    //         this.P3001 = menu.selected
+    //       }
+    //       if (menu.aid === 3002) {
+    //         this.P3002 = menu.selected
+    //       }
+    //       if (menu.aid === 3003) {
+    //         this.P3003 = menu.selected
+    //       }
+    //       if (menu.aid === 3004) {
+    //         this.P3004 = menu.selected
+    //       }
+    //       if (menu.aid === 3005) {
+    //         this.P3005 = menu.selected
+    //       }
+    //       if (menu.aid === 3006) {
+    //         this.P3006 = menu.selected
+    //       }
+    //       if (menu.aid === 3007) {
+    //         this.P3007 = menu.selected
+    //       }
+    //       if (menu.aid === 3008) {
+    //         this.P3008 = menu.selected
+    //       }
+    //       if (menu.aid === 3009) {
+    //         this.P3009 = menu.selected
+    //       }
+    //       if (menu.aid === 3010) {
+    //         this.P3010 = menu.selected
+    //       }
+    //       if (menu.aid === 3011) {
+    //         this.P3011 = menu.selected
+    //       }
+    //       if (menu.aid === 3012) {
+    //         this.P3012 = menu.selected
+    //       }
+    //       if (menu.aid === 3013) {
+    //         this.P3013 = menu.selected
+    //       }
+    //       if (menu.aid === 3014) {
+    //         this.P3014 = menu.selected
+    //       }
+    //       if (menu.aid === 3015) {
+    //         this.P3015 = menu.selected
+    //       }
+    //       if (menu.aid === 3016) {
+    //         this.P3016 = menu.selected
+    //       }
+    //       if (menu.aid === 3017) {
+    //         this.P3017 = menu.selected
+    //       }
+    //       if (menu.aid === 3018) {
+    //         this.P3018 = menu.selected
+    //       }
+    //       if (menu.aid === 4001) {
+    //         this.P4001 = menu.selected
+    //       }
+    //       if (menu.aid === 4002) {
+    //         this.P4002 = menu.selected
+    //       }
+    //       if (menu.aid === 5000) {
+    //         this.P5000 = menu.selected
+    //       }
+    //       if (menu.aid === 5001) {
+    //         this.P5001 = menu.selected
+    //       }
+    //       if (menu.aid === 5002) {
+    //         this.P5002 = menu.selected
+    //       }
+    //       if (menu.aid === 6001) {
+    //         this.P6001 = menu.selected
+    //       }
+    //       if (menu.aid === 6002) {
+    //         this.P6002 = menu.selected
+    //       }
+    //       if (menu.aid === 6003) {
+    //         this.P6003 = menu.selected
+    //       }
+    //       if (menu.aid === 6004) {
+    //         this.P6004 = menu.selected
+    //       }
+    //       if (menu.aid === 7001) {
+    //         this.P7001 = menu.selected
+    //       }
+    //       if (menu.aid === 7002) {
+    //         this.P7002 = menu.selected
+    //       }
+    //       if (menu.aid === 7003) {
+    //         this.P7003 = menu.selected
+    //       }
+    //       if (menu.aid === 8001) {
+    //         this.P8001 = menu.selected
+    //       }
+    //       if (menu.aid === 8002) {
+    //         this.P8002 = menu.selected
+    //       }
+    //       if (menu.aid === 8003) {
+    //         this.P8003 = menu.selected
+    //       }
+    //       if (menu.aid === 9001) {
+    //         this.P9001 = menu.selected
+    //       }
+    //       if (menu.aid === 9002) {
+    //         this.P9002 = menu.selected
+    //       }
+    //       if (menu.aid === 9003) {
+    //         this.P9003 = menu.selected
+    //       }
+    //       if (menu.aid === 9004) {
+    //         this.P9004 = menu.selected
+    //       }
+    //       if (menu.aid === 9005) {
+    //         this.P9005 = menu.selected
+    //       }
+    //       if (menu.aid === 10001) {
+    //         this.P10001 = menu.selected
+    //       }
+    //       if (menu.aid === 11001) {
+    //         this.P11001 = menu.selected
+    //       }
+    //       if (menu.aid === 11002) {
+    //         this.P11002 = menu.selected
+    //       }
+    //       if (menu.aid === 11003) {
+    //         this.P11003 = menu.selected
+    //       }
+    //       if (menu.aid === 11004) {
+    //         this.P11004 = menu.selected
+    //       }
+    //       if (menu.aid === 11005) {
+    //         this.P11005 = menu.selected
+    //       }
+    //       if (menu.aid === 12001) {
+    //         this.P12001 = menu.selected
+    //       }
+    //       if (menu.aid === 12002) {
+    //         this.P12002 = menu.selected
+    //       }
+    //       if (menu.aid === 12003) {
+    //         this.P12003 = menu.selected
+    //       }
+    //       if (menu.aid === 12004) {
+    //         this.P12004 = menu.selected
+    //       }
+    //     }
+    //     this.$store.state.siteInfo = data.data
+    //   } else {
+    //     this.$message.error(data.msg)
+    //   }
+    // },
     async updateProductSetting () {
       let auth = ''
       if (this.P1001) {
@@ -672,6 +676,9 @@ export default {
       }
       if (this.P4002) {
         auth = auth + '4002,'
+      }
+      if (this.P5000) {
+        auth = auth + '5000,'
       }
       if (this.P5001) {
         auth = auth + '5001,'

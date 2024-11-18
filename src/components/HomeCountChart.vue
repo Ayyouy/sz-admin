@@ -1,10 +1,5 @@
 <template>
   <div>
-    <!-- <el-carousel :interval="4000" type="card" height="200px">
-        <el-carousel-item class="box-market" v-for="i in market" :key="i.key">
-
-            </el-carousel-item>
-    </el-carousel> -->
     <el-row :gutter="20">
       <el-col :span="18">
         <el-row :gutter="20">
@@ -132,7 +127,6 @@
               </div>
             </el-card>
           </el-col>
-
         </el-row>
       </el-col>
       <el-col :span="6">
@@ -147,7 +141,6 @@
       </el-col>
     </el-row>
   </div>
-
 </template>
 
 <script>
@@ -173,25 +166,21 @@ export default {
       info: {}
     }
   },
-  watch: {},
-  computed: {},
-  created () {},
   mounted () {
     this.getData()
     this.getMarket()
   },
   methods: {
     async getData () {
-      // todo getCountInfo 接口有问题，所以临时注销
-      // let data = await api.getCountInfo()
-      // if (data.status === 0) {
-      //   this.info = data.data
-      //   // this.initEchartMap(data.data);
-      //   this.initEchartMap2(data.data)
-      //   this.initEchartMap3(data.data)
-      // } else {
-      //   this.$message.error(data.msg)
-      // }
+      let data = await api.getCountInfo()
+      if (data.status === 0) {
+        this.info = data.data
+        // this.initEchartMap(data.data)
+        this.initEchartMap2(data.data)
+        this.initEchartMap3(data.data)
+      } else {
+        this.$message.error(data.msg)
+      }
     },
     async getMarket () {
       // 获取大盘指数

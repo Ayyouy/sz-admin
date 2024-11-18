@@ -8,7 +8,7 @@
             <span v-if="!isCollapse">{{$store.state.siteInfo.siteName}}</span>
           </div>
           <!-- 菜单 -->
-          <MenuNav :navselected='1' :isCollapse="isCollapse"/>
+          <MenuNav :isCollapse="isCollapse"/>
         </el-aside>
         <el-main class="wrapper-content" :style="contentStyleObj">
           <!-- 头部 -->

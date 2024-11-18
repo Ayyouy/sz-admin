@@ -51,33 +51,28 @@
           :summary-method="getSummaries"
           style="width: 100%">
           <el-table-column
-            width="60px"
-            prop="userId"
-            label="id">
-          </el-table-column>
-          <el-table-column
             prop="orderSn"
             width="170px"
             label="订单号">
             <template slot-scope="scope">
-              <a class="hide-td" href="javascript:;" :title="scope.row.orderSn">{{scope.row.orderSn}}</a>
+              <a class="hide-td" href="javascript:;" :title="scope.row.orderSn">{{ scope.row.orderSn }}</a>
             </template>
           </el-table-column>
           <el-table-column
-            width="100"
+            width="170px"
             prop="nickName"
             label="用户名/id">
             <template slot-scope="scope">
               <p>
-                {{scope.row.nickName}}
+                {{ scope.row.nickName }}
                 <span class="small">
-                {{scope.row.userId}}
+                {{ scope.row.userId }}
               </span>
               </p>
             </template>
           </el-table-column>
           <el-table-column
-          width="120px"
+            width="120px"
             prop="currency"
             label="货币">
           </el-table-column>
@@ -89,41 +84,40 @@
             <span v-if="scope.row.payChannel==0">
               支付宝
             </span>
-            <span v-if="scope.row.payChannel==1">
+              <span v-if="scope.row.payChannel==1">
               银行转账
             </span>
-            <span v-if="scope.row.payChannel==2">
+              <span v-if="scope.row.payChannel==2">
               虚拟货币
             </span>
             </template>
           </el-table-column>
           <el-table-column
-          width="120px"
+            width="170px"
             prop="payAmt"
             label="充值金额(本国货币)">
           </el-table-column>
           <el-table-column
-          width="120px"
+            width="120px"
             prop="rate"
             label="汇率">
           </el-table-column>
           <el-table-column
-          width="120px"
+            width="120px"
             prop="realAmt"
             label="充值金额">
           </el-table-column>
           <el-table-column
-            prop="deType"
-            width="180"
+            prop="addTime"
+            width="160px"
             label="申请时间">
             <template slot-scope="scope">
             <span>
-              {{scope.row.addTime}}
+              {{ scope.row.addTime }}
             </span>
             </template>
           </el-table-column>
           <el-table-column
-            width="90"
             prop="orderStatus"
             label="审核状态">
             <template slot-scope="scope">
@@ -134,29 +128,26 @@
                 <i v-if="scope.row.orderStatus==2" class="iconfont icon-failure"></i>
                 <i v-if="scope.row.orderStatus==3" class="iconfont icon-failure"></i>
                 <i v-if="scope.row.orderStatus==0" class="iconfont icon-dengdai"></i>
-                {{scope.row.orderStatus==1 ? '审核成功': ''}}
-                {{scope.row.orderStatus==2 ? '审核失败': ''}}
-                {{scope.row.orderStatus==3 ? '取消': ''}}
-                {{scope.row.orderStatus==0 ? '审核中': ''}}
-
+                {{ scope.row.orderStatus == 1 ? '审核成功' : '' }}
+                {{ scope.row.orderStatus == 2 ? '审核失败' : '' }}
+                {{ scope.row.orderStatus == 3 ? '取消' : '' }}
+                {{ scope.row.orderStatus == 0 ? '审核中' : '' }}
               </span>
               </p>
             </template>
           </el-table-column>
           <el-table-column
-            prop="deType"
-            width="90"
+            prop="orderDesc"
             label="审核备注">
             <template slot-scope="scope">
             <span>
-              {{scope.row.orderDesc}}
+              {{ scope.row.orderDesc }}
             </span>
             </template>
           </el-table-column>
           <el-table-column
             fixed="right"
             prop="isLock"
-            width="300px"
             label="操作">
             <template slot-scope="scope">
               <el-button type="primary" :disabled="scope.row.orderStatus != 0" :plain='scope.row.orderStatus != 0'
@@ -164,7 +155,6 @@
               </el-button>
               <el-button type="primary" size="small" @click="detailDialog(scope.row)">详情
               </el-button>
-              <!-- <el-button type="danger" size="small" @click="toDelete(scope.row)">删除订单</el-button> -->
             </template>
           </el-table-column>
         </el-table>
@@ -181,7 +171,6 @@
           </el-pagination>
         </div>
         <AddDialog :getDate='getList' ref="addDialog"></AddDialog>
-
       </div>
     </el-card>
     <ChangeDialog :info='detail' :getDate='getList' ref="changeDialog"></ChangeDialog>
@@ -229,7 +218,8 @@ export default {
   },
   watch: {},
   computed: {},
-  created () {},
+  created () {
+  },
   mounted () {
     this.getList()
     this.getAgentList()
@@ -237,7 +227,7 @@ export default {
   methods: {
     export2Excel () {
       require.ensure([], () => {
-        const { export_json_to_excel } = require('../../../assets/js/Export2Excel')
+        const {export_json_to_excel} = require('../../../assets/js/Export2Excel')
         const tHeader = ['订单号', '用户id', '代理id', '用户名', '充值金额', '充值渠道', '充值状态', '申请时间', '支付时间']
         // 上面设置Excel的表格第一行的标题
         const filterVal = ['orderSn', 'userId', 'agentId', 'nickName', 'payAmt', 'payChannel', 'orderDesc', 'addTime', 'payTime']
@@ -296,15 +286,15 @@ export default {
       if (data.status === 0) {
         this.list = data.data
         for (var i = 0; i < this.list.list.length; i++) {
-        //  if(this.list.list[i].orderStatus===0){
-        //    this.list.list[i].orderDesc = "审核中"
-        //  }else if(this.list.list[i].orderStatus===1){
-        //    this.list.list[i].orderDesc = "成功"
-        //  }else if(this.list.list[i].orderStatus===2){
-        //    this.list.list[i].orderDesc = "失败"
-        //  }else{
-        //    this.list.list[i].orderDesc = "取消"
-        //  }
+          //  if(this.list.list[i].orderStatus===0){
+          //    this.list.list[i].orderDesc = "审核中"
+          //  }else if(this.list.list[i].orderStatus===1){
+          //    this.list.list[i].orderDesc = "成功"
+          //  }else if(this.list.list[i].orderStatus===2){
+          //    this.list.list[i].orderDesc = "失败"
+          //  }else{
+          //    this.list.list[i].orderDesc = "取消"
+          //  }
           var date = new Date(this.list.list[i].addTime)
           this.list.list[i].addTime = date.toLocaleString() // 返回格式化后的日期字符串
           date = new Date(this.list.list[i].payTime)
@@ -319,13 +309,13 @@ export default {
       // 修改状态
       this.detail = val
       this.$refs.changeDialog.dialogVisible = true
-      this.$refs.changeDialog.isEdit = false
+      this.$refs.changeDialog.isEdit = true
     },
     detailDialog (val) {
-      // 修改状态
+      // 详情
       this.detail = val
       this.$refs.changeDialog.dialogVisible = true
-      this.$refs.changeDialog.isEdit = true
+      this.$refs.changeDialog.isEdit = false
     },
     addOrder () {
       // 创建充值订单
@@ -333,7 +323,7 @@ export default {
     },
     getSummaries (param) {
       // 底部计算
-      const { columns, data } = param
+      const {columns, data} = param
       const sums = []
       columns.forEach((column, index) => {
         // 第一行 不统计
@@ -369,7 +359,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
-        let data = await api.delcashList({ cId: row.id })
+        let data = await api.delcashList({cId: row.id})
         if (data.status === 0) {
           this.$message.success(data.msg)
           this.getList()

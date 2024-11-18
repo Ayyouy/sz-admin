@@ -63,19 +63,13 @@
               </p>
             </template>
           </el-table-column>
-          <!-- <el-table-column width="100px" prop="aa" label="手机号">
-          </el-table-column>
-          <el-table-column width="100px" prop="bb" label="归属代理">
-          </el-table-column>
-          <el-table-column width="100px" prop="cc" label="代理等级">
-          </el-table-column> -->
           <el-table-column width="100px" prop="dd" label="出金方式">
             <template slot-scope="scope">
               {{ scope.row.currency }}
             </template>
           </el-table-column>
           <el-table-column
-            width="100px"
+            width="180px"
             prop="withAmt"
             label="出金金额(本国货币)"
           >
@@ -108,7 +102,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column width="100px" prop="withStatus" label="状态">
+          <el-table-column width="120px" prop="withStatus" label="状态">
             <template slot-scope="scope">
               <p>
                 <span
@@ -228,9 +222,6 @@ export default {
       detail: null
     }
   },
-  watch: {},
-  computed: {},
-  created () {},
   mounted () {
     this.getList()
     this.getAgentList()
@@ -333,7 +324,7 @@ export default {
           //   this.list.list[i].withMsg = "取消";
           // }
 
-          var date = new Date(this.list.list[i].applyTime)
+          let date = new Date(this.list.list[i].applyTime)
           this.list.list[i].applyTime = date.toLocaleString() // 返回格式化后的日期字符串
 
           date = new Date(this.list.list[i].transTime)
@@ -348,13 +339,13 @@ export default {
       // 修改状态
       this.detail = val
       this.$refs.detailDialog.dialogVisible = true
-      this.$refs.detailDialog.isEdit = false
+      this.$refs.detailDialog.isEdit = true
     },
     detailDialog (val) {
       // 详情
       this.detail = val
       this.$refs.detailDialog.dialogVisible = true
-      this.$refs.detailDialog.isEdit = true
+      this.$refs.detailDialog.isEdit = false
     },
     getSummaries (param) {
       // 底部计算

@@ -32,7 +32,7 @@
           width="60px"
           label="操作">
           <template slot-scope="scope">
-            <el-button type="text" title="修改" size="small" @click="toEdit(scope.row)">修改</el-button>
+            <el-button :disabled="scope.row.frfrCondition=='<='" type="text" title="修改" size="small" @click="toEdit(scope.row)">修改</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -49,28 +49,29 @@ export default {
   components: {
     SettingDialog
   },
-  data() {
+  data () {
     return {
       list: [],
       detail: {}
     }
   },
-  mounted() {
+  mounted () {
     this.getList()
   },
   methods: {
-    async getList() {
+    async getList () {
       let opts = {
         frType: 0 // 用户 0 代理 1
       }
       let data = await api.settings2(opts)
       if (data.status === 0) {
         this.list = data.data
+        this.list.unshift({frRatio: 0, frConditionMax: 0, frfrCondition: '<='})
       } else {
         this.$message.error(data.msg)
       }
     },
-    toEdit(val) {
+    toEdit (val) {
       this.detail = val
       this.$refs.detailDialog.dialogVisible = true
     }
